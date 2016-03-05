@@ -105,6 +105,14 @@
                 }
                 throw new InvalidOperationException($"The node (id={newChildNode.id}) doesn't substutite any of the existing child nodes in (id={this.id})");
             }
+
+            public ImmutableHierarchyNode SetValue(TValue value)
+            {
+                if (EqualityComparer<TValue>.Default.Equals((TValue)this.value, value))
+                    return this;
+                else
+                    return new ImmutableHierarchyNode(this.id, (object)value, this.childNodes);
+            }
         }
 
         #region Construction and initialization of this instance
@@ -131,8 +139,11 @@
         public ImmutableHierarchy<TKey, TValue> Add(HierarchyPath<TKey> hierarchyPath, TValue value)
         {
             // if the path has no items, tthe root node is changed
-            if(!hierarchyPath.Items.Any())
+            if (!hierarchyPath.Items.Any())
+            {
+                this.rootNode.SetValue(value);
                 return new ImmutableHierarchy<TKey, TValue>(new ImmutableHierarchyNode(id: this.rootNode.id, value: value, childNodes: this.rootNode.ChildNodes));
+            }
 
             // make a snapshot of the path items for easier handling 
             var hierarchyPathItems = hierarchyPath.Items.ToArray();
