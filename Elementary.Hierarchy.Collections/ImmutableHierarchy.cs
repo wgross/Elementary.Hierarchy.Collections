@@ -1,5 +1,6 @@
 ﻿namespace Elementary.Hierarchy.Collections
 {
+    using Elementary.Hierarchy;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -17,145 +18,167 @@
         /// <summary>
         /// Internal node class: holds a value and child nodes.
         /// </summary>
-        private sealed class ImmutableHierarchyNode
+        public sealed class ImmutableHierarchyNode : IHasIdentifiableChildNodes<TKey, ImmutableHierarchyNode>
         {
             #region Construction and initialization of this instance
 
-            public ImmutableHierarchyNode(ImmutableHierarchyNode parent, IEnumerable<ImmutableHierarchyNode> children)
+            public ImmutableHierarchyNode(TKey id)
             {
-                this.parent = parent;
+                this.id = id;
+                this.childNodes = new ImmutableHierarchyNode[0];
             }
-            
-            private readonly ImmutableHierarchyNode parent;
-            private readonly IEnumerable<ImmutableHierarchyNode> children;
+
+            public ImmutableHierarchyNode(TKey id, IEnumerable<ImmutableHierarchyNode> childNodes)
+            {
+                this.id = id;
+                this.childNodes = childNodes.ToArray();
+            }
+
+            private readonly TKey id;
+            private readonly ImmutableHierarchyNode[] childNodes;
+
+            public bool HasChildNodes
+            {
+                get
+                {
+                    return this.ChildNodes.Any();
+                }
+            }
 
             #endregion Construction and initialization of this instance
+
+            public object Value { get; set; }
+
+            #region IHasChildNodes Members
+
+            public IEnumerable<ImmutableHierarchyNode> ChildNodes
+            {
+                get
+                {
+                    return this.childNodes;
+                }
+            }
+
+            #endregion IHasChildNodes Members
+
+            #region IHasIdentifiableChildNodes Members
+
+            public bool TryGetChildNode(TKey id, out ImmutableHierarchyNode childNode)
+            {
+                childNode = this.childNodes.SingleOrDefault(n => EqualityComparer<TKey>.Default.Equals(n.id, id));
+                return childNode != null;
+            }
+
+            public ImmutableHierarchyNode AddChildNode(ImmutableHierarchyNode newChildNode)
+            {
+                // copy the existing children to a new array, and append the new one.
+                ImmutableHierarchyNode[] newChildNodes = new ImmutableHierarchyNode[this.childNodes.Length + 1];
+                Array.Copy(this.childNodes, newChildNodes, this.childNodes.Length);
+                newChildNodes[this.childNodes.Length] = newChildNode;
+
+                // return a new node as susbtitute for this node to add to the new parent
+                return new ImmutableHierarchyNode(this.id, newChildNodes) { Value = this.Value };
+            }
+
+            public ImmutableHierarchyNode SetChildNode(ImmutableHierarchyNode newChildNode)
+            {
+                ImmutableHierarchyNode[] newChildNodes = new ImmutableHierarchyNode[this.childNodes.Length];
+                Array.Copy(this.childNodes, newChildNodes, this.childNodes.Length);
+
+                for (int i = 0; i < newChildNodes.Length; i++)
+                {
+                    if (EqualityComparer<TKey>.Default.Equals(newChildNodes[i].id, newChildNode.id))
+                    {
+                        // the node is already child of this node -> just return this node as changed node.
+                        if (object.ReferenceEquals(newChildNodes[i], newChildNode))
+                            return this;
+
+                        //substitute the existing child node with the new one.
+                        newChildNodes[i] = newChildNode;
+
+                        // return a sunstitut for this node contains the new child node.
+                        return new ImmutableHierarchyNode(this.id, newChildNodes) { Value = this.Value };
+                    }
+                }
+                throw new InvalidOperationException($"The node (id={newChildNode.id}) doesn't substutite any of the existing child nodes in (id={this.id})");
+            }
+
+            #endregion IHasIdentifiableChildNodes Members
         }
 
         #region Construction and initialization of this instance
 
         public ImmutableHierarchy()
+            : this(new ImmutableHierarchyNode(default(TKey)))
         {
-            this.rootNode = new ImmutableHierarchyNode(null, Enumerable.Empty<ImmutableHierarchyNode>());
+        }
+
+        private ImmutableHierarchy(ImmutableHierarchyNode rootNode)
+        {
+            this.rootNode = rootNode;
         }
 
         private readonly ImmutableHierarchyNode rootNode;
-        public TNode RootNode { get; private set; }
 
         #endregion Construction and initialization of this instance
 
-        #region Manage nodes in hierarchy
-
-        public int Count { get; private set; } = 0;
-
-        public bool TryGetNode(HierarchyPath<TKey> path, out TNode node)
+        public ImmutableHierarchy<TKey, TValue> Add(HierarchyPath<TKey> hierarchyPath, TValue value)
         {
-            if (path == null)
-                throw new ArgumentNullException(nameof(path));
+            Stack<ImmutableHierarchyNode> nodesAlongPath = new Stack<ImmutableHierarchyNode>();
+            
+            var currentNode = this.rootNode;
 
-            node = this.RootNode.DescendantAtOrDefault(path);
-            return (node != null);
-        }
-
-        public TNode GetOrCreate(HierarchyPath<TKey> hierarchyPath, Func<TNode, HierarchyPath<TKey>, TNode> createNode)
-        {
-            TNode nextNode, currentNode = this.RootNode;
-
-            HierarchyPath<TKey> breadcrumb = HierarchyPath.Create<TKey>();
-
-            foreach (var pathItem in hierarchyPath.Items)
+            foreach (var currentKey in hierarchyPath.Items)
             {
-                breadcrumb = breadcrumb.Join(pathItem);
-                if (!currentNode.TryGetChildNode(pathItem, out nextNode))
+                ImmutableHierarchyNode nextNode = null;
+
+                if (currentNode.TryGetChildNode(currentKey, out nextNode))
                 {
-                    currentNode = currentNode.AddChildNode(createNode(currentNode, breadcrumb));
-                    if (currentNode != null)
-                        this.Count++; // increment node count, if create&add performed successful
+                    // child exists, just descend further
+                    nodesAlongPath.Push(currentNode);
                 }
                 else
                 {
-                    currentNode = nextNode;
+                    // child nodes doesn't exist -> create new one
+                    nextNode = new ImmutableHierarchyNode(currentKey);
+                    nodesAlongPath.Push(currentNode.AddChildNode(nextNode));
                 }
+                currentNode = nextNode;
             }
-            return currentNode;
+
+            // at the last node of the descendent, set the value.
+            currentNode.Value = value;
+
+            // new ascend agin to the root and clone new parnet node for the newly created child nodes.
+                while (nodesAlongPath.Any())
+            {
+                // the next (parent node) get the current child node as a substitute. 
+                currentNode = nodesAlongPath.Peek().SetChildNode(currentNode);
+                nodesAlongPath.Pop();
+            }
+        
+            // this ist the new immutable hierachy root.
+            if (object.ReferenceEquals(this.rootNode, currentNode))
+                return this;
+
+            return new ImmutableHierarchy<TKey, TValue>(currentNode);
         }
 
         /// <summary>
-        /// Removes the specified node from the hierachy. This includes its child nodes.
+        /// Retrieves the nodes value from the immutable hierarchy.
         /// </summary>
-        /// <param name="pathToRemove"></param>
-        /// <param name="ifTrue">predicate to decide if the node can be deleted, default n =&gt; true</param>
-        /// <returns></returns>
-        public bool Remove(HierarchyPath<TKey> pathToRemove, Predicate<TNode> ifTrue = null)
+        /// <param name="hierarchyPath">path to the value</param>
+        /// <param name="value">found value</param>
+        /// <returns>zre, if value could be found, false otherwise</returns>
+        public bool TryGetValue(HierarchyPath<TKey> hierarchyPath, out TValue value)
         {
-            var nodeToRemove = this.RootNode.DescendantAtOrDefault(pathToRemove);
-            if (nodeToRemove == null)
+            value = default(TValue);
+            var valueNode = this.rootNode.DescendantAtOrDefault(hierarchyPath);
+            if (valueNode == null)
                 return false;
 
-            // remove node only if it the predicate allows it (or take default predicate)
-            if (!(ifTrue ?? (n => true))(nodeToRemove))
-                return false;
-
-            // the node has no parent.
-            // removing the root means to clear the hierarchy
-            if (nodeToRemove.HasParentNode)
-            {
-                var nodesInChild = nodeToRemove.DescendantsOrSelf().Count();
-                if (nodeToRemove.Parent().RemoveChildNode(nodeToRemove))
-                {
-                    this.Count -= nodesInChild;
-                    return true;
-                }
-            }
-
-            // nodeTo Remove has no parent node -> is root node
-            this.RootNode.ClearChildNodes();
-            this.Count = 0;
+            value = (TValue)(valueNode.Value);
             return true;
         }
-
-        public HierarchyPath<TKey> Move(HierarchyPath<TKey> sourcePath, HierarchyPath<TKey> destinationPath, Func<TNode, HierarchyPath<TKey>, TNode> createNode)
-        {
-            if (sourcePath.IsRoot)
-                throw new ArgumentException("Root node can't be moved.");
-
-            // get source node: operation fails if source doesn exist.
-            var sourceNode = this.RootNode.DescendantAt(sourcePath);
-            // get destination node
-            var destinationNode = this.RootNode.DescendantAtOrDefault(destinationPath);
-            if (destinationNode == null)
-            {
-                // source node is the new destination node. The ancestor node(s) are created on demand
-                var destinationParent = this.GetOrCreate(destinationPath.Parent(), createNode);
-
-                // remove the source node from the tree and add it to the destination node without renaming
-                if (!sourceNode.Parent().RemoveChildNode(sourceNode))
-                    throw new InvalidOperationException($"Couldn't remove sourceNode {sourcePath} from parent node");
-
-                // unlink source node from its parent and attach to the destination parent
-                sourceNode.ChangeLocalPath(destinationPath.Items.Last());
-                destinationParent.AddChildNode(sourceNode);
-                sourceNode.ChangeParentNode(destinationParent);
-            }
-            else
-            {
-                // destinationPath is already taken. Try to put source under destination node
-                var effectiveDestinationPath = destinationPath.Join(sourcePath.Leaf());
-                TNode node;
-                if (destinationNode.TryGetChildNode(sourcePath.Items.Last(), out node))
-                    throw new InvalidOperationException($"New place of sourceNode({sourcePath}) is already taken: {destinationPath.Join(sourcePath.Leaf())}");
-
-                // remove the source node from the tree and add it to the destination node without renaming
-                if (!sourceNode.Parent().RemoveChildNode(sourceNode))
-                    throw new InvalidOperationException($"Couldn't remove sourceNode {sourcePath} from parent node");
-
-                destinationNode.AddChildNode(sourceNode);
-                sourceNode.ChangeParentNode(destinationNode);
-            }
-
-            return HierarchyPath.Create(sourceNode.AncestorsOrSelf().Select(n => n.LocalPath).Reverse().Skip(1).ToArray());
-        }
-
-        #endregion Manage nodes in hierarchy
     }
 }
