@@ -45,6 +45,29 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
+        public void Add_same_value_to_root_node_dosnt_create_new_hierarchy()
+        {
+            // ARRANGE
+            var hierarchy = new ImmutableHierarchy<string, string>();
+
+            string test = "test";
+
+            hierarchy = hierarchy.Add(HierarchyPath.Create<string>(), test);
+
+            // ACT
+
+            var result = hierarchy.Add(HierarchyPath.Create<string>(), test);
+
+            // ASSERT
+
+            Assert.AreSame(result, hierarchy);
+
+            string value;
+            Assert.IsTrue(result.TryGetValue(HierarchyPath.Create<string>(), out value));
+            Assert.AreSame(test, value);
+        }
+
+        [Test]
         public void Add_child_returns_new_hierarchy_with_same_values()
         {
             // ARRANGE
