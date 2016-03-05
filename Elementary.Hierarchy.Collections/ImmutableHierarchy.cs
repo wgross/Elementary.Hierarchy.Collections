@@ -22,20 +22,23 @@
         {
             #region Construction and initialization of this instance
 
-            public ImmutableHierarchyNode(TKey id)
+            public ImmutableHierarchyNode(TKey id, object value)
             {
                 this.id = id;
+                this.value = value;
                 this.childNodes = new ImmutableHierarchyNode[0];
             }
 
-            public ImmutableHierarchyNode(TKey id, IEnumerable<ImmutableHierarchyNode> childNodes)
+            public ImmutableHierarchyNode(TKey id, object value, IEnumerable<ImmutableHierarchyNode> childNodes)
             {
                 this.id = id;
+                this.value = value;
                 this.childNodes = childNodes.ToArray();
             }
 
-            private readonly TKey id;
-            private readonly ImmutableHierarchyNode[] childNodes;
+            public readonly TKey id;
+            public readonly object value;
+            public readonly ImmutableHierarchyNode[] childNodes;
 
             public bool HasChildNodes
             {
@@ -46,8 +49,6 @@
             }
 
             #endregion Construction and initialization of this instance
-
-            public object Value { get; set; }
 
             #region IHasChildNodes Members
 
@@ -69,6 +70,8 @@
                 return childNode != null;
             }
 
+            #endregion IHasIdentifiableChildNodes Members
+
             public ImmutableHierarchyNode AddChildNode(ImmutableHierarchyNode newChildNode)
             {
                 // copy the existing children to a new array, and append the new one.
@@ -77,7 +80,7 @@
                 newChildNodes[this.childNodes.Length] = newChildNode;
 
                 // return a new node as susbtitute for this node to add to the new parent
-                return new ImmutableHierarchyNode(this.id, newChildNodes) { Value = this.Value };
+                return new ImmutableHierarchyNode(this.id, this.value, newChildNodes);
             }
 
             public ImmutableHierarchyNode SetChildNode(ImmutableHierarchyNode newChildNode)
@@ -97,19 +100,17 @@
                         newChildNodes[i] = newChildNode;
 
                         // return a sunstitut for this node contains the new child node.
-                        return new ImmutableHierarchyNode(this.id, newChildNodes) { Value = this.Value };
+                        return new ImmutableHierarchyNode(this.id, this.value, newChildNodes);
                     }
                 }
                 throw new InvalidOperationException($"The node (id={newChildNode.id}) doesn't substutite any of the existing child nodes in (id={this.id})");
             }
-
-            #endregion IHasIdentifiableChildNodes Members
         }
 
         #region Construction and initialization of this instance
 
         public ImmutableHierarchy()
-            : this(new ImmutableHierarchyNode(default(TKey)))
+            : this(new ImmutableHierarchyNode(default(TKey), ValueNotSet))
         {
         }
 
@@ -120,19 +121,35 @@
 
         private readonly ImmutableHierarchyNode rootNode;
 
+        /// <summary>
+        /// Null value marker
+        /// </summary>
+        private static readonly object ValueNotSet = new object();
+
         #endregion Construction and initialization of this instance
 
         public ImmutableHierarchy<TKey, TValue> Add(HierarchyPath<TKey> hierarchyPath, TValue value)
         {
-            Stack<ImmutableHierarchyNode> nodesAlongPath = new Stack<ImmutableHierarchyNode>();
-            
-            var currentNode = this.rootNode;
+            // if the path has no items, tthe root node is changed
+            if(!hierarchyPath.Items.Any())
+                return new ImmutableHierarchy<TKey, TValue>(new ImmutableHierarchyNode(id: this.rootNode.id, value: value, childNodes: this.rootNode.ChildNodes));
 
-            foreach (var currentKey in hierarchyPath.Items)
+            // make a snapshot of the path items for easier handling 
+            var hierarchyPathItems = hierarchyPath.Items.ToArray();
+            var hierarchyPathItemsLength = hierarchyPathItems.Length;
+
+            // Create the new value node with the ngiven value and the leaf id.
+            
+            Stack<ImmutableHierarchyNode> nodesAlongPath = new Stack<ImmutableHierarchyNode>();
+
+            var currentNode = this.rootNode;
+            
+            // descend until the parent of the valueNode is reached
+            for(int currentHierarchyLevel = 0; currentHierarchyLevel < hierarchyPathItemsLength; currentHierarchyLevel++)
             {
                 ImmutableHierarchyNode nextNode = null;
 
-                if (currentNode.TryGetChildNode(currentKey, out nextNode))
+                if (currentNode.TryGetChildNode(hierarchyPathItems[currentHierarchyLevel], out nextNode))
                 {
                     // child exists, just descend further
                     nodesAlongPath.Push(currentNode);
@@ -140,23 +157,30 @@
                 else
                 {
                     // child nodes doesn't exist -> create new one
-                    nextNode = new ImmutableHierarchyNode(currentKey);
+                    if (currentHierarchyLevel < hierarchyPathItemsLength - 1)
+                    {
+                        // parent of new node isn't ready yet. Just another node.
+                        nextNode = new ImmutableHierarchyNode(id: hierarchyPathItems[currentHierarchyLevel], value: ValueNotSet);
+                    }
+                    else
+                    {
+                        // this is the parent node of the value node.
+                        nextNode = new ImmutableHierarchyNode(id: hierarchyPathItems[currentHierarchyLevel], value: value);
+                    }
+
                     nodesAlongPath.Push(currentNode.AddChildNode(nextNode));
                 }
                 currentNode = nextNode;
             }
-
-            // at the last node of the descendent, set the value.
-            currentNode.Value = value;
-
+            
             // new ascend agin to the root and clone new parnet node for the newly created child nodes.
-                while (nodesAlongPath.Any())
+            while (nodesAlongPath.Any())
             {
-                // the next (parent node) get the current child node as a substitute. 
+                // the next (parent node) get the current child node as a substitute.
                 currentNode = nodesAlongPath.Peek().SetChildNode(currentNode);
                 nodesAlongPath.Pop();
             }
-        
+
             // this ist the new immutable hierachy root.
             if (object.ReferenceEquals(this.rootNode, currentNode))
                 return this;
@@ -174,10 +198,10 @@
         {
             value = default(TValue);
             var valueNode = this.rootNode.DescendantAtOrDefault(hierarchyPath);
-            if (valueNode == null)
+            if (valueNode == null || valueNode.value == ValueNotSet)
                 return false;
 
-            value = (TValue)(valueNode.Value);
+            value = (TValue)(valueNode.value);
             return true;
         }
     }
