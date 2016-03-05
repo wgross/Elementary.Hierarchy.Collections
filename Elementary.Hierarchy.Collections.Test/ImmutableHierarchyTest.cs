@@ -1,70 +1,118 @@
-﻿using Elementary.Hierarchy.Collections;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NUnit.Framework;
 
 namespace Elementary.Hierarchy.Collections.Test
 {
     [TestFixture]
     public class ImmutableHierarchyTest
     {
-        private ImmutableHierarchy<string,string> hierarchy;
-
-        [SetUp]
-        public void ArrangeAllTests()
+        [Test]
+        public void Rootnode_has_no_value()
         {
-            this.hierarchy = new ImmutableHierarchy<string,string>();
+            // ARRANGE
+
+            var hierarchy = new ImmutableHierarchy<string, string>();
+
+            // ACT & ASSERT
+
+            string value;
+            Assert.IsFalse(hierarchy.TryGetValue(HierarchyPath.Create<string>(), out value));
         }
 
         [Test]
-        public void Add_value_to_root_node_doesnt_change_the_hierarchy()
+        public void Add_value_to_root_node_creates_new_hierarchy()
         {
-            // ARRANGE 
+            // ARRANGE
+            var hierarchy = new ImmutableHierarchy<string, string>();
+
             string test = "test";
 
             // ACT
 
-            var result = this.hierarchy.Add(HierarchyPath.Create<string>(), test);
+            var result = hierarchy.Add(HierarchyPath.Create<string>(), test);
 
             // ASSERT
 
-            Assert.AreSame(result, this.hierarchy);
+            Assert.AreNotSame(result, hierarchy);
+
             string value;
-            Assert.IsTrue(this.hierarchy.TryGetValue(HierarchyPath.Create<string>(), out value));
+
+            // old hierarchy is empty
+            Assert.IsFalse(hierarchy.TryGetValue(HierarchyPath.Create<string>(), out value));
+
+            // new hierachy contains the value
+            Assert.IsTrue(result.TryGetValue(HierarchyPath.Create<string>(), out value));
             Assert.AreSame(test, value);
         }
 
         [Test]
-        public void Add_node_to_hierarchy_returns_new_hierarchy_with_node()
+        public void Add_child_returns_new_hierarchy_with_same_values()
         {
-            // ARRANGE 
+            // ARRANGE
+
+            var hierarchy = new ImmutableHierarchy<string, string>();
+
             string test = "test";
             string test1 = "test1";
 
-            this.hierarchy.Add(HierarchyPath.Create<string>(), test);
+            hierarchy = hierarchy.Add(HierarchyPath.Create<string>(), test);
 
             // ACT
 
-            var result = this.hierarchy.Add(HierarchyPath.Create("a"), test1);
+            var result = hierarchy.Add(HierarchyPath.Create("a"), test1);
 
             // ASSERT
 
-            Assert.AreNotSame(this.hierarchy, result);
+            Assert.AreNotSame(hierarchy, result);
 
             string value;
             // original hierarchy is the same as before
-            Assert.IsTrue(this.hierarchy.TryGetValue(HierarchyPath.Create<string>(), out value));
+            Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create<string>(), out value));
             Assert.AreSame(test, value);
-            Assert.IsFalse(this.hierarchy.TryGetValue(HierarchyPath.Create("a"), out value));
+            Assert.IsFalse(hierarchy.TryGetValue(HierarchyPath.Create("a"), out value));
 
             // new hierarchy contains the root date and the new node.
             Assert.IsTrue(result.TryGetValue(HierarchyPath.Create<string>(), out value));
             Assert.AreSame(test, value);
             Assert.IsTrue(result.TryGetValue(HierarchyPath.Create("a"), out value));
             Assert.AreSame(test1, value);
+        }
+
+        [Test]
+        public void Add_child_sibling_returns_new_hierachy_with_same_values()
+        {
+            // ARRANGE
+            var hierarchy = new ImmutableHierarchy<string, string>();
+
+            string test = "test";
+            string test1 = "test1";
+            string test2 = "test2";
+
+            hierarchy = hierarchy.Add(HierarchyPath.Create<string>(), test);
+            hierarchy = hierarchy.Add(HierarchyPath.Create("a"), test1);
+
+            // ACT
+
+            var result = hierarchy.Add(HierarchyPath.Create("b"), test2);
+
+            // ASSERT
+
+            Assert.AreNotSame(hierarchy, result);
+
+            string value;
+            // original hierarchy is the same as before
+            Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create<string>(), out value));
+            Assert.AreSame(test, value);
+            Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create("a"), out value));
+            Assert.AreSame(test1, value);
+            Assert.IsFalse(hierarchy.TryGetValue(HierarchyPath.Create("b"), out value));
+
+            // new hierarchy contains the root date and the new node.
+            Assert.IsTrue(result.TryGetValue(HierarchyPath.Create<string>(), out value));
+            Assert.AreSame(test, value);
+            Assert.IsTrue(result.TryGetValue(HierarchyPath.Create("a"), out value));
+            Assert.AreSame(test1, value);
+            Assert.IsTrue(result.TryGetValue(HierarchyPath.Create("b"), out value));
+            Assert.AreSame(test2, value);
         }
     }
 }
