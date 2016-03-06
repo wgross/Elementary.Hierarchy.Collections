@@ -19,7 +19,7 @@ namespace Elementary.Hierarchy.Collections.Test
 
             // ACT
 
-            var result = hierarchy.Remove(HierarchyPath.Create<string>());
+            var result = hierarchy.RemoveEx(HierarchyPath.Create<string>());
 
             // ASSERT
 
@@ -53,7 +53,7 @@ namespace Elementary.Hierarchy.Collections.Test
 
             // ACT
 
-            var result = hierarchy.Remove(HierarchyPath.Create<string>());
+            var result = hierarchy.RemoveEx(HierarchyPath.Create<string>());
 
             // ASSERT
 
@@ -75,7 +75,7 @@ namespace Elementary.Hierarchy.Collections.Test
 
             // ACT
 
-            var result = hierarchy.Remove(HierarchyPath.Create("a"));
+            var result = hierarchy.RemoveEx(HierarchyPath.Create("a"));
 
             // ASSERT
 
@@ -115,7 +115,7 @@ namespace Elementary.Hierarchy.Collections.Test
 
             // ACT
 
-            var result = hierarchy.Remove(HierarchyPath.Create("a"));
+            var result = hierarchy.RemoveEx(HierarchyPath.Create("a"));
 
             // ASSERT
 
@@ -131,7 +131,7 @@ namespace Elementary.Hierarchy.Collections.Test
 
             // ACT & ASSERT
 
-            var result = Assert.Throws<KeyNotFoundException>(() => hierarchy.Remove(HierarchyPath.Create("a")));
+            var result = Assert.Throws<KeyNotFoundException>(() => hierarchy.RemoveEx(HierarchyPath.Create("a")));
 
             Assert.That(result.Message.Contains("'a'"));
         }
