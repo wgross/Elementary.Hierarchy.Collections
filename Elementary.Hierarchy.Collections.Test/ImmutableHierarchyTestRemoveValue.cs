@@ -1,9 +1,5 @@
 ﻿using NUnit.Framework;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Elementary.Hierarchy.Collections.Test
 {
@@ -75,7 +71,7 @@ namespace Elementary.Hierarchy.Collections.Test
             var hierarchy = new ImmutableHierarchy<string, string>();
             hierarchy = hierarchy.Add(HierarchyPath.Create<string>(), test);
             hierarchy = hierarchy.Add(HierarchyPath.Create("a"), test1);
-            hierarchy = hierarchy.Add(HierarchyPath.Create("a","b"), test2);
+            hierarchy = hierarchy.Add(HierarchyPath.Create("a", "b"), test2);
 
             // ACT
 
@@ -124,6 +120,20 @@ namespace Elementary.Hierarchy.Collections.Test
             // ASSERT
 
             Assert.AreSame(hierarchy, result);
+        }
+
+        [Test]
+        public void Remove_value_from_unknows_node_throws()
+        {
+            // ARRANGE
+
+            var hierarchy = new ImmutableHierarchy<string, string>();
+
+            // ACT & ASSERT
+
+            var result = Assert.Throws<KeyNotFoundException>(() => hierarchy.Remove(HierarchyPath.Create("a")));
+
+            Assert.That(result.Message.Contains("'a'"));
         }
     }
 }
