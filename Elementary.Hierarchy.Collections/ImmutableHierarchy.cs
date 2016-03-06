@@ -273,7 +273,48 @@
             // if the path has no items, the root node is changed
             if (!hierarchyPath.Items.Any())
                 return this.CreateIfRootHasChanged(this.rootNode.UnsetValue());
-            throw new NotImplementedException();
+
+            // make a snapshot of the path items for easier handling
+            var hierarchyPathItems = hierarchyPath.Items.ToArray();
+            var hierarchyPathItemsLength = hierarchyPathItems.Length;
+
+            // Create the new value node with the ngiven value and the leaf id.
+
+            Stack<Node> nodesAlongPath = new Stack<Node>();
+
+            var currentNode = this.rootNode;
+
+            // descend until the parent of the valueNode is reached
+            for (int currentHierarchyLevel = 0; currentHierarchyLevel < hierarchyPathItemsLength; currentHierarchyLevel++)
+            {
+                Node nextNode = null;
+
+                if (currentNode.TryGetChildNode(hierarchyPathItems[currentHierarchyLevel], out nextNode))
+                {
+                    // child exists, just descend further
+                    nodesAlongPath.Push(currentNode);
+                }
+                else return this; // no further descend possible.
+                
+                currentNode = nextNode;
+            }
+
+            // current node is now the value node.
+            currentNode = currentNode.UnsetValue();
+
+            // new ascend agin to the root and clone new parnet node for the newly created child nodes.
+            while (nodesAlongPath.Any())
+            {
+                // the next (parent node) get the current child node as a substitute.
+                currentNode = nodesAlongPath.Peek().SetChildNode(currentNode);
+                nodesAlongPath.Pop();
+            }
+
+            // this ist the new immutable hierachy root.
+            if (object.ReferenceEquals(this.rootNode, currentNode))
+                return this;
+
+            return new ImmutableHierarchy<TKey, TValue>(currentNode);
         }
     }
 }
