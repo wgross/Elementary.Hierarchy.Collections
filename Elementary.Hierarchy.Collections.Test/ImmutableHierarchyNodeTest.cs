@@ -98,13 +98,13 @@ namespace Elementary.Hierarchy.Collections.Test
             Assert.AreNotSame(node, result);
             
             // old node is unchanged
-            Assert.AreEqual(0, node.childNodes.Length);
+            Assert.AreEqual(0, node.ChildNodes.Count());
             Assert.AreEqual("value", node.value);
 
             // new node contains child
-            Assert.AreEqual(1, result.childNodes.Length);
-            Assert.AreSame(childNode, result.childNodes[0]);
-            Assert.AreEqual("value2", result.childNodes[0].value);
+            Assert.AreEqual(1, result.ChildNodes.Count());
+            Assert.AreSame(childNode, result.ChildNodes.ElementAt(0));
+            Assert.AreEqual("value2", result.ChildNodes.ElementAt(0).value);
         }
 
         [Test]
@@ -125,12 +125,12 @@ namespace Elementary.Hierarchy.Collections.Test
             Assert.AreNotSame(node, result);
 
             // old node is unchanged
-            Assert.AreEqual(1, node.childNodes.Length);
-            Assert.AreSame(childNode, node.childNodes[0]);
+            Assert.AreEqual(1, node.ChildNodes.Count());
+            Assert.AreSame(childNode, node.ChildNodes.ElementAt(0));
             
             // new node contains child twice.
-            Assert.AreSame(childNode, result.childNodes[0]);
-            Assert.AreSame(childNode, result.childNodes[1]);
+            Assert.AreSame(childNode, result.ChildNodes.ElementAt(0));
+            Assert.AreSame(childNode, result.ChildNodes.ElementAt(1));
         }
 
         [Test]
@@ -151,12 +151,12 @@ namespace Elementary.Hierarchy.Collections.Test
             Assert.AreNotSame(node, result);
             
             // old node is unchanged
-            Assert.AreEqual(1, node.childNodes.Length);
-            Assert.AreSame(childNode, node.childNodes[0]);
+            Assert.AreEqual(1, node.ChildNodes.Count());
+            Assert.AreSame(childNode, node.ChildNodes.ElementAt(0));
 
             // new node contains the noew child node
-            Assert.AreEqual(1, result.childNodes.Length);
-            Assert.AreSame(childNode2, result.childNodes[0]);
+            Assert.AreEqual(1, result.ChildNodes.Count());
+            Assert.AreSame(childNode2, result.ChildNodes.ElementAt(0));
         }
 
         [Test]
@@ -178,12 +178,12 @@ namespace Elementary.Hierarchy.Collections.Test
 
             // old node remains unchanged
             Assert.IsTrue(node.HasValue);
-            Assert.AreEqual(1, node.childNodes.Length);
+            Assert.AreEqual(1, node.ChildNodes.Count());
 
             // new node has no value
             Assert.IsFalse(result.HasValue);
-            Assert.AreEqual(1, result.childNodes.Length);
-            Assert.AreSame(node.childNodes[0], result.childNodes[0]);
+            Assert.AreEqual(1, result.ChildNodes.Count());
+            Assert.AreSame(node.ChildNodes.ElementAt(0), result.ChildNodes.ElementAt(0));
         }
 
         [Test]

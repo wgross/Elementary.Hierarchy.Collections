@@ -49,28 +49,18 @@
             }
 
             public readonly TKey id;
-            public readonly object value = ValueNotSet;
-            public readonly Node[] childNodes;
 
-            public bool HasChildNodes
-            {
-                get
-                {
-                    return this.ChildNodes.Any();
-                }
-            }
+            public readonly object value = ValueNotSet;
+
+            private readonly Node[] childNodes;
 
             #endregion Construction and initialization of this instance
 
             #region IHasChildNodes Members
 
-            public IEnumerable<Node> ChildNodes
-            {
-                get
-                {
-                    return this.childNodes;
-                }
-            }
+            public bool HasChildNodes => this.childNodes.Any();
+
+            public IEnumerable<Node> ChildNodes => this.childNodes;
 
             #endregion IHasChildNodes Members
 
