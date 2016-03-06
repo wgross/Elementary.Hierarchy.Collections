@@ -158,5 +158,52 @@ namespace Elementary.Hierarchy.Collections.Test
             Assert.AreEqual(1, result.childNodes.Length);
             Assert.AreSame(childNode2, result.childNodes[0]);
         }
+
+        [Test]
+        public void Unset_value_of_node_create_new_node()
+        {
+            // ARRANGE
+
+            var node = new ImmutableHierarchy<string, string>.Node("id", "value", new[] {
+                new ImmutableHierarchy<string,string>.Node("child", "value2")
+            });
+
+            // ACT
+
+            var result = node.UnsetValue();
+
+            // ASSERT
+
+            Assert.AreNotSame(node, result);
+
+            // old node remains unchanged
+            Assert.IsTrue(node.HasValue);
+            Assert.AreEqual(1, node.childNodes.Length);
+
+            // new node has no value
+            Assert.IsFalse(result.HasValue);
+            Assert.AreEqual(1, result.childNodes.Length);
+            Assert.AreSame(node.childNodes[0], result.childNodes[0]);
+        }
+
+        [Test]
+        public void Unset_value_twice_doesnt_create_new_node()
+        {
+            // ARRANGE
+
+            var node = new ImmutableHierarchy<string, string>.Node("id", "value", new[] {
+                new ImmutableHierarchy<string,string>.Node("child", "value2")
+            });
+
+            node = node.UnsetValue();
+            
+            // ACT
+
+            var result = node.UnsetValue();
+        
+            // ASSERT
+
+            Assert.AreSame(node, result);
+        }
     }
 }

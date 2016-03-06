@@ -139,6 +139,18 @@
                 value = (TValue)this.value;
                 return true;
             }
+
+            /// <summary>
+            /// Creates a new node as clone of this node without a value
+            /// </summary>
+            /// <returns></returns>
+            public Node UnsetValue()
+            {
+                if(this.HasValue)
+                    return new Node(this.id, ValueNotSet, this.childNodes);
+
+                return this;
+            }
         }
 
         #region Construction and initialization of this instance
@@ -248,6 +260,20 @@
                 return false;
 
             return valueNode.TryGetValue(out value);
+        }
+
+        /// <summary>
+        /// Removes the value from the specified node in hierarchy.
+        /// Value and nodes on under the specified nde remain unchanged
+        /// </summary>
+        /// <param name="hierarchyPath"></param>
+        /// <returns>true if value was removed</returns>
+        public ImmutableHierarchy<TKey,TValue> Remove(HierarchyPath<TKey> hierarchyPath)
+        {
+            // if the path has no items, the root node is changed
+            if (!hierarchyPath.Items.Any())
+                return this.CreateIfRootHasChanged(this.rootNode.UnsetValue());
+            throw new NotImplementedException();
         }
     }
 }
