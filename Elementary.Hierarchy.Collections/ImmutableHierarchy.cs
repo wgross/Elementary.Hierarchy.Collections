@@ -18,18 +18,30 @@
         /// <summary>
         /// Internal node class: holds a value and child nodes.
         /// </summary>
-        public sealed class ImmutableHierarchyNode : IHasIdentifiableChildNodes<TKey, ImmutableHierarchyNode>
+        public sealed class Node : IHasIdentifiableChildNodes<TKey, Node>
         {
+            /// <summary>
+            /// Null value marker
+            /// </summary>
+            private static readonly object ValueNotSet = new object();
+
             #region Construction and initialization of this instance
 
-            public ImmutableHierarchyNode(TKey id, object value)
+            public Node(TKey id)
+            {
+                this.id = id;
+                this.value = ValueNotSet;
+                this.childNodes = new Node[0];
+            }
+
+            public Node(TKey id, object value)
             {
                 this.id = id;
                 this.value = value;
-                this.childNodes = new ImmutableHierarchyNode[0];
+                this.childNodes = new Node[0];
             }
 
-            public ImmutableHierarchyNode(TKey id, object value, IEnumerable<ImmutableHierarchyNode> childNodes)
+            public Node(TKey id, object value, IEnumerable<Node> childNodes)
             {
                 this.id = id;
                 this.value = value;
@@ -37,8 +49,8 @@
             }
 
             public readonly TKey id;
-            public readonly object value;
-            public readonly ImmutableHierarchyNode[] childNodes;
+            public readonly object value = ValueNotSet;
+            public readonly Node[] childNodes;
 
             public bool HasChildNodes
             {
@@ -52,7 +64,7 @@
 
             #region IHasChildNodes Members
 
-            public IEnumerable<ImmutableHierarchyNode> ChildNodes
+            public IEnumerable<Node> ChildNodes
             {
                 get
                 {
@@ -64,7 +76,7 @@
 
             #region IHasIdentifiableChildNodes Members
 
-            public bool TryGetChildNode(TKey id, out ImmutableHierarchyNode childNode)
+            public bool TryGetChildNode(TKey id, out Node childNode)
             {
                 childNode = this.childNodes.SingleOrDefault(n => EqualityComparer<TKey>.Default.Equals(n.id, id));
                 return childNode != null;
@@ -72,20 +84,22 @@
 
             #endregion IHasIdentifiableChildNodes Members
 
-            public ImmutableHierarchyNode AddChildNode(ImmutableHierarchyNode newChildNode)
+            public bool HasValue => this.value != ValueNotSet;
+
+            public Node AddChildNode(Node newChildNode)
             {
                 // copy the existing children to a new array, and append the new one.
-                ImmutableHierarchyNode[] newChildNodes = new ImmutableHierarchyNode[this.childNodes.Length + 1];
+                Node[] newChildNodes = new Node[this.childNodes.Length + 1];
                 Array.Copy(this.childNodes, newChildNodes, this.childNodes.Length);
                 newChildNodes[this.childNodes.Length] = newChildNode;
 
                 // return a new node as susbtitute for this node to add to the new parent
-                return new ImmutableHierarchyNode(this.id, this.value, newChildNodes);
+                return new Node(this.id, this.value, newChildNodes);
             }
 
-            public ImmutableHierarchyNode SetChildNode(ImmutableHierarchyNode newChildNode)
+            public Node SetChildNode(Node newChildNode)
             {
-                ImmutableHierarchyNode[] newChildNodes = new ImmutableHierarchyNode[this.childNodes.Length];
+                Node[] newChildNodes = new Node[this.childNodes.Length];
                 Array.Copy(this.childNodes, newChildNodes, this.childNodes.Length);
 
                 for (int i = 0; i < newChildNodes.Length; i++)
@@ -100,65 +114,86 @@
                         newChildNodes[i] = newChildNode;
 
                         // return a sunstitut for this node contains the new child node.
-                        return new ImmutableHierarchyNode(this.id, this.value, newChildNodes);
+                        return new Node(this.id, this.value, newChildNodes);
                     }
                 }
                 throw new InvalidOperationException($"The node (id={newChildNode.id}) doesn't substutite any of the existing child nodes in (id={this.id})");
             }
 
-            public ImmutableHierarchyNode SetValue(TValue value)
+            public Node SetValue(TValue value)
             {
-                if (EqualityComparer<TValue>.Default.Equals((TValue)this.value, value))
+                // equality comparer fails with exception if ValueNotSet is compares woth string value.
+                // therfore check first of there is a value at all.
+                if (this.HasValue && EqualityComparer<TValue>.Default.Equals((TValue)this.value, value))
                     return this;
                 else
-                    return new ImmutableHierarchyNode(this.id, (object)value, this.childNodes);
+                    return new Node(this.id, (object)value, this.childNodes);
+            }
+
+            public bool TryGetValue(out TValue value)
+            {
+                value = default(TValue);
+                if (!this.HasValue)
+                    return false;
+
+                value = (TValue)this.value;
+                return true;
             }
         }
 
         #region Construction and initialization of this instance
 
         public ImmutableHierarchy()
-            : this(new ImmutableHierarchyNode(default(TKey), ValueNotSet))
+            : this(new Node(default(TKey)))
         {
         }
 
-        private ImmutableHierarchy(ImmutableHierarchyNode rootNode)
+        private ImmutableHierarchy(Node rootNode)
         {
             this.rootNode = rootNode;
         }
 
-        private readonly ImmutableHierarchyNode rootNode;
+        private readonly Node rootNode;
 
-        /// <summary>
-        /// Null value marker
-        /// </summary>
-        private static readonly object ValueNotSet = new object();
+        private ImmutableHierarchy<TKey, TValue> CreateIfRootHasChanged(Node newRoot)
+        {
+            if (object.ReferenceEquals(this.rootNode, newRoot))
+                return this;
+
+            return new ImmutableHierarchy<TKey, TValue>(newRoot);
+        }
 
         #endregion Construction and initialization of this instance
 
+        /// <summary>
+        /// Adds a value to the immutable hierachy at the specified position.
+        /// The result is a new ImmutableHiarachy contains the value. The
+        /// old one is unchanged.
+        /// If the value is equal to the value already stored at the position the hierachy remains unchanged.
+        /// </summary>
+        /// <param name="hierarchyPath">Specifies where to set the value</param>
+        /// <param name="value">the value to keep</param>
+        /// <returns>Am immutable hierach which contains the specified value</returns>
         public ImmutableHierarchy<TKey, TValue> Add(HierarchyPath<TKey> hierarchyPath, TValue value)
         {
             // if the path has no items, tthe root node is changed
             if (!hierarchyPath.Items.Any())
-            {
-                this.rootNode.SetValue(value);
-                return new ImmutableHierarchy<TKey, TValue>(new ImmutableHierarchyNode(id: this.rootNode.id, value: value, childNodes: this.rootNode.ChildNodes));
-            }
+                return this.CreateIfRootHasChanged(this.rootNode.SetValue(value));
 
-            // make a snapshot of the path items for easier handling 
+            // make a snapshot of the path items for easier handling
             var hierarchyPathItems = hierarchyPath.Items.ToArray();
             var hierarchyPathItemsLength = hierarchyPathItems.Length;
 
             // Create the new value node with the ngiven value and the leaf id.
-            
-            Stack<ImmutableHierarchyNode> nodesAlongPath = new Stack<ImmutableHierarchyNode>();
+
+            Stack<Node> nodesAlongPath = new Stack<Node>();
 
             var currentNode = this.rootNode;
-            
+
             // descend until the parent of the valueNode is reached
-            for(int currentHierarchyLevel = 0; currentHierarchyLevel < hierarchyPathItemsLength; currentHierarchyLevel++)
+            for (int currentHierarchyLevel = 0; currentHierarchyLevel < hierarchyPathItemsLength; currentHierarchyLevel++)
             {
-                ImmutableHierarchyNode nextNode = null;
+                Node nextNode = null;
 
                 if (currentNode.TryGetChildNode(hierarchyPathItems[currentHierarchyLevel], out nextNode))
                 {
@@ -171,19 +206,19 @@
                     if (currentHierarchyLevel < hierarchyPathItemsLength - 1)
                     {
                         // parent of new node isn't ready yet. Just another node.
-                        nextNode = new ImmutableHierarchyNode(id: hierarchyPathItems[currentHierarchyLevel], value: ValueNotSet);
+                        nextNode = new Node(id: hierarchyPathItems[currentHierarchyLevel]);
                     }
                     else
                     {
                         // this is the parent node of the value node.
-                        nextNode = new ImmutableHierarchyNode(id: hierarchyPathItems[currentHierarchyLevel], value: value);
+                        nextNode = new Node(id: hierarchyPathItems[currentHierarchyLevel], value: value);
                     }
 
                     nodesAlongPath.Push(currentNode.AddChildNode(nextNode));
                 }
                 currentNode = nextNode;
             }
-            
+
             // new ascend agin to the root and clone new parnet node for the newly created child nodes.
             while (nodesAlongPath.Any())
             {
@@ -209,11 +244,10 @@
         {
             value = default(TValue);
             var valueNode = this.rootNode.DescendantAtOrDefault(hierarchyPath);
-            if (valueNode == null || valueNode.value == ValueNotSet)
+            if (valueNode == null || !valueNode.HasValue)
                 return false;
 
-            value = (TValue)(valueNode.value);
-            return true;
+            return valueNode.TryGetValue(out value);
         }
     }
 }
