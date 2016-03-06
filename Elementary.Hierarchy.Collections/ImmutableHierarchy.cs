@@ -316,5 +316,38 @@
 
             return new ImmutableHierarchy<TKey, TValue>(currentNode);
         }
+
+        /// <summary>
+        /// Removes the value from the specified node in hierarchy.
+        /// Value and nodes on under the specified nde remain unchanged
+        /// </summary>
+        /// <param name="hierarchyPath"></param>
+        /// <returns>true if value was removed</returns>
+        public ImmutableHierarchy<TKey, TValue> RemoveEx(HierarchyPath<TKey> hierarchyPath)
+        {
+            // if the path has no items, the root node is changed
+            if (!hierarchyPath.Items.Any())
+                return this.CreateIfRootHasChanged(this.rootNode.UnsetValue());
+            
+            // now find the the value node and the path to reach it
+            Stack<Node> nodesAlongPath = new Stack<Node>(this.rootNode.DescentAlongPath(hierarchyPath));
+            if(nodesAlongPath.Count != hierarchyPath.Items.Count())
+            {
+                // the value node doesn't exist: keep hirarchy as it is
+                throw new KeyNotFoundException($"Could not find node '{hierarchyPath.Items.ElementAt(nodesAlongPath.Count)}' under '{HierarchyPath.Create(hierarchyPath.Items.Take(nodesAlongPath.Count)).ToString()}'");
+            }
+
+            var currentNode = nodesAlongPath.Pop().UnsetValue();
+            
+            // new ascend agin to the root and clone new parnet node for the newly created child nodes.
+            while (nodesAlongPath.Any())
+            {
+                // the next (parent node) get the current child node as a substitute.
+                currentNode = nodesAlongPath.Pop().SetChildNode(currentNode);
+            }
+
+            // this ist the new immutable hierachy root.
+            return this.CreateIfRootHasChanged(this.rootNode.SetChildNode(currentNode));
+        }
     }
 }
