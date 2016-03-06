@@ -46,7 +46,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void Add_same_value_to_root_node_dosnt_create_new_hierarchy()
+        public void Add_same_value_to_root_node_doesnt_create_new_hierarchy()
         {
             // ARRANGE
             var hierarchy = new ImmutableHierarchy<string, string>();
