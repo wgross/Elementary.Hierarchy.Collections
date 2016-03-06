@@ -294,7 +294,7 @@
                     // child exists, just descend further
                     nodesAlongPath.Push(currentNode);
                 }
-                else return this; // no further descend possible.
+                else throw new KeyNotFoundException($"Could not find node '{hierarchyPathItems[currentHierarchyLevel]}' under '{HierarchyPath.Create(hierarchyPathItems.Take(currentHierarchyLevel)).ToString()}'");
                 
                 currentNode = nextNode;
             }
