@@ -201,7 +201,7 @@ namespace Elementary.Hierarchy.Collections.Test
 
             // ACT
 
-            var result = hierarchy.Add(HierarchyPath.Create("a","c"), test3);
+            var result = hierarchy.Add(HierarchyPath.Create("a", "c"), test3);
 
             // ASSERT
 
@@ -215,7 +215,7 @@ namespace Elementary.Hierarchy.Collections.Test
             Assert.AreSame(test1, value);
             Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create("b"), out value));
             Assert.AreSame(test2, value);
-            Assert.IsFalse(hierarchy.TryGetValue(HierarchyPath.Create("a","c"), out value));
+            Assert.IsFalse(hierarchy.TryGetValue(HierarchyPath.Create("a", "c"), out value));
 
             // new hierarchy contains the root date and the new node.
             Assert.IsTrue(result.TryGetValue(HierarchyPath.Create<string>(), out value));

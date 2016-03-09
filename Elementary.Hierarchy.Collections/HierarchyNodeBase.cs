@@ -56,7 +56,7 @@
         {
             this.LocalPath = newLocalPath;
         }
-        
+
         abstract public TChildNode AddChildNode(TChildNode newChild);
 
         abstract public bool RemoveChildNode(TChildNode nodeToRemove);

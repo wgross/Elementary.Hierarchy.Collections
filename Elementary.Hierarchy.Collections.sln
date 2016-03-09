@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elementary.Hierarchy.Collec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elementary.Hierarchy.Collections.Test", "Elementary.Hierarchy.Collections.Test\Elementary.Hierarchy.Collections.Test.csproj", "{E9F72BCB-9C7C-4CEB-8509-A4B267D6E962}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elementary.Collections.Benchmark", "Elementary.Collections.Benchmark\Elementary.Collections.Benchmark.csproj", "{F2CA9262-72BC-4F9E-BF60-F5C89CA884E0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{E9F72BCB-9C7C-4CEB-8509-A4B267D6E962}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9F72BCB-9C7C-4CEB-8509-A4B267D6E962}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9F72BCB-9C7C-4CEB-8509-A4B267D6E962}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2CA9262-72BC-4F9E-BF60-F5C89CA884E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2CA9262-72BC-4F9E-BF60-F5C89CA884E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2CA9262-72BC-4F9E-BF60-F5C89CA884E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2CA9262-72BC-4F9E-BF60-F5C89CA884E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

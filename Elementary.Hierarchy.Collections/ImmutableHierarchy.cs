@@ -136,7 +136,7 @@
             /// <returns></returns>
             public Node UnsetValue()
             {
-                if(this.HasValue)
+                if (this.HasValue)
                     return new Node(this.id, ValueNotSet, this.childNodes);
 
                 return this;
@@ -266,7 +266,7 @@
 
             // now find the the value node and the path to reach it
             Stack<Node> nodesAlongPath = new Stack<Node>(this.rootNode.DescentAlongPath(hierarchyPath));
-            if(nodesAlongPath.Count != hierarchyPath.Items.Count())
+            if (nodesAlongPath.Count != hierarchyPath.Items.Count())
             {
                 // the value node doesn't exist: keep hierarchy as it is
                 throw new KeyNotFoundException($"Could not find node '{hierarchyPath.Items.ElementAt(nodesAlongPath.Count)}' under '{HierarchyPath.Create(hierarchyPath.Items.Take(nodesAlongPath.Count)).ToString()}'");
@@ -274,11 +274,11 @@
 
             // unset the value at the value node...
             var currentNode = nodesAlongPath.Pop().UnsetValue();
-            
+
             // ... ascend again to the root and copy-on-change the ancestor nodes.
             while (nodesAlongPath.Any())
                 currentNode = nodesAlongPath.Pop().SetChildNode(currentNode);
-           
+
             // create new hierachy if root node has changed
             return this.CreateIfRootHasChanged(this.rootNode.SetChildNode(currentNode));
         }

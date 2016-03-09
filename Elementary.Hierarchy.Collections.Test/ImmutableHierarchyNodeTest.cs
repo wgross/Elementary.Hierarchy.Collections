@@ -1,9 +1,5 @@
 ﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Elementary.Hierarchy.Collections.Test
 {
@@ -33,7 +29,7 @@ namespace Elementary.Hierarchy.Collections.Test
             // ARRANGE
 
             var value = "value";
-            var node = new ImmutableHierarchy<string, string>.Node("id",value);
+            var node = new ImmutableHierarchy<string, string>.Node("id", value);
 
             // ACT
 
@@ -88,7 +84,7 @@ namespace Elementary.Hierarchy.Collections.Test
 
             var childNode = new ImmutableHierarchy<string, string>.Node("id2", "value2");
             var node = new ImmutableHierarchy<string, string>.Node("id", "value");
-            
+
             // ACT
 
             var result = node.AddChildNode(childNode);
@@ -96,7 +92,7 @@ namespace Elementary.Hierarchy.Collections.Test
             // ASSERT
 
             Assert.AreNotSame(node, result);
-            
+
             // old node is unchanged
             Assert.AreEqual(0, node.ChildNodes.Count());
             Assert.AreEqual("value", node.value);
@@ -127,7 +123,7 @@ namespace Elementary.Hierarchy.Collections.Test
             // old node is unchanged
             Assert.AreEqual(1, node.ChildNodes.Count());
             Assert.AreSame(childNode, node.ChildNodes.ElementAt(0));
-            
+
             // new node contains child twice.
             Assert.AreSame(childNode, result.ChildNodes.ElementAt(0));
             Assert.AreSame(childNode, result.ChildNodes.ElementAt(1));
@@ -149,7 +145,7 @@ namespace Elementary.Hierarchy.Collections.Test
             // ASSERT
 
             Assert.AreNotSame(node, result);
-            
+
             // old node is unchanged
             Assert.AreEqual(1, node.ChildNodes.Count());
             Assert.AreSame(childNode, node.ChildNodes.ElementAt(0));
@@ -196,11 +192,11 @@ namespace Elementary.Hierarchy.Collections.Test
             });
 
             node = node.UnsetValue();
-            
+
             // ACT
 
             var result = node.UnsetValue();
-        
+
             // ASSERT
 
             Assert.AreSame(node, result);
