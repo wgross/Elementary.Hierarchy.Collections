@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elementary.Hierarchy.Collec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elementary.Hierarchy.Collections.Test", "Elementary.Hierarchy.Collections.Test\Elementary.Hierarchy.Collections.Test.csproj", "{E9F72BCB-9C7C-4CEB-8509-A4B267D6E962}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elementary.Collections.Benchmark", "Elementary.Collections.Benchmark\Elementary.Collections.Benchmark.csproj", "{F2CA9262-72BC-4F9E-BF60-F5C89CA884E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elementary.Hierarchy.Collections.Benchmarks", "Elementary.Hierarchy.Collections.Benchmarks\Elementary.Hierarchy.Collections.Benchmarks.csproj", "{F2CA9262-72BC-4F9E-BF60-F5C89CA884E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
