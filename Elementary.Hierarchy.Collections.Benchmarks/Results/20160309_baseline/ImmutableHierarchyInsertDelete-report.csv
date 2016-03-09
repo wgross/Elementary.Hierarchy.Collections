@@ -1,0 +1,2 @@
+Type;Method;Mode;Platform;Jit;Framework;Toolchain;Runtime;LaunchCount;WarmupCount;TargetCount;Affinity;Median;StdDev
+ImmutableHierarchyInsertDelete;InsertAndDeleteNodes;Throughput;Host;Host;Host;Classic;Host;Auto;Auto;Auto;Auto;1.8286 s;0.0224 s
