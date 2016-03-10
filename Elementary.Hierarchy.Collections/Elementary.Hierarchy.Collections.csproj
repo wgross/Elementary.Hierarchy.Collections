@@ -38,6 +38,7 @@
     <Compile Include="HierarchyNodeBase.cs" />
     <Compile Include="HierarchyNodeBasedOnDictionary.cs" />
     <Compile Include="IHierarchyNode.cs" />
+    <Compile Include="MutableHierarchy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

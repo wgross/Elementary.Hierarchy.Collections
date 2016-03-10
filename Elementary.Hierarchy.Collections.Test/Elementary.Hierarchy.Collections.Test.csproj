@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MutableHierarchyNodeTest.cs" />
     <Compile Include="ImmutableHierarchyNodeTest.cs" />
     <Compile Include="ImmutableHierarchyTestAddValue.cs" />
     <Compile Include="ImmutableHierarchyTestRemoveValue.cs" />
