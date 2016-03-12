@@ -1,5 +1,4 @@
-﻿using Elementary.Hierarchy.Collections;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System.Linq;
 
 namespace Elementary.Hierarchy.Collections.Test

@@ -6,7 +6,7 @@ using System;
 namespace Elementary.Hierarchy.Collections.Benchmarks
 {
     [Config(typeof(Config))]
-    public class ImmutableHierarchyInsertDelete
+    public class MutableHierarchyInsertDelete
     {
         private class Config : ManualConfig
         {
@@ -19,7 +19,7 @@ namespace Elementary.Hierarchy.Collections.Benchmarks
         private int[] values = new int[500006];
         private const int loops = 2500;
 
-        private ImmutableHierarchy<int, int> hierarchy = new ImmutableHierarchy<int, int>();
+        private MutableHierarchy<int, int> hierarchy = new MutableHierarchy<int, int>();
 
         [Setup]
         public void ConfigPayload()

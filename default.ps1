@@ -43,10 +43,10 @@ Task measure {
     
     try {
         # clean old benchmarks
-        #Get-ChildItem . -Directory | Remove-Item -Force -Recurse
+        Get-ChildItem . -Directory | Remove-Item -Force -Recurse
 
-        #$benchmarks = (Resolve-Path .\Elementary.Hierarchy.Collections.Benchmarks.exe)
-        #& $benchmarks
+        $benchmarks = (Resolve-Path .\Elementary.Hierarchy.Collections.Benchmarks.exe)
+        & $benchmarks
 
     } catch {
         Pop-Location

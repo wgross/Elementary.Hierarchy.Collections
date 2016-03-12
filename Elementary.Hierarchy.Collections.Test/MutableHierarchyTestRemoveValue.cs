@@ -27,7 +27,7 @@ namespace Elementary.Hierarchy.Collections.Test
             Assert.AreSame(hierarchy, result);
 
             string value;
-            
+
             // node has no value
             Assert.IsFalse(result.TryGetValue(HierarchyPath.Create<string>(), out value));
             Assert.IsTrue(result.TryGetValue(HierarchyPath.Create("a"), out value));
@@ -77,7 +77,7 @@ namespace Elementary.Hierarchy.Collections.Test
             Assert.AreSame(hierarchy, result);
 
             string value;
-            
+
             // node has no value
             Assert.IsTrue(result.TryGetValue(HierarchyPath.Create<string>(), out value));
             Assert.AreSame(test, value);

@@ -1,5 +1,4 @@
-﻿using Elementary.Hierarchy.Collections;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace Elementary.Hierarchy.Collections.Test
 {
@@ -37,7 +36,7 @@ namespace Elementary.Hierarchy.Collections.Test
             Assert.AreSame(hierarchy, result);
 
             string value;
-            
+
             // hierachy contains the value
             Assert.IsTrue(result.TryGetValue(HierarchyPath.Create<string>(), out value));
             Assert.AreSame(test, value);
@@ -87,7 +86,7 @@ namespace Elementary.Hierarchy.Collections.Test
             Assert.AreSame(hierarchy, result);
 
             string value;
-            
+
             // hierarchy contains the root date and the new node.
             Assert.IsTrue(result.TryGetValue(HierarchyPath.Create<string>(), out value));
             Assert.AreSame(test, value);
@@ -196,7 +195,7 @@ namespace Elementary.Hierarchy.Collections.Test
             Assert.AreSame(hierarchy, result);
 
             string value;
-            
+
             // hierarchy contains the root date and the new node.
             Assert.IsTrue(result.TryGetValue(HierarchyPath.Create<string>(), out value));
             Assert.AreSame(test, value);

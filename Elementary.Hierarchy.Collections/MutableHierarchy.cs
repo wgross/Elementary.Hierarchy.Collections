@@ -225,7 +225,6 @@
                 // -> unset value.
 
                 nodesAlongPath[nodesAlongPath.Length - 1].UnsetValue();
-
             }
             else
             {
