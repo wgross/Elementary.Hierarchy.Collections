@@ -3,6 +3,7 @@
     using Elementary.Hierarchy;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
 
     /// <summary>
@@ -18,6 +19,7 @@
         /// <summary>
         /// Internal node class: holds a value and child nodes.
         /// </summary>
+        [DebuggerDisplay("id={id},hasValue={HasValue},value={value}")]
         public sealed class Node : IHasIdentifiableChildNodes<TKey, Node>
         {
             /// <summary>
@@ -244,12 +246,12 @@
         /// <returns>zre, if value could be found, false otherwise</returns>
         public bool TryGetValue(HierarchyPath<TKey> hierarchyPath, out TValue value)
         {
-            value = default(TValue);
-            var valueNode = this.rootNode.DescendantAtOrDefault(hierarchyPath);
-            if (valueNode == null || !valueNode.HasValue)
-                return false;
+            Node descendantNode;
+            if (this.rootNode.TryGetDescendantAt(hierarchyPath, out descendantNode))
+                return descendantNode.TryGetValue(out value);
 
-            return valueNode.TryGetValue(out value);
+            value = default(TValue);
+            return false;
         }
 
         /// <summary>
@@ -266,10 +268,10 @@
 
             // now find the the value node and the path to reach it
             Stack<Node> nodesAlongPath = new Stack<Node>(this.rootNode.DescentAlongPath(hierarchyPath));
-            if (nodesAlongPath.Count != hierarchyPath.Items.Count())
+            if (nodesAlongPath.Count != hierarchyPath.Items.Count() + 1)
             {
                 // the value node doesn't exist: keep hierarchy as it is
-                throw new KeyNotFoundException($"Could not find node '{hierarchyPath.Items.ElementAt(nodesAlongPath.Count)}' under '{HierarchyPath.Create(hierarchyPath.Items.Take(nodesAlongPath.Count)).ToString()}'");
+                throw new KeyNotFoundException($"Could not find node '{hierarchyPath.Items.ElementAt(nodesAlongPath.Count - 1)}' under '{HierarchyPath.Create(hierarchyPath.Items.Take(nodesAlongPath.Count - 1)).ToString()}'");
             }
 
             // unset the value at the value node...
@@ -279,8 +281,8 @@
             while (nodesAlongPath.Any())
                 currentNode = nodesAlongPath.Pop().SetChildNode(currentNode);
 
-            // create new hierachy if root node has changed
-            return this.CreateIfRootHasChanged(this.rootNode.SetChildNode(currentNode));
+            // last node must be the root node: create new hierachy if root node has changed
+            return this.CreateIfRootHasChanged(currentNode);
         }
     }
 }

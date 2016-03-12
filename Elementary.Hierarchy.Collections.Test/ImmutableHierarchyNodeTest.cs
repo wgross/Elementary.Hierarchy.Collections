@@ -7,7 +7,7 @@ namespace Elementary.Hierarchy.Collections.Test
     public class ImmutableHierarchyNodeTest
     {
         [Test]
-        public void TryGetValue_is_false_if_node_has_no_value()
+        public void IMHN_TryGetValue_is_false_if_node_has_no_value()
         {
             // ARRANGE
 
@@ -24,7 +24,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void TryGetValue_is_true_if_node_has_value()
+        public void IMHN_TryGetValue_is_true_if_node_has_value()
         {
             // ARRANGE
 
@@ -43,7 +43,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void Setting_node_value_creates_a_node_node()
+        public void IMHN_Setting_node_value_creates_a_node_node()
         {
             // ARRANGE
 
@@ -60,7 +60,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void Setting_node_value_twice_doesnt_create_new_node()
+        public void IMHN_Setting_node_value_twice_doesnt_create_new_node()
         {
             // ARRANGE
 
@@ -78,7 +78,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void Adding_child_creates_new_node()
+        public void IMHN_Adding_child_creates_new_node()
         {
             // ARRANGE
 
@@ -104,7 +104,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void Add_child_twice_creates_new_node()
+        public void IMHN_Add_child_twice_creates_new_node()
         {
             // ARRANGE
 
@@ -130,7 +130,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void Set_child_node_exchanges_child_and_creates_new_node()
+        public void IMHN_Set_child_node_exchanges_child_and_creates_new_node()
         {
             // ARRANGE
 
@@ -156,7 +156,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void Unset_value_of_node_create_new_node()
+        public void IMHN_Unset_value_of_node_create_new_node()
         {
             // ARRANGE
 
@@ -183,7 +183,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void Unset_value_twice_doesnt_create_new_node()
+        public void IMHN_Unset_value_twice_doesnt_create_new_node()
         {
             // ARRANGE
 

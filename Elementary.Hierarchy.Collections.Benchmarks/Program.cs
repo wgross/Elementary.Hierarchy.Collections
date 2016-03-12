@@ -6,7 +6,8 @@ namespace Elementary.Hierarchy.Collections.Benchmarks
     {
         private static void Main(string[] args)
         {
-            var result = BenchmarkRunner.Run<ImmutableHierarchyInsertDelete>();
+            BenchmarkRunner.Run<ImmutableHierarchyInsertDelete>();
+            BenchmarkRunner.Run<MutableHierarchyInsertDelete>();
         }
     }
 }
