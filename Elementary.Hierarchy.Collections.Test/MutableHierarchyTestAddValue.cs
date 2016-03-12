@@ -1,16 +1,17 @@
-﻿using NUnit.Framework;
+﻿using Elementary.Hierarchy.Collections;
+using NUnit.Framework;
 
 namespace Elementary.Hierarchy.Collections.Test
 {
     [TestFixture]
-    public class ImmutableHierarchyTestAddValue
+    public class MutableHierarchyTestAddValue
     {
         [Test]
-        public void IMH_Rootnode_has_no_value()
+        public void MH_Rootnode_has_no_value()
         {
             // ARRANGE
 
-            var hierarchy = new ImmutableHierarchy<string, string>();
+            var hierarchy = new MutableHierarchy<string, string>();
 
             // ACT & ASSERT
 
@@ -19,11 +20,11 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void IMH_Add_value_to_root_node_creates_new_hierarchy()
+        public void MH_Add_value_to_root_node_doesnt_create_new_hierarchy()
         {
             // ARRANGE
 
-            var hierarchy = new ImmutableHierarchy<string, string>();
+            var hierarchy = new MutableHierarchy<string, string>();
 
             string test = "test";
 
@@ -33,23 +34,20 @@ namespace Elementary.Hierarchy.Collections.Test
 
             // ASSERT
 
-            Assert.AreNotSame(hierarchy, result);
+            Assert.AreSame(hierarchy, result);
 
             string value;
-
-            // old hierarchy is empty
-            Assert.IsFalse(hierarchy.TryGetValue(HierarchyPath.Create<string>(), out value));
-
-            // new hierachy contains the value
+            
+            // hierachy contains the value
             Assert.IsTrue(result.TryGetValue(HierarchyPath.Create<string>(), out value));
             Assert.AreSame(test, value);
         }
 
         [Test]
-        public void IMH_Add_same_value_to_root_node_doesnt_create_new_hierarchy()
+        public void MH_Add_same_value_to_root_node_doesnt_create_new_hierarchy()
         {
             // ARRANGE
-            var hierarchy = new ImmutableHierarchy<string, string>();
+            var hierarchy = new MutableHierarchy<string, string>();
 
             string test = "test";
 
@@ -69,11 +67,11 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void IMH_Add_child_returns_new_hierarchy_with_same_values()
+        public void MH_Add_child_returns_same_hierarchy_with_same_values()
         {
             // ARRANGE
 
-            var hierarchy = new ImmutableHierarchy<string, string>();
+            var hierarchy = new MutableHierarchy<string, string>();
 
             string test = "test";
             string test1 = "test1";
@@ -86,15 +84,11 @@ namespace Elementary.Hierarchy.Collections.Test
 
             // ASSERT
 
-            Assert.AreNotSame(hierarchy, result);
+            Assert.AreSame(hierarchy, result);
 
             string value;
-            // original hierarchy is the same as before
-            Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create<string>(), out value));
-            Assert.AreSame(test, value);
-            Assert.IsFalse(hierarchy.TryGetValue(HierarchyPath.Create("a"), out value));
-
-            // new hierarchy contains the root date and the new node.
+            
+            // hierarchy contains the root date and the new node.
             Assert.IsTrue(result.TryGetValue(HierarchyPath.Create<string>(), out value));
             Assert.AreSame(test, value);
             Assert.IsTrue(result.TryGetValue(HierarchyPath.Create("a"), out value));
@@ -102,11 +96,11 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void IMH_Add_child_value_twice_doesnt_return_new_hierarchy()
+        public void MH_Add_child_value_twice_doesnt_return_new_hierarchy()
         {
             // ARRANGE
 
-            var hierarchy = new ImmutableHierarchy<string, string>();
+            var hierarchy = new MutableHierarchy<string, string>();
 
             string test = "test";
             string test1 = "test1";
@@ -124,10 +118,10 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void IMH_Add_child_sibling_returns_new_hierachy_with_same_values()
+        public void MH_Add_child_sibling_returns_same_hierachy_with_same_values()
         {
             // ARRANGE
-            var hierarchy = new ImmutableHierarchy<string, string>();
+            var hierarchy = new MutableHierarchy<string, string>();
 
             string test = "test";
             string test1 = "test1";
@@ -142,15 +136,9 @@ namespace Elementary.Hierarchy.Collections.Test
 
             // ASSERT
 
-            Assert.AreNotSame(hierarchy, result);
+            Assert.AreSame(hierarchy, result);
 
             string value;
-            // original hierarchy is the same as before
-            Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create<string>(), out value));
-            Assert.AreSame(test, value);
-            Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create("a"), out value));
-            Assert.AreSame(test1, value);
-            Assert.IsFalse(hierarchy.TryGetValue(HierarchyPath.Create("b"), out value));
 
             // new hierarchy contains the root date and the new node.
             Assert.IsTrue(result.TryGetValue(HierarchyPath.Create<string>(), out value));
@@ -162,10 +150,10 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void IMH_Add_child_sibling_value_twice_doesnt_return_new_hierachy()
+        public void MH_Add_child_sibling_value_twice_doesnt_return_new_hierachy()
         {
             // ARRANGE
-            var hierarchy = new ImmutableHierarchy<string, string>();
+            var hierarchy = new MutableHierarchy<string, string>();
 
             string test = "test";
             string test1 = "test1";
@@ -185,10 +173,10 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void IMH_Add_grandchild_returns_new_hierachy_with_same_values()
+        public void MH_Add_grandchild_returns_new_hierachy_with_same_values()
         {
             // ARRANGE
-            var hierarchy = new ImmutableHierarchy<string, string>();
+            var hierarchy = new MutableHierarchy<string, string>();
 
             string test = "test";
             string test1 = "test1";
@@ -205,19 +193,11 @@ namespace Elementary.Hierarchy.Collections.Test
 
             // ASSERT
 
-            Assert.AreNotSame(hierarchy, result);
+            Assert.AreSame(hierarchy, result);
 
             string value;
-            // original hierarchy is the same as before
-            Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create<string>(), out value));
-            Assert.AreSame(test, value);
-            Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create("a"), out value));
-            Assert.AreSame(test1, value);
-            Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create("b"), out value));
-            Assert.AreSame(test2, value);
-            Assert.IsFalse(hierarchy.TryGetValue(HierarchyPath.Create("a", "c"), out value));
-
-            // new hierarchy contains the root date and the new node.
+            
+            // hierarchy contains the root date and the new node.
             Assert.IsTrue(result.TryGetValue(HierarchyPath.Create<string>(), out value));
             Assert.AreSame(test, value);
             Assert.IsTrue(result.TryGetValue(HierarchyPath.Create("a"), out value));

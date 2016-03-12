@@ -1,4 +1,4 @@
-﻿using Elementary.Hierarchy.Collections.Elementary.Hierarchy.Collections;
+﻿using Elementary.Hierarchy.Collections;
 using NUnit.Framework;
 using System.Linq;
 
