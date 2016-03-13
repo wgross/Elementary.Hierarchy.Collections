@@ -127,11 +127,11 @@
             /// Unset ths value of this this node instance.
             /// </summary>
             /// <returns></returns>
-            public Node UnsetValue(bool prune=false)
+            public Node UnsetValue(bool prune = false)
             {
                 this.value = ValueNotSet;
 
-                // pruning is swtched on. 
+                // pruning is swtched on.
                 // if none of the descandant has a value anymore, the children are deleted
 
                 if (prune)
@@ -153,25 +153,25 @@
         #region Construction and initialization of this instance
 
         public MutableHierarchy()
-            : this(new Node(default(TKey)))
+            : this(new Node(default(TKey)), pruneOnUnsetValue:false)
         {
         }
 
-        private MutableHierarchy(Node rootNode)
+        public MutableHierarchy(bool pruneOnUnsetValue)
+            : this(new Node(default(TKey)), pruneOnUnsetValue: pruneOnUnsetValue)
+        {
+        }
+
+        private MutableHierarchy(Node rootNode, bool pruneOnUnsetValue)
         {
             this.rootNode = rootNode;
+            this.pruneOnUnsetValue = pruneOnUnsetValue;
         }
 
         private readonly Node rootNode;
 
-        private MutableHierarchy<TKey, TValue> CreateIfRootHasChanged(Node newRoot)
-        {
-            if (object.ReferenceEquals(this.rootNode, newRoot))
-                return this;
-
-            return new MutableHierarchy<TKey, TValue>(newRoot);
-        }
-
+        private readonly bool pruneOnUnsetValue;
+        
         #endregion Construction and initialization of this instance
 
         /// <summary>
@@ -240,7 +240,7 @@
                 // the last node msut be the value node, becaus it has the same depth as the hierachy path
                 // -> unset value.
 
-                nodesAlongPath[nodesAlongPath.Length - 1].UnsetValue();
+                nodesAlongPath[nodesAlongPath.Length - 1].UnsetValue(prune:this.pruneOnUnsetValue);
             }
             else
             {

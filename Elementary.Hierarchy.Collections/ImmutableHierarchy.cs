@@ -137,16 +137,16 @@
             /// If prune is enabled, the child nodes are abandoned if non of them has a value.
             /// </summary>
             /// <returns></returns>
-            public Node UnsetValue(bool prune=false)
+            public Node UnsetValue(bool prune = false)
             {
                 if (!this.HasValue)
                     return this;
-                
-                // pruning is swtched on. 
+
+                // pruning is swtched on.
                 // if none of the descandant has a value anymore, the children are deleted
 
                 if (prune)
-                    if(!this.Descendants().Any(c => c.HasValue))
+                    if (!this.Descendants().Any(c => c.HasValue))
                         return new Node(this.id, ValueNotSet);
 
                 // return a clone of this node, changed only at its value
@@ -158,23 +158,31 @@
         #region Construction and initialization of this instance
 
         public ImmutableHierarchy()
-            : this(new Node(default(TKey)))
+            : this(new Node(default(TKey)), pruneOnUnsetValue: false)
         {
         }
 
-        private ImmutableHierarchy(Node rootNode)
+        public ImmutableHierarchy(bool pruneOnUnsetValue)
+            : this(new Node(default(TKey)), pruneOnUnsetValue: pruneOnUnsetValue)
+        {
+        }
+
+        private ImmutableHierarchy(Node rootNode, bool pruneOnUnsetValue)
         {
             this.rootNode = rootNode;
+            this.pruneOnUnsetValue = pruneOnUnsetValue;
         }
 
         private readonly Node rootNode;
+
+        private readonly bool pruneOnUnsetValue;
 
         private ImmutableHierarchy<TKey, TValue> CreateIfRootHasChanged(Node newRoot)
         {
             if (object.ReferenceEquals(this.rootNode, newRoot))
                 return this;
 
-            return new ImmutableHierarchy<TKey, TValue>(newRoot);
+            return new ImmutableHierarchy<TKey, TValue>(newRoot, this.pruneOnUnsetValue);
         }
 
         #endregion Construction and initialization of this instance
@@ -245,7 +253,7 @@
             if (object.ReferenceEquals(this.rootNode, currentNode))
                 return this;
 
-            return new ImmutableHierarchy<TKey, TValue>(currentNode);
+            return new ImmutableHierarchy<TKey, TValue>(currentNode, this.pruneOnUnsetValue);
         }
 
         /// <summary>
@@ -274,7 +282,7 @@
         {
             // if the path has no items, the root node is changed
             if (!hierarchyPath.Items.Any())
-                return this.CreateIfRootHasChanged(this.rootNode.UnsetValue());
+                return this.CreateIfRootHasChanged(this.rootNode.UnsetValue(prune: this.pruneOnUnsetValue));
 
             // now find the the value node and the path to reach it
             Stack<Node> nodesAlongPath = new Stack<Node>(this.rootNode.DescentAlongPath(hierarchyPath));
@@ -285,7 +293,7 @@
             }
 
             // unset the value at the value node...
-            var currentNode = nodesAlongPath.Pop().UnsetValue();
+            var currentNode = nodesAlongPath.Pop().UnsetValue(prune:this.pruneOnUnsetValue);
 
             // ... ascend again to the root and copy-on-change the ancestor nodes.
             while (nodesAlongPath.Any())
