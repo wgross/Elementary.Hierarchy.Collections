@@ -6,7 +6,15 @@ $hg = (Get-Command hg.exe).Path
 $git = (Get-Command git.exe).Path
 $solutionFile = (Resolve-path $PSScriptRoot\Elementary.Hierarchy.Collections.sln)
 $packedProject = (Resolve-path $PSScriptRoot\Elementary.Hierarchy.Collections\Elementary.Hierarchy.Collections.csproj)
-
+$benchmarkResultExtensions = @(
+    "*.csv"
+    "*.html"
+    "*.log" 
+    "*.md" 
+    "*.R"
+    "*.txt"
+)
+    
 Task default -depends build
 
 Task package_restore {
@@ -17,7 +25,6 @@ Task package_restore {
 
 Task clean {
     & $msbuild $solutionFile /t:Clean /p:Configuration=Release
-    & $msbuild $solutionFile /t:Clean /p:Configuration=Debug
     
     Remove-Item $PSScriptRoot\*.nupkg -ErrorAction SilentlyContinue
 }
@@ -55,8 +62,12 @@ Task measure {
     $resultDirName = (Get-Date).ToString("yyyyMMddHHmmss")
 
     mkdir $PSScriptRoot\Elementary.Hierarchy.Collections.Benchmarks\Results\$resultDirName
-    Copy-Item $PSScriptRoot\Elementary.Hierarchy.Collections.Benchmarks\bin\Release\* $PSScriptRoot\Elementary.Hierarchy.Collections.Benchmarks\Results\$resultDirName -Exclude @(".config",".dll",".exe",".pdb")
-
+    
+    $benchmarkResultExtensions | ForEach-Object {
+        Copy-Item `
+            $PSScriptRoot\Elementary.Hierarchy.Collections.Benchmarks\bin\Release\$_ `
+            $PSScriptRoot\Elementary.Hierarchy.Collections.Benchmarks\Results\$resultDirName
+    }
 } -depends clean,build
 
 
