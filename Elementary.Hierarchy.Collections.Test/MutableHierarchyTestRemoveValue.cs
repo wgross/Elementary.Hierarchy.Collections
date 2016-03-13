@@ -56,7 +56,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void IMH_Remove_value_from_child_doesnt_create_new_hierarchy()
+        public void MH_Remove_value_from_child_doesnt_create_new_hierarchy()
         {
             // ARRANGE
             string test = "test";
@@ -87,7 +87,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void IMH_Remove_value_from_child_twice_doesnt_create_new_hierarchy()
+        public void MH_Remove_value_from_child_twice_doesnt_create_new_hierarchy()
         {
             // ARRANGE
             string test = "test";
@@ -110,7 +110,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void IMH_Remove_value_from_unknown_node_throws()
+        public void MH_Remove_value_from_unknown_node_throws()
         {
             // ARRANGE
 
