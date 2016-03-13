@@ -17,9 +17,10 @@ namespace Elementary.Hierarchy.Collections.Benchmarks
         }
 
         private int[] values = new int[500006];
+
         private const int loops = 2500;
 
-        private MutableHierarchy<int, int> hierarchy = new MutableHierarchy<int, int>();
+        private MutableHierarchy<int, int> hierarchy;
 
         [Setup]
         public void ConfigPayload()
@@ -33,6 +34,23 @@ namespace Elementary.Hierarchy.Collections.Benchmarks
         [Benchmark(OperationsPerInvoke = 5)]
         public void InsertAndDeleteNodesDeep()
         {
+            this.hierarchy = new MutableHierarchy<int, int>(pruneOnUnsetValue: false);
+
+            for (int i = 0; i < loops; i++)
+                this.hierarchy = this.hierarchy.Add(
+                    HierarchyPath.Create(this.values[i], this.values[i + 1], this.values[i + 2], this.values[i + 3], this.values[i + 4], this.values[i + 5], this.values[i + 6]),
+                    value: i);
+
+            for (int i = 0; i < loops; i++)
+                this.hierarchy = this.hierarchy.Remove(
+                    HierarchyPath.Create(this.values[i], this.values[i + 1], this.values[i + 2], this.values[i + 3], this.values[i + 4], this.values[i + 5], this.values[i + 6]));
+        }
+
+        [Benchmark(OperationsPerInvoke = 5)]
+        public void InsertAndDeleteNodesDeepWithPruning()
+        {
+            this.hierarchy = new MutableHierarchy<int, int>(pruneOnUnsetValue: true);
+
             for (int i = 0; i < loops; i++)
                 this.hierarchy = this.hierarchy.Add(
                     HierarchyPath.Create(this.values[i], this.values[i + 1], this.values[i + 2], this.values[i + 3], this.values[i + 4], this.values[i + 5], this.values[i + 6]),
@@ -46,6 +64,23 @@ namespace Elementary.Hierarchy.Collections.Benchmarks
         [Benchmark(OperationsPerInvoke = 5)]
         public void InsertAndDeleteNodesShallow()
         {
+            this.hierarchy = new MutableHierarchy<int, int>(pruneOnUnsetValue: false);
+
+            for (int i = 0; i < loops; i++)
+                this.hierarchy = this.hierarchy.Add(
+                    HierarchyPath.Create(this.values[i], this.values[i + 1]),
+                    value: i);
+
+            for (int i = 0; i < loops; i++)
+                this.hierarchy = this.hierarchy.Remove(
+                    HierarchyPath.Create(this.values[i], this.values[i + 1]));
+        }
+
+        [Benchmark(OperationsPerInvoke = 5)]
+        public void InsertAndDeleteNodesShallowWithPruning()
+        {
+            this.hierarchy = new MutableHierarchy<int, int>(pruneOnUnsetValue: true);
+
             for (int i = 0; i < loops; i++)
                 this.hierarchy = this.hierarchy.Add(
                     HierarchyPath.Create(this.values[i], this.values[i + 1]),
