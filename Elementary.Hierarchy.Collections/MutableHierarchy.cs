@@ -127,10 +127,26 @@
             /// Unset ths value of this this node instance.
             /// </summary>
             /// <returns></returns>
-            public Node UnsetValue()
+            public Node UnsetValue(bool prune=false)
             {
                 this.value = ValueNotSet;
+
+                // pruning is swtched on. 
+                // if none of the descandant has a value anymore, the children are deleted
+
+                if (prune)
+                    if (!this.Descendants().Any(d => d.HasValue))
+                        this.ClearChildNodes();
+
                 return this;
+            }
+
+            /// <summary>
+            /// Forgets all child nodes.
+            /// </summary>
+            private void ClearChildNodes()
+            {
+                this.childNodes = new Node[] { };
             }
         }
 

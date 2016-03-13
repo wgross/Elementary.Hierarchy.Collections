@@ -142,9 +142,14 @@
                 if (!this.HasValue)
                     return this;
                 
-                if(prune)
+                // pruning is swtched on. 
+                // if none of the descandant has a value anymore, the children are deleted
+
+                if (prune)
                     if(!this.Descendants().Any(c => c.HasValue))
                         return new Node(this.id, ValueNotSet);
+
+                // return a clone of this node, changed only at its value
 
                 return new Node(this.id, ValueNotSet, this.childNodes);
             }
