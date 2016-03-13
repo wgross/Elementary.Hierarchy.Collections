@@ -134,14 +134,19 @@
 
             /// <summary>
             /// Creates a new node as clone of this node without a value
+            /// If prune is enabled, the child nodes are abandoned if non of them has a value.
             /// </summary>
             /// <returns></returns>
-            public Node UnsetValue()
+            public Node UnsetValue(bool prune=false)
             {
-                if (this.HasValue)
-                    return new Node(this.id, ValueNotSet, this.childNodes);
+                if (!this.HasValue)
+                    return this;
+                
+                if(prune)
+                    if(!this.Descendants().Any(c => c.HasValue))
+                        return new Node(this.id, ValueNotSet);
 
-                return this;
+                return new Node(this.id, ValueNotSet, this.childNodes);
             }
         }
 
