@@ -185,5 +185,50 @@ namespace Elementary.Hierarchy.Collections.Test
 
             Assert.AreSame(node, result);
         }
+        
+        [Test]
+        public void MHN_Unset_value_of_parent_node_removes_empty_child_On_UnsetVaue_with_prune()
+        {
+            // ARRANGE
+
+            var node = new MutableHierarchy<string, string>.Node("id", "value", new[] {
+                new MutableHierarchy<string,string>.Node("child")
+            });
+
+            // ACT
+
+            var result = node.UnsetValue(prune: true);
+
+            // ASSERT
+
+            Assert.AreSame(node, result);
+            
+            // node has no value
+            Assert.IsFalse(result.HasValue);
+            Assert.AreEqual(0, result.ChildNodes.Count());
+        }
+
+        [Test]
+        public void MHN_Unset_value_of_parent_node_keeps_non_empty_child_OnUnsetValue_with_prune()
+        {
+            // ARRANGE
+
+            var node = new MutableHierarchy<string, string>.Node("id", "value", new[] {
+                new MutableHierarchy<string,string>.Node("child","value2")
+            });
+
+            // ACT
+
+            var result = node.UnsetValue(prune: true);
+
+            // ASSERT
+
+            Assert.AreSame(node, result);
+            
+            // node has no value
+            Assert.IsFalse(result.HasValue);
+            Assert.AreEqual(1, result.ChildNodes.Count());
+            Assert.AreSame(node.ChildNodes.ElementAt(0), result.ChildNodes.ElementAt(0));
+        }
     }
 }
