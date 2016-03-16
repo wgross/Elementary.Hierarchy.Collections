@@ -1,0 +1,14 @@
+<pre><code>BenchmarkDotNet=v0.9.2.0
+OS=Microsoft Windows NT 6.2.9200.0
+Processor=Intel(R) Core(TM) i7-4870HQ CPU @ 2.50GHz, ProcessorCount=4
+Frequency=2435535 ticks, Resolution=410.5874 ns
+HostCLR=MS.NET 4.0.30319.42000, Arch=32-bit RELEASE</code></pre>
+
+<pre><code>Type=ImmutableHierarchyInsertDelete  Mode=Throughput  TargetCount=5  
+</code></pre>
+
+<table>
+	<tr><th>                      Method</th><th>        Median</th><th>      StdDev</th></tr>
+	<tr><td>    InsertAndDeleteNodesDeep</td><td> 1,099.9738 ms</td><td> 225.0200 ms</td></tr>
+	<tr><td> InsertAndDeleteNodesShallow</td><td>   795.6559 ms</td><td> 119.8189 ms</td></tr>
+</table>

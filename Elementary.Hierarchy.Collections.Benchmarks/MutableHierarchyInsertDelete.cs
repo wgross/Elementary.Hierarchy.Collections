@@ -6,7 +6,7 @@ using System;
 namespace Elementary.Hierarchy.Collections.Benchmarks
 {
     [Config(typeof(Config))]
-    public class ImmutableHierarchyInsertDelete
+    public class MutableHierarchyInsertDelete
     {
         private class Config : ManualConfig
         {
@@ -20,7 +20,7 @@ namespace Elementary.Hierarchy.Collections.Benchmarks
 
         private const int loops = 2500;
 
-        private ImmutableHierarchy<int, int> hierarchy;
+        private MutableHierarchy<int, int> hierarchy;
 
         [Setup]
         public void ConfigPayload()
@@ -34,7 +34,7 @@ namespace Elementary.Hierarchy.Collections.Benchmarks
         [Benchmark(OperationsPerInvoke = 5)]
         public void InsertAndDeleteNodesDeep()
         {
-            this.hierarchy = new ImmutableHierarchy<int, int>(pruneOnUnsetValue: false);
+            this.hierarchy = new MutableHierarchy<int, int>(pruneOnUnsetValue: false);
 
             for (int i = 0; i < loops; i++)
                 this.hierarchy = this.hierarchy.Add(
@@ -49,7 +49,7 @@ namespace Elementary.Hierarchy.Collections.Benchmarks
         [Benchmark(OperationsPerInvoke = 5)]
         public void InsertAndDeleteNodesDeepWithPruning()
         {
-            this.hierarchy = new ImmutableHierarchy<int, int>(pruneOnUnsetValue: true);
+            this.hierarchy = new MutableHierarchy<int, int>(pruneOnUnsetValue: true);
 
             for (int i = 0; i < loops; i++)
                 this.hierarchy = this.hierarchy.Add(
@@ -64,7 +64,7 @@ namespace Elementary.Hierarchy.Collections.Benchmarks
         [Benchmark(OperationsPerInvoke = 5)]
         public void InsertAndDeleteNodesShallow()
         {
-            this.hierarchy = new ImmutableHierarchy<int, int>(pruneOnUnsetValue: false);
+            this.hierarchy = new MutableHierarchy<int, int>(pruneOnUnsetValue: false);
 
             for (int i = 0; i < loops; i++)
                 this.hierarchy = this.hierarchy.Add(
@@ -79,7 +79,7 @@ namespace Elementary.Hierarchy.Collections.Benchmarks
         [Benchmark(OperationsPerInvoke = 5)]
         public void InsertAndDeleteNodesShallowWithPruning()
         {
-            this.hierarchy = new ImmutableHierarchy<int, int>(pruneOnUnsetValue: true);
+            this.hierarchy = new MutableHierarchy<int, int>(pruneOnUnsetValue: true);
 
             for (int i = 0; i < loops; i++)
                 this.hierarchy = this.hierarchy.Add(

@@ -1,0 +1,504 @@
+// ***** BenchmarkRunner: Start   *****
+// Found benchmarks:
+//   MutableHierarchyInsertDelete_InsertAndDeleteNodesDeepWithPruning_Target5
+//   MutableHierarchyInsertDelete_InsertAndDeleteNodesDeep_Target5
+//   MutableHierarchyInsertDelete_InsertAndDeleteNodesShallowWithPruning_Target5
+//   MutableHierarchyInsertDelete_InsertAndDeleteNodesShallow_Target5
+
+// **************************
+// Benchmark: MutableHierarchyInsertDelete_InsertAndDeleteNodesDeepWithPruning_Target5
+// *** Generate *** 
+// Result = Success
+// DirectoryPath = C:\src\Elementary.Hierarchy.Collections\Elementary.Hierarchy.Collections.Benchmarks\bin\Release\MutableHierarchyInsertDelete_InsertAndDeleteNodesDeepWithPruning_Target5
+
+// *** Build ***
+// Result = Success
+
+// *** Execute ***
+// Launch: 1
+// BenchmarkDotNet=v0.9.2.0
+// OS=Microsoft Windows NT 6.2.9200.0
+// Processor=Intel(R) Core(TM) i7-4870HQ CPU @ 2.50GHz, ProcessorCount=4
+// Frequency=2435527 ticks, Resolution=410.5888 ns
+// CLR=MS.NET 4.0.30319.42000, Arch=32-bit RELEASE
+
+Pilot 1: 20 op, 648322108.52 ns, 32.4161 ms/op
+
+IdleWarmup 1: 20 op, 10675.31 ns, 533.7654 ns/op
+IdleWarmup 2: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleWarmup 3: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleWarmup 4: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleWarmup 5: 20 op, 8622.36 ns, 431.1182 ns/op
+
+IdleTarget 1: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 2: 20 op, 7390.6 ns, 369.5299 ns/op
+IdleTarget 3: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 4: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 5: 20 op, 5748.24 ns, 287.4121 ns/op
+IdleTarget 6: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 7: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 8: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 9: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 10: 20 op, 6980.01 ns, 349.0004 ns/op
+
+MainWarmup 1: 20 op, 637784758.7 ns, 31.8892 ms/op
+MainWarmup 2: 20 op, 638368205.32 ns, 31.9184 ms/op
+MainWarmup 3: 20 op, 637912862.39 ns, 31.8956 ms/op
+MainWarmup 4: 20 op, 637803645.78 ns, 31.8902 ms/op
+MainWarmup 5: 20 op, 641813866.16 ns, 32.0907 ms/op
+MainWarmup 6: 20 op, 651610924.45 ns, 32.5805 ms/op
+
+MainTarget 1: 20 op, 644772979.32 ns, 32.2386 ms/op
+MainTarget 2: 20 op, 675606963.09 ns, 33.7803 ms/op
+MainTarget 3: 20 op, 646095896.29 ns, 32.3048 ms/op
+MainTarget 4: 20 op, 646196901.12 ns, 32.3098 ms/op
+MainTarget 5: 20 op, 637108929.61 ns, 31.8554 ms/op
+
+Result 1: 20 op, 644765999.31 ns, 32.2383 ms/op
+Result 2: 20 op, 675599983.08 ns, 33.7800 ms/op
+Result 3: 20 op, 646088916.28 ns, 32.3044 ms/op
+Result 4: 20 op, 646189921.11 ns, 32.3095 ms/op
+Result 5: 20 op, 637101949.6 ns, 31.8551 ms/op
+
+// Launch: 2
+// BenchmarkDotNet=v0.9.2.0
+// OS=Microsoft Windows NT 6.2.9200.0
+// Processor=Intel(R) Core(TM) i7-4870HQ CPU @ 2.50GHz, ProcessorCount=4
+// Frequency=2435527 ticks, Resolution=410.5888 ns
+// CLR=MS.NET 4.0.30319.42000, Arch=32-bit RELEASE
+
+Pilot 1: 20 op, 635657087.77 ns, 31.7829 ms/op
+
+IdleWarmup 1: 20 op, 10264.72 ns, 513.2359 ns/op
+IdleWarmup 2: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleWarmup 3: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleWarmup 4: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleWarmup 5: 20 op, 6980.01 ns, 349.0004 ns/op
+
+IdleTarget 1: 20 op, 6158.83 ns, 307.9416 ns/op
+IdleTarget 2: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 3: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 4: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 5: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 6: 20 op, 7801.19 ns, 390.0593 ns/op
+IdleTarget 7: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 8: 20 op, 6158.83 ns, 307.9416 ns/op
+IdleTarget 9: 20 op, 14370.61 ns, 718.5303 ns/op
+IdleTarget 10: 20 op, 6980.01 ns, 349.0004 ns/op
+
+MainWarmup 1: 20 op, 636406001.66 ns, 31.8203 ms/op
+MainWarmup 2: 20 op, 632843323.03 ns, 31.6422 ms/op
+MainWarmup 3: 20 op, 637516233.65 ns, 31.8758 ms/op
+MainWarmup 4: 20 op, 639887794.3 ns, 31.9944 ms/op
+MainWarmup 5: 20 op, 634189232.97 ns, 31.7095 ms/op
+MainWarmup 6: 20 op, 666011093.29 ns, 33.3006 ms/op
+
+MainTarget 1: 20 op, 660687810.07 ns, 33.0344 ms/op
+MainTarget 2: 20 op, 640920014.44 ns, 32.0460 ms/op
+MainTarget 3: 20 op, 643352752.81 ns, 32.1676 ms/op
+MainTarget 4: 20 op, 639751889.43 ns, 31.9876 ms/op
+MainTarget 5: 20 op, 644157096.18 ns, 32.2079 ms/op
+
+Result 1: 20 op, 660680830.06 ns, 33.0340 ms/op
+Result 2: 20 op, 640913034.43 ns, 32.0457 ms/op
+Result 3: 20 op, 643345772.8 ns, 32.1673 ms/op
+Result 4: 20 op, 639744909.42 ns, 31.9872 ms/op
+Result 5: 20 op, 644150116.18 ns, 32.2075 ms/op
+
+
+Mean = 32.3929 ms, StdError = 0.1836 ms (0.57%); N = 10, StdDev = 0.5806 ms
+Min = 31.8551 ms, Q1 = 32.0457 ms, Median = 32.2229 ms, Q3 = 32.3095 ms, Max = 33.7800 ms
+IQR = 0.2638 ms, LowerFence = 31.6499 ms, UpperFence = 32.7053 ms
+ConfidenceInterval = [32.0331 ms; 32.7527 ms] (CI 95%)
+
+
+// **************************
+// Benchmark: MutableHierarchyInsertDelete_InsertAndDeleteNodesDeep_Target5
+// *** Generate *** 
+// Result = Success
+// DirectoryPath = C:\src\Elementary.Hierarchy.Collections\Elementary.Hierarchy.Collections.Benchmarks\bin\Release\MutableHierarchyInsertDelete_InsertAndDeleteNodesDeep_Target5
+
+// *** Build ***
+// Result = Success
+
+// *** Execute ***
+// Launch: 1
+// BenchmarkDotNet=v0.9.2.0
+// OS=Microsoft Windows NT 6.2.9200.0
+// Processor=Intel(R) Core(TM) i7-4870HQ CPU @ 2.50GHz, ProcessorCount=4
+// Frequency=2435527 ticks, Resolution=410.5888 ns
+// CLR=MS.NET 4.0.30319.42000, Arch=32-bit RELEASE
+
+Pilot 1: 20 op, 633154138.71 ns, 31.6577 ms/op
+
+IdleWarmup 1: 20 op, 10264.72 ns, 513.2359 ns/op
+IdleWarmup 2: 20 op, 6158.83 ns, 307.9416 ns/op
+IdleWarmup 3: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleWarmup 4: 20 op, 5748.24 ns, 287.4121 ns/op
+IdleWarmup 5: 20 op, 7390.6 ns, 369.5299 ns/op
+IdleWarmup 6: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleWarmup 7: 20 op, 6158.83 ns, 307.9416 ns/op
+IdleWarmup 8: 20 op, 6980.01 ns, 349.0004 ns/op
+
+IdleTarget 1: 20 op, 6158.83 ns, 307.9416 ns/op
+IdleTarget 2: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 3: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 4: 20 op, 5748.24 ns, 287.4121 ns/op
+IdleTarget 5: 20 op, 6158.83 ns, 307.9416 ns/op
+IdleTarget 6: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 7: 20 op, 6158.83 ns, 307.9416 ns/op
+IdleTarget 8: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 9: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 10: 20 op, 7801.19 ns, 390.0593 ns/op
+
+MainWarmup 1: 20 op, 654721955.45 ns, 32.7361 ms/op
+MainWarmup 2: 20 op, 657160852.66 ns, 32.8580 ms/op
+MainWarmup 3: 20 op, 655649064.86 ns, 32.7825 ms/op
+MainWarmup 4: 20 op, 636932787.03 ns, 31.8466 ms/op
+MainWarmup 5: 20 op, 628858969.74 ns, 31.4429 ms/op
+MainWarmup 6: 20 op, 651824020.02 ns, 32.5912 ms/op
+MainWarmup 7: 20 op, 656256736.22 ns, 32.8128 ms/op
+
+MainTarget 1: 20 op, 638435952.47 ns, 31.9218 ms/op
+MainTarget 2: 20 op, 629407105.73 ns, 31.4704 ms/op
+MainTarget 3: 20 op, 629516322.34 ns, 31.4758 ms/op
+MainTarget 4: 20 op, 654698141.31 ns, 32.7349 ms/op
+MainTarget 5: 20 op, 628648337.71 ns, 31.4324 ms/op
+
+Result 1: 20 op, 638428972.46 ns, 31.9214 ms/op
+Result 2: 20 op, 629400125.72 ns, 31.4700 ms/op
+Result 3: 20 op, 629509342.33 ns, 31.4755 ms/op
+Result 4: 20 op, 654691161.3 ns, 32.7346 ms/op
+Result 5: 20 op, 628641357.7 ns, 31.4321 ms/op
+
+// Launch: 2
+// BenchmarkDotNet=v0.9.2.0
+// OS=Microsoft Windows NT 6.2.9200.0
+// Processor=Intel(R) Core(TM) i7-4870HQ CPU @ 2.50GHz, ProcessorCount=4
+// Frequency=2435527 ticks, Resolution=410.5888 ns
+// CLR=MS.NET 4.0.30319.42000, Arch=32-bit RELEASE
+
+Pilot 1: 20 op, 628039845.18 ns, 31.4020 ms/op
+
+IdleWarmup 1: 20 op, 9032.95 ns, 451.6476 ns/op
+IdleWarmup 2: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleWarmup 3: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleWarmup 4: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleWarmup 5: 20 op, 6980.01 ns, 349.0004 ns/op
+
+IdleTarget 1: 20 op, 5748.24 ns, 287.4121 ns/op
+IdleTarget 2: 20 op, 5748.24 ns, 287.4121 ns/op
+IdleTarget 3: 20 op, 8211.78 ns, 410.5888 ns/op
+IdleTarget 4: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 5: 20 op, 6158.83 ns, 307.9416 ns/op
+IdleTarget 6: 20 op, 6158.83 ns, 307.9416 ns/op
+IdleTarget 7: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 8: 20 op, 8211.78 ns, 410.5888 ns/op
+IdleTarget 9: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 10: 20 op, 6980.01 ns, 349.0004 ns/op
+
+MainWarmup 1: 20 op, 620225109.39 ns, 31.0113 ms/op
+MainWarmup 2: 20 op, 627186231.15 ns, 31.3593 ms/op
+MainWarmup 3: 20 op, 635657908.95 ns, 31.7829 ms/op
+MainWarmup 4: 20 op, 625374713.56 ns, 31.2687 ms/op
+MainWarmup 5: 20 op, 631000190.1 ns, 31.5500 ms/op
+
+MainTarget 1: 20 op, 632618730.98 ns, 31.6309 ms/op
+MainTarget 2: 20 op, 628450023.34 ns, 31.4225 ms/op
+MainTarget 3: 20 op, 629781973.26 ns, 31.4891 ms/op
+MainTarget 4: 20 op, 628064891.09 ns, 31.4032 ms/op
+MainTarget 5: 20 op, 624985886.01 ns, 31.2493 ms/op
+
+Result 1: 20 op, 632611750.97 ns, 31.6306 ms/op
+Result 2: 20 op, 628443043.33 ns, 31.4222 ms/op
+Result 3: 20 op, 629774993.26 ns, 31.4887 ms/op
+Result 4: 20 op, 628057911.08 ns, 31.4029 ms/op
+Result 5: 20 op, 624978906 ns, 31.2489 ms/op
+
+
+Mean = 31.6227 ms, StdError = 0.1355 ms (0.43%); N = 10, StdDev = 0.4286 ms
+Min = 31.2489 ms, Q1 = 31.4222 ms, Median = 31.4727 ms, Q3 = 31.6306 ms, Max = 32.7346 ms
+IQR = 0.2084 ms, LowerFence = 31.1095 ms, UpperFence = 31.9432 ms
+ConfidenceInterval = [31.3571 ms; 31.8883 ms] (CI 95%)
+
+
+// **************************
+// Benchmark: MutableHierarchyInsertDelete_InsertAndDeleteNodesShallowWithPruning_Target5
+// *** Generate *** 
+// Result = Success
+// DirectoryPath = C:\src\Elementary.Hierarchy.Collections\Elementary.Hierarchy.Collections.Benchmarks\bin\Release\MutableHierarchyInsertDelete_InsertAndDeleteNodesShallowWithPruning_Target5
+
+// *** Build ***
+// Result = Success
+
+// *** Execute ***
+// Launch: 1
+// BenchmarkDotNet=v0.9.2.0
+// OS=Microsoft Windows NT 6.2.9200.0
+// Processor=Intel(R) Core(TM) i7-4870HQ CPU @ 2.50GHz, ProcessorCount=4
+// Frequency=2435527 ticks, Resolution=410.5888 ns
+// CLR=MS.NET 4.0.30319.42000, Arch=32-bit RELEASE
+
+Pilot 1: 20 op, 593896926.62 ns, 29.6948 ms/op
+
+IdleWarmup 1: 20 op, 9032.95 ns, 451.6476 ns/op
+IdleWarmup 2: 20 op, 14781.2 ns, 739.0598 ns/op
+IdleWarmup 3: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleWarmup 4: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleWarmup 5: 20 op, 6980.01 ns, 349.0004 ns/op
+
+IdleTarget 1: 20 op, 20118.85 ns, 1.0059 us/op
+IdleTarget 2: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 3: 20 op, 7390.6 ns, 369.5299 ns/op
+IdleTarget 4: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 5: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 6: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 7: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 8: 20 op, 6158.83 ns, 307.9416 ns/op
+IdleTarget 9: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 10: 20 op, 6980.01 ns, 349.0004 ns/op
+
+MainWarmup 1: 20 op, 628068996.98 ns, 31.4034 ms/op
+MainWarmup 2: 20 op, 608361147.3 ns, 30.4181 ms/op
+MainWarmup 3: 20 op, 600945914.38 ns, 30.0473 ms/op
+MainWarmup 4: 20 op, 604662974.38 ns, 30.2331 ms/op
+MainWarmup 5: 20 op, 594008196.17 ns, 29.7004 ms/op
+MainWarmup 6: 20 op, 598219194.45 ns, 29.9110 ms/op
+MainWarmup 7: 20 op, 608160369.4 ns, 30.4080 ms/op
+
+MainTarget 1: 20 op, 626974777.94 ns, 31.3487 ms/op
+MainTarget 2: 20 op, 605999030.19 ns, 30.3000 ms/op
+MainTarget 3: 20 op, 605992050.18 ns, 30.2996 ms/op
+MainTarget 4: 20 op, 599605342.09 ns, 29.9803 ms/op
+MainTarget 5: 20 op, 627740115.38 ns, 31.3870 ms/op
+
+Result 1: 20 op, 626967797.93 ns, 31.3484 ms/op
+Result 2: 20 op, 605992050.18 ns, 30.2996 ms/op
+Result 3: 20 op, 605985070.17 ns, 30.2993 ms/op
+Result 4: 20 op, 599598362.08 ns, 29.9799 ms/op
+Result 5: 20 op, 627733135.37 ns, 31.3867 ms/op
+
+// Launch: 2
+// BenchmarkDotNet=v0.9.2.0
+// OS=Microsoft Windows NT 6.2.9200.0
+// Processor=Intel(R) Core(TM) i7-4870HQ CPU @ 2.50GHz, ProcessorCount=4
+// Frequency=2435527 ticks, Resolution=410.5888 ns
+// CLR=MS.NET 4.0.30319.42000, Arch=32-bit RELEASE
+
+Pilot 1: 20 op, 621814087.88 ns, 31.0907 ms/op
+
+IdleWarmup 1: 20 op, 9032.95 ns, 451.6476 ns/op
+IdleWarmup 2: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleWarmup 3: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleWarmup 4: 20 op, 5748.24 ns, 287.4121 ns/op
+IdleWarmup 5: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleWarmup 6: 20 op, 6980.01 ns, 349.0004 ns/op
+
+IdleTarget 1: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 2: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 3: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 4: 20 op, 6158.83 ns, 307.9416 ns/op
+IdleTarget 5: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 6: 20 op, 15191.78 ns, 759.5892 ns/op
+IdleTarget 7: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 8: 20 op, 5748.24 ns, 287.4121 ns/op
+IdleTarget 9: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 10: 20 op, 6980.01 ns, 349.0004 ns/op
+
+MainWarmup 1: 20 op, 598606790.23 ns, 29.9303 ms/op
+MainWarmup 2: 20 op, 626062860.32 ns, 31.3031 ms/op
+MainWarmup 3: 20 op, 623497091.18 ns, 31.1749 ms/op
+MainWarmup 4: 20 op, 635331901.47 ns, 31.7666 ms/op
+MainWarmup 5: 20 op, 624289938.07 ns, 31.2145 ms/op
+MainWarmup 6: 20 op, 605935799.52 ns, 30.2968 ms/op
+MainWarmup 7: 20 op, 598725039.8 ns, 29.9363 ms/op
+MainWarmup 8: 20 op, 620886978.47 ns, 31.0443 ms/op
+
+MainTarget 1: 20 op, 628227894.83 ns, 31.4114 ms/op
+MainTarget 2: 20 op, 621745930.14 ns, 31.0873 ms/op
+MainTarget 3: 20 op, 622776918.51 ns, 31.1388 ms/op
+MainTarget 4: 20 op, 625270013.43 ns, 31.2635 ms/op
+MainTarget 5: 20 op, 600748010.59 ns, 30.0374 ms/op
+
+Result 1: 20 op, 628220914.82 ns, 31.4110 ms/op
+Result 2: 20 op, 621738950.13 ns, 31.0869 ms/op
+Result 3: 20 op, 622769938.5 ns, 31.1385 ms/op
+Result 4: 20 op, 625263033.42 ns, 31.2632 ms/op
+Result 5: 20 op, 600741030.59 ns, 30.0371 ms/op
+
+
+Mean = 30.8251 ms, StdError = 0.1879 ms (0.61%); N = 10, StdDev = 0.5943 ms
+Min = 29.9799 ms, Q1 = 30.2993 ms, Median = 31.1127 ms, Q3 = 31.3484 ms, Max = 31.4110 ms
+IQR = 1.0491 ms, LowerFence = 28.7255 ms, UpperFence = 32.9221 ms
+ConfidenceInterval = [30.4567 ms; 31.1934 ms] (CI 95%)
+
+
+// **************************
+// Benchmark: MutableHierarchyInsertDelete_InsertAndDeleteNodesShallow_Target5
+// *** Generate *** 
+// Result = Success
+// DirectoryPath = C:\src\Elementary.Hierarchy.Collections\Elementary.Hierarchy.Collections.Benchmarks\bin\Release\MutableHierarchyInsertDelete_InsertAndDeleteNodesShallow_Target5
+
+// *** Build ***
+// Result = Success
+
+// *** Execute ***
+// Launch: 1
+// BenchmarkDotNet=v0.9.2.0
+// OS=Microsoft Windows NT 6.2.9200.0
+// Processor=Intel(R) Core(TM) i7-4870HQ CPU @ 2.50GHz, ProcessorCount=4
+// Frequency=2435527 ticks, Resolution=410.5888 ns
+// CLR=MS.NET 4.0.30319.42000, Arch=32-bit RELEASE
+
+Pilot 1: 20 op, 596596958.28 ns, 29.8298 ms/op
+
+IdleWarmup 1: 20 op, 18887.08 ns, 944.3541 ns/op
+IdleWarmup 2: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleWarmup 3: 20 op, 5748.24 ns, 287.4121 ns/op
+IdleWarmup 4: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleWarmup 5: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleWarmup 6: 20 op, 46807.12 ns, 2.3404 us/op
+
+IdleTarget 1: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 2: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 3: 20 op, 6158.83 ns, 307.9416 ns/op
+IdleTarget 4: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 5: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 6: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 7: 20 op, 5748.24 ns, 287.4121 ns/op
+IdleTarget 8: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 9: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 10: 20 op, 6980.01 ns, 349.0004 ns/op
+
+MainWarmup 1: 20 op, 597833241.02 ns, 29.8917 ms/op
+MainWarmup 2: 20 op, 603418890.45 ns, 30.1709 ms/op
+MainWarmup 3: 20 op, 590102265.34 ns, 29.5051 ms/op
+MainWarmup 4: 20 op, 591275728 ns, 29.5638 ms/op
+MainWarmup 5: 20 op, 601112202.82 ns, 30.0556 ms/op
+
+MainTarget 1: 20 op, 593476894.32 ns, 29.6738 ms/op
+MainTarget 2: 20 op, 602496708.1 ns, 30.1248 ms/op
+MainTarget 3: 20 op, 599788875.26 ns, 29.9894 ms/op
+MainTarget 4: 20 op, 591049083.01 ns, 29.5525 ms/op
+MainTarget 5: 20 op, 597703905.56 ns, 29.8852 ms/op
+
+Result 1: 20 op, 593469914.31 ns, 29.6735 ms/op
+Result 2: 20 op, 602489728.1 ns, 30.1245 ms/op
+Result 3: 20 op, 599781895.25 ns, 29.9891 ms/op
+Result 4: 20 op, 591042103 ns, 29.5521 ms/op
+Result 5: 20 op, 597696925.55 ns, 29.8848 ms/op
+
+// Launch: 2
+// BenchmarkDotNet=v0.9.2.0
+// OS=Microsoft Windows NT 6.2.9200.0
+// Processor=Intel(R) Core(TM) i7-4870HQ CPU @ 2.50GHz, ProcessorCount=4
+// Frequency=2435527 ticks, Resolution=410.5888 ns
+// CLR=MS.NET 4.0.30319.42000, Arch=32-bit RELEASE
+
+Pilot 1: 20 op, 622831937.4 ns, 31.1416 ms/op
+
+IdleWarmup 1: 20 op, 9032.95 ns, 451.6476 ns/op
+IdleWarmup 2: 20 op, 6158.83 ns, 307.9416 ns/op
+IdleWarmup 3: 20 op, 6158.83 ns, 307.9416 ns/op
+IdleWarmup 4: 20 op, 20118.85 ns, 1.0059 us/op
+IdleWarmup 5: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleWarmup 6: 20 op, 5748.24 ns, 287.4121 ns/op
+IdleWarmup 7: 20 op, 6980.01 ns, 349.0004 ns/op
+
+IdleTarget 1: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 2: 20 op, 6158.83 ns, 307.9416 ns/op
+IdleTarget 3: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 4: 20 op, 6158.83 ns, 307.9416 ns/op
+IdleTarget 5: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 6: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 7: 20 op, 5748.24 ns, 287.4121 ns/op
+IdleTarget 8: 20 op, 8211.78 ns, 410.5888 ns/op
+IdleTarget 9: 20 op, 6980.01 ns, 349.0004 ns/op
+IdleTarget 10: 20 op, 6158.83 ns, 307.9416 ns/op
+
+MainWarmup 1: 20 op, 592452064.79 ns, 29.6226 ms/op
+MainWarmup 2: 20 op, 597336018.04 ns, 29.8668 ms/op
+MainWarmup 3: 20 op, 595561042.85 ns, 29.7781 ms/op
+MainWarmup 4: 20 op, 613463123.18 ns, 30.6732 ms/op
+MainWarmup 5: 20 op, 592590022.61 ns, 29.6295 ms/op
+MainWarmup 6: 20 op, 602035206.34 ns, 30.1018 ms/op
+
+MainTarget 1: 20 op, 589000245.12 ns, 29.4500 ms/op
+MainTarget 2: 20 op, 588760871.88 ns, 29.4380 ms/op
+MainTarget 3: 20 op, 587447809.04 ns, 29.3724 ms/op
+MainTarget 4: 20 op, 589566857.6 ns, 29.4783 ms/op
+MainTarget 5: 20 op, 589724113.1 ns, 29.4862 ms/op
+
+Result 1: 20 op, 588993265.11 ns, 29.4497 ms/op
+Result 2: 20 op, 588753891.87 ns, 29.4377 ms/op
+Result 3: 20 op, 587440829.03 ns, 29.3720 ms/op
+Result 4: 20 op, 589559877.6 ns, 29.4780 ms/op
+Result 5: 20 op, 589717133.09 ns, 29.4859 ms/op
+
+
+Mean = 29.6447 ms, StdError = 0.0833 ms (0.28%); N = 10, StdDev = 0.2633 ms
+Min = 29.3720 ms, Q1 = 29.4497 ms, Median = 29.5190 ms, Q3 = 29.8848 ms, Max = 30.1245 ms
+IQR = 0.4352 ms, LowerFence = 28.7969 ms, UpperFence = 30.5376 ms
+ConfidenceInterval = [29.4815 ms; 29.8079 ms] (CI 95%)
+
+
+// ***** BenchmarkRunner: Finish  *****
+
+// * Export *
+  MutableHierarchyInsertDelete-report.csv
+  MutableHierarchyInsertDelete-report-stackoverflow.md
+  MutableHierarchyInsertDelete-report-default.md
+  MutableHierarchyInsertDelete-report-github.md
+  MutableHierarchyInsertDelete-report.txt
+  MutableHierarchyInsertDelete-measurements.csv
+  BuildPlots.R
+  MutableHierarchyInsertDelete-report.html
+
+// * Detailed results *
+MutableHierarchyInsertDelete_InsertAndDeleteNodesDeepWithPruning_Target5
+Mean = 32.3929 ms, StdError = 0.1836 ms (0.57%); N = 10, StdDev = 0.5806 ms
+Min = 31.8551 ms, Q1 = 32.0457 ms, Median = 32.2229 ms, Q3 = 32.3095 ms, Max = 33.7800 ms
+IQR = 0.2638 ms, LowerFence = 31.6499 ms, UpperFence = 32.7053 ms
+ConfidenceInterval = [32.0331 ms; 32.7527 ms] (CI 95%)
+
+
+MutableHierarchyInsertDelete_InsertAndDeleteNodesDeep_Target5
+Mean = 31.6227 ms, StdError = 0.1355 ms (0.43%); N = 10, StdDev = 0.4286 ms
+Min = 31.2489 ms, Q1 = 31.4222 ms, Median = 31.4727 ms, Q3 = 31.6306 ms, Max = 32.7346 ms
+IQR = 0.2084 ms, LowerFence = 31.1095 ms, UpperFence = 31.9432 ms
+ConfidenceInterval = [31.3571 ms; 31.8883 ms] (CI 95%)
+
+
+MutableHierarchyInsertDelete_InsertAndDeleteNodesShallowWithPruning_Target5
+Mean = 30.8251 ms, StdError = 0.1879 ms (0.61%); N = 10, StdDev = 0.5943 ms
+Min = 29.9799 ms, Q1 = 30.2993 ms, Median = 31.1127 ms, Q3 = 31.3484 ms, Max = 31.4110 ms
+IQR = 1.0491 ms, LowerFence = 28.7255 ms, UpperFence = 32.9221 ms
+ConfidenceInterval = [30.4567 ms; 31.1934 ms] (CI 95%)
+
+
+MutableHierarchyInsertDelete_InsertAndDeleteNodesShallow_Target5
+Mean = 29.6447 ms, StdError = 0.0833 ms (0.28%); N = 10, StdDev = 0.2633 ms
+Min = 29.3720 ms, Q1 = 29.4497 ms, Median = 29.5190 ms, Q3 = 29.8848 ms, Max = 30.1245 ms
+IQR = 0.4352 ms, LowerFence = 28.7969 ms, UpperFence = 30.5376 ms
+ConfidenceInterval = [29.4815 ms; 29.8079 ms] (CI 95%)
+
+
+Total time: 00:01:19 (79.98 sec)
+
+// * Summary *
+BenchmarkDotNet=v0.9.2.0
+OS=Microsoft Windows NT 6.2.9200.0
+Processor=Intel(R) Core(TM) i7-4870HQ CPU @ 2.50GHz, ProcessorCount=4
+Frequency=2435527 ticks, Resolution=410.5888 ns
+HostCLR=MS.NET 4.0.30319.42000, Arch=32-bit RELEASE
+
+Type=MutableHierarchyInsertDelete  Mode=Throughput  TargetCount=5  
+
+                                 Method |     Median |    StdDev |
+--------------------------------------- |----------- |---------- |
+    InsertAndDeleteNodesDeepWithPruning | 32.2229 ms | 0.5806 ms |
+               InsertAndDeleteNodesDeep | 31.4727 ms | 0.4286 ms |
+ InsertAndDeleteNodesShallowWithPruning | 31.1127 ms | 0.5943 ms |
+            InsertAndDeleteNodesShallow | 29.5190 ms | 0.2633 ms |
+
+// ***** BenchmarkRunner: End *****
