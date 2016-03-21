@@ -184,7 +184,7 @@
         {
             // find the the value node and the path to reach it as far as pssible
 
-            var nodesFound = this.rootNode.DescentAlongPath(hierarchyPath).ToArray();
+            var nodesFound = this.rootNode.DescendAlongPath(hierarchyPath).ToArray();
             if (nodesFound.Length == hierarchyPath.Items.Count() + 1)
             {
                 // the last node msut be the value node, becaus it has the same depth as the hierachy path
@@ -234,7 +234,7 @@
         {
             // find the the value node and the path to reach it as far as pssible
 
-            var nodesAlongPath = this.rootNode.DescentAlongPath(hierarchyPath).ToArray();
+            var nodesAlongPath = this.rootNode.DescendAlongPath(hierarchyPath).ToArray();
             if (nodesAlongPath.Length == hierarchyPath.Items.Count() + 1)
             {
                 // the last node msut be the value node, becaus it has the same depth as the hierachy path
