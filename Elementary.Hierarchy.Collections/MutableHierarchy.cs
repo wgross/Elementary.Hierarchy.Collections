@@ -183,13 +183,18 @@
         /// <returns>returns this</returns>
         public void Add(HierarchyPath<TKey> hierarchyPath, TValue value)
         {
-            this.rootNode.DescendantAt(delegate (Node current, TKey key, out Node child)
-            {
+            var nodeToSetValueAt = this.rootNode.DescendantAt(delegate (Node current, TKey key, out Node child)
+             {
                 // if the chiiled ic not found, just create a new one on-the-fly
                 if (!current.TryGetChildNode(key, out child))
-                    current.AddChildNode(child = new Node(key));
-                return true;
-            }, hierarchyPath).SetValue(value);
+                     current.AddChildNode(child = new Node(key));
+                 return true;
+             }, hierarchyPath);
+
+            if (nodeToSetValueAt.HasValue)
+                throw new ArgumentException($"Node at '{hierarchyPath}' has already a value");
+
+            nodeToSetValueAt.SetValue(value);
         }
         
         /// <summary>

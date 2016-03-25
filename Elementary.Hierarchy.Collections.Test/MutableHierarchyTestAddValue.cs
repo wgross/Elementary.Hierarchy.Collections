@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 
 namespace Elementary.Hierarchy.Collections.Test
 {
@@ -41,7 +42,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void MH_Add_same_value_to_root_node_doesnt_create_new_hierarchy()
+        public void MH_Add_same_value_to_root_node_throws_ArgumentException()
         {
             // ARRANGE
             var hierarchy = new MutableHierarchy<string, string>();
@@ -50,19 +51,19 @@ namespace Elementary.Hierarchy.Collections.Test
 
             hierarchy.Add(HierarchyPath.Create<string>(), test);
 
-            // ACT
+            // ACT & ASSERT
 
-            hierarchy.Add(HierarchyPath.Create<string>(), test);
+            var result = Assert.Throws<ArgumentException>(() => hierarchy.Add(HierarchyPath.Create<string>(), "test2"));
 
-            // ASSERT
-            
+            Assert.That(() => result.Message.Contains("has already a value"));
+
             string value;
             Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create<string>(), out value));
             Assert.AreSame(test, value);
         }
 
         [Test]
-        public void MH_Add_child_returns_same_hierarchy_with_same_values()
+        public void MH_Add_child_sets_value_at_child_node()
         {
             // ARRANGE
 
@@ -87,7 +88,36 @@ namespace Elementary.Hierarchy.Collections.Test
             Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create("a"), out value));
             Assert.AreSame(test1, value);
         }
-        
+
+        [Test]
+        public void MH_Add_child_twice_thries_ArgumentException()
+        {
+            // ARRANGE
+
+            var hierarchy = new MutableHierarchy<string, string>();
+
+            string test = "test";
+            string test1 = "test1";
+
+            hierarchy.Add(HierarchyPath.Create<string>(), test);
+            hierarchy.Add(HierarchyPath.Create("a"), test1);
+
+            // ACT & ASSERT
+
+            var result = Assert.Throws<ArgumentException>(() => hierarchy.Add(HierarchyPath.Create("a"), test1));
+
+            Assert.That(result.Message.Contains("has already a value"));
+            Assert.That(result.Message.Contains("'a'"));
+
+            string value;
+
+            // hierarchy contains the root date and the new node.
+            Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create<string>(), out value));
+            Assert.AreSame(test, value);
+            Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create("a"), out value));
+            Assert.AreSame(test1, value);
+        }
+
         [Test]
         public void MH_Add_child_sibling_returns_same_hierachy_with_same_values()
         {
@@ -118,7 +148,7 @@ namespace Elementary.Hierarchy.Collections.Test
             Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create("b"), out value));
             Assert.AreSame(test2, value);
         }
-        
+
         [Test]
         public void MH_Add_grandchild_returns_same_hierachy_with_same_values()
         {
@@ -139,7 +169,7 @@ namespace Elementary.Hierarchy.Collections.Test
             hierarchy.Add(HierarchyPath.Create("a", "c"), test3);
 
             // ASSERT
-            
+
             string value;
 
             // hierarchy contains the root date and the new node.
