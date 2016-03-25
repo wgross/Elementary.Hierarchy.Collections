@@ -232,16 +232,16 @@
 
             var result = this.rootNode.DescendantAt(delegate (Node parentNode, TKey key, out Node childNode)
            {
-                // get or create child. If created the clone of the parent node substitutes the
-                // old parent node.
+               // get or create child. If created the clone of the parent node substitutes the
+               // old parent node.
 
-                if (!parentNode.TryGetChildNode(key, out childNode))
+               if (!parentNode.TryGetChildNode(key, out childNode))
                    parentNode = parentNode.AddChildNode(childNode = new Node(key));
 
-                // Remember all the nodes passing along for later rebuild of the changed
-                // hierarchy path
+               // Remember all the nodes passing along for later rebuild of the changed
+               // hierarchy path
 
-                tmp.Push(parentNode);
+               tmp.Push(parentNode);
                return true;
            },
             hierarchyPath);
@@ -272,7 +272,9 @@
         public bool TryGetValue(HierarchyPath<TKey> hierarchyPath, out TValue value)
         {
             Node descendantNode;
-            if (this.rootNode.TryGetDescendantAt(hierarchyPath, out descendantNode))
+            Stack<Node> nodesAlongPath;
+
+            if (this.TryGetNode(hierarchyPath, out nodesAlongPath, out descendantNode))
                 return descendantNode.TryGetValue(out value);
 
             value = default(TValue);
@@ -294,18 +296,10 @@
             // now find the the value node and the path to reach it
 
             Stack<Node> nodesAlongPath = new Stack<Node>();
+            Node currentNode;
 
-            var currentNode = this.rootNode.DescendantAt(tryGetChildNode: delegate (Node parent, TKey key, out Node child)
-            {
-                child = null;
-
-                if (!parent.TryGetChildNode(key, out child))
-                    throw new KeyNotFoundException($"Could not find node '{hierarchyPath}'");
-
-                nodesAlongPath.Push(parent);
-                return true;
-            },
-            key: hierarchyPath);
+            if (!this.TryGetNode(hierarchyPath, out nodesAlongPath, out currentNode))
+                throw new KeyNotFoundException($"Could not find node '{hierarchyPath}'");
 
             // unset the value at the value node...
 
@@ -314,6 +308,32 @@
             // last node must be the root node: create new hierachy if root node has changed
 
             return this.CreateIfRootHasChanged(this.RebuildAscendingPathAfterChange(currentNode, nodesAlongPath));
+        }
+
+        private bool TryGetNode(HierarchyPath<TKey> hierarchyPath, out Stack<Node> nodesAlongPath, out Node node)
+        {
+            node = null;
+            Stack<Node> tmp = new Stack<Node>();
+
+            // now find the the value node and the path to reach it
+
+            bool found = this.rootNode.TryGetDescendantAt(tryGetChildNode: delegate (Node parent, TKey key, out Node child)
+            {
+                // from parent node try to retrieve the child with the local id from key
+
+                child = null;
+                if (!parent.TryGetChildNode(key, out child))
+                    return false;
+
+                // remember parent was passed on the way down
+
+                tmp.Push(parent);
+                return true;
+            },
+            key: hierarchyPath, descendantAt: out node);
+
+            nodesAlongPath = tmp;
+            return found;
         }
     }
 }
