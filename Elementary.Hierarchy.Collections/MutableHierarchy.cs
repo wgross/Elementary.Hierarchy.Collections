@@ -181,7 +181,7 @@
         /// <param name="hierarchyPath">Specifies where to set the value</param>
         /// <param name="value">the value to keep</param>
         /// <returns>returns this</returns>
-        public MutableHierarchy<TKey, TValue> Add(HierarchyPath<TKey> hierarchyPath, TValue value)
+        public void Add(HierarchyPath<TKey> hierarchyPath, TValue value)
         {
             this.rootNode.DescendantAt(delegate (Node current, TKey key, out Node child)
             {
@@ -190,8 +190,6 @@
                     current.AddChildNode(child = new Node(key));
                 return true;
             }, hierarchyPath).SetValue(value);
-
-            return this;
         }
         
         /// <summary>
