@@ -153,7 +153,7 @@
         #region Construction and initialization of this instance
 
         public MutableHierarchy()
-            : this(new Node(default(TKey)), pruneOnUnsetValue:false)
+            : this(new Node(default(TKey)), pruneOnUnsetValue: false)
         {
         }
 
@@ -171,8 +171,10 @@
         private readonly Node rootNode;
 
         private readonly bool pruneOnUnsetValue;
-        
+
         #endregion Construction and initialization of this instance
+
+        #region Add/Set value of at hierarchy path
 
         /// <summary>
         /// Adds a value to the immutable hierarchy at the specified position.
@@ -182,16 +184,20 @@
         /// <returns>returns this</returns>
         public MutableHierarchy<TKey, TValue> Add(HierarchyPath<TKey> hierarchyPath, TValue value)
         {
+            this.GetOrCreateNode(hierarchyPath).SetValue(value);
+            return this;
+        }
+
+        private Node GetOrCreateNode(HierarchyPath<TKey> hierarchyPath)
+        {
             // find the the value node and the path to reach it as far as pssible
 
             var nodesFound = this.rootNode.DescentAlongPath(hierarchyPath).ToArray();
             if (nodesFound.Length == hierarchyPath.Items.Count() + 1)
             {
                 // the last node msut be the value node, becaus it has the same depth as the hierachy path
-                // -> store the value in it.
 
-                nodesFound[nodesFound.Length - 1].SetValue(value);
-                return this;
+                return nodesFound[nodesFound.Length - 1];
             }
 
             // the last visited node isn't the node that will hold the value.
@@ -202,11 +208,11 @@
                 currentNode.AddChildNode(currentNode = new Node(pathItem));
 
             // now the current node is the value node.
-            // just store tha value and leave
 
-            currentNode.SetValue(value);
-            return this;
+            return currentNode;
         }
+
+        #endregion Add/Set value of at hierarchy path
 
         /// <summary>
         /// Retrieves the nodes value from the immutable hierarchy.
@@ -240,7 +246,7 @@
                 // the last node msut be the value node, becaus it has the same depth as the hierachy path
                 // -> unset value.
 
-                nodesAlongPath[nodesAlongPath.Length - 1].UnsetValue(prune:this.pruneOnUnsetValue);
+                nodesAlongPath[nodesAlongPath.Length - 1].UnsetValue(prune: this.pruneOnUnsetValue);
             }
             else
             {
