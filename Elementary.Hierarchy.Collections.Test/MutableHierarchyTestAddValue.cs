@@ -92,6 +92,7 @@ namespace Elementary.Hierarchy.Collections.Test
         public void MH_Add_child_sibling_returns_same_hierachy_with_same_values()
         {
             // ARRANGE
+
             var hierarchy = new MutableHierarchy<string, string>();
 
             string test = "test";
@@ -115,7 +116,7 @@ namespace Elementary.Hierarchy.Collections.Test
             Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create("a"), out value));
             Assert.AreSame(test1, value);
             Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create("b"), out value));
-            Assert.AreSame(hierarchy, value);
+            Assert.AreSame(test2, value);
         }
         
         [Test]

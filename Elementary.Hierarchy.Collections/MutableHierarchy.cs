@@ -210,19 +210,20 @@
 
         /// <summary>
         /// Removes the value from the specified node in hierarchy.
-        /// Value and nodes on under the specified nde remain unchanged
         /// </summary>
         /// <param name="hierarchyPath"></param>
-        /// <returns>true if value was removed</returns>
-        public MutableHierarchy<TKey, TValue> Remove(HierarchyPath<TKey> hierarchyPath)
+        /// <returns>true if value was removed, false otherwise</returns>
+        public bool Remove(HierarchyPath<TKey> hierarchyPath)
         {
             Node node;
-            if (this.rootNode.TryGetDescendantAt(hierarchyPath, out node))
-                node.UnsetValue(prune: this.pruneOnUnsetValue);
-            else 
-                throw new KeyNotFoundException($"Could not find node '{hierarchyPath.ToString()}'");
-            
-            return this;
+            if (!this.rootNode.TryGetDescendantAt(hierarchyPath, out node))
+                return false;
+
+            if (!node.HasValue)
+                return false;
+
+            node.UnsetValue(prune: this.pruneOnUnsetValue);
+            return true;
         }
     }
 }
