@@ -123,7 +123,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void IMH_Remove_value_from_unknows_node_throws()
+        public void IMH_Remove_value_from_unknown_node_throws()
         {
             // ARRANGE
 

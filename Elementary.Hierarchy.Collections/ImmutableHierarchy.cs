@@ -1,6 +1,7 @@
 ﻿namespace Elementary.Hierarchy.Collections
 {
     using Elementary.Hierarchy;
+    using Elementary.Hierarchy.Generic;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -198,62 +199,68 @@
         /// <returns>Am immutable hierach which contains the specified value</returns>
         public ImmutableHierarchy<TKey, TValue> Add(HierarchyPath<TKey> hierarchyPath, TValue value)
         {
-            // if the path has no items, tthe root node is changed
+            // if the path has no items, the root node is changed
+
             if (!hierarchyPath.Items.Any())
                 return this.CreateIfRootHasChanged(this.rootNode.SetValue(value));
 
-            // make a snapshot of the path items for easier handling
-            var hierarchyPathItems = hierarchyPath.Items.ToArray();
-            var hierarchyPathItemsLength = hierarchyPathItems.Length;
+            // Set the value at the destination node. The clone may substitute the current node.
 
-            // Create the new value node with the ngiven value and the leaf id.
+            Stack<Node> nodesAlongPath;
+            var currentNode = this.GetOrCreateNode(hierarchyPath, out nodesAlongPath).SetValue(value);
 
-            Stack<Node> nodesAlongPath = new Stack<Node>();
+            // now ascend again to the root and clone new parent node for the newly created child nodes.
 
-            var currentNode = this.rootNode;
-
-            // descend until the parent of the valueNode is reached
-            for (int currentHierarchyLevel = 0; currentHierarchyLevel < hierarchyPathItemsLength; currentHierarchyLevel++)
-            {
-                Node nextNode = null;
-
-                if (currentNode.TryGetChildNode(hierarchyPathItems[currentHierarchyLevel], out nextNode))
-                {
-                    // child exists, just descend further
-                    nodesAlongPath.Push(currentNode);
-                }
-                else
-                {
-                    // child nodes doesn't exist -> create new one
-                    if (currentHierarchyLevel < hierarchyPathItemsLength - 1)
-                    {
-                        // parent of new node isn't ready yet. Just another node.
-                        nextNode = new Node(id: hierarchyPathItems[currentHierarchyLevel]);
-                    }
-                    else
-                    {
-                        // this is the parent node of the value node.
-                        nextNode = new Node(id: hierarchyPathItems[currentHierarchyLevel], value: value);
-                    }
-
-                    nodesAlongPath.Push(currentNode.AddChildNode(nextNode));
-                }
-                currentNode = nextNode;
-            }
-
-            // new ascend agin to the root and clone new parnet node for the newly created child nodes.
-            while (nodesAlongPath.Any())
-            {
-                // the next (parent node) get the current child node as a substitute.
-                currentNode = nodesAlongPath.Peek().SetChildNode(currentNode);
-                nodesAlongPath.Pop();
-            }
+            currentNode = this.RebuildAscendingPathAfterChange(currentNode, nodesAlongPath);
 
             // this ist the new immutable hierachy root.
             if (object.ReferenceEquals(this.rootNode, currentNode))
                 return this;
 
             return new ImmutableHierarchy<TKey, TValue>(currentNode, this.pruneOnUnsetValue);
+        }
+
+        private Node GetOrCreateNode(HierarchyPath<TKey> hierarchyPath, out Stack<Node> nodesAlongPath)
+        {
+            nodesAlongPath = null;
+
+            // Create the new value node with the given value and the leaf id.
+
+            var tmp = new Stack<Node>();
+
+            // Descend in to the tree, create nodes along the way if they are missing
+
+            var result = this.rootNode.DescendantAt(delegate (Node parentNode, TKey key, out Node childNode)
+           {
+               // get or create child. If created the clone of the parent node substitutes the
+               // old parent node.
+
+               if (!parentNode.TryGetChildNode(key, out childNode))
+                   parentNode = parentNode.AddChildNode(childNode = new Node(key));
+
+               // Remember all the nodes passing along for later rebuild of the changed
+               // hierarchy path
+
+               tmp.Push(parentNode);
+               return true;
+           },
+            hierarchyPath);
+
+            nodesAlongPath = tmp;
+            return result;
+        }
+
+        private Node RebuildAscendingPathAfterChange(Node changedChildNode, Stack<Node> nodesAlongPath)
+        {
+            var reconnectedParentNode = changedChildNode;
+
+            // ascend to the root and copy-on-change the ancestor nodes.
+
+            while (nodesAlongPath.Any())
+                reconnectedParentNode = nodesAlongPath.Pop().SetChildNode(reconnectedParentNode);
+
+            // this is the new (or unchanged node)
+            return reconnectedParentNode;
         }
 
         /// <summary>
@@ -265,7 +272,9 @@
         public bool TryGetValue(HierarchyPath<TKey> hierarchyPath, out TValue value)
         {
             Node descendantNode;
-            if (this.rootNode.TryGetDescendantAt(hierarchyPath, out descendantNode))
+            Stack<Node> nodesAlongPath;
+
+            if (this.TryGetNode(hierarchyPath, out nodesAlongPath, out descendantNode))
                 return descendantNode.TryGetValue(out value);
 
             value = default(TValue);
@@ -285,22 +294,46 @@
                 return this.CreateIfRootHasChanged(this.rootNode.UnsetValue(prune: this.pruneOnUnsetValue));
 
             // now find the the value node and the path to reach it
-            Stack<Node> nodesAlongPath = new Stack<Node>(this.rootNode.DescentAlongPath(hierarchyPath));
-            if (nodesAlongPath.Count != hierarchyPath.Items.Count() + 1)
-            {
-                // the value node doesn't exist: keep hierarchy as it is
-                throw new KeyNotFoundException($"Could not find node '{hierarchyPath.Items.ElementAt(nodesAlongPath.Count - 1)}' under '{HierarchyPath.Create(hierarchyPath.Items.Take(nodesAlongPath.Count - 1)).ToString()}'");
-            }
+
+            Stack<Node> nodesAlongPath = new Stack<Node>();
+            Node currentNode;
+
+            if (!this.TryGetNode(hierarchyPath, out nodesAlongPath, out currentNode))
+                throw new KeyNotFoundException($"Could not find node '{hierarchyPath}'");
 
             // unset the value at the value node...
-            var currentNode = nodesAlongPath.Pop().UnsetValue(prune:this.pruneOnUnsetValue);
 
-            // ... ascend again to the root and copy-on-change the ancestor nodes.
-            while (nodesAlongPath.Any())
-                currentNode = nodesAlongPath.Pop().SetChildNode(currentNode);
+            currentNode = currentNode.UnsetValue(prune: this.pruneOnUnsetValue);
 
             // last node must be the root node: create new hierachy if root node has changed
-            return this.CreateIfRootHasChanged(currentNode);
+
+            return this.CreateIfRootHasChanged(this.RebuildAscendingPathAfterChange(currentNode, nodesAlongPath));
+        }
+
+        private bool TryGetNode(HierarchyPath<TKey> hierarchyPath, out Stack<Node> nodesAlongPath, out Node node)
+        {
+            node = null;
+            Stack<Node> tmp = new Stack<Node>();
+
+            // now find the the value node and the path to reach it
+
+            bool found = this.rootNode.TryGetDescendantAt(tryGetChildNode: delegate (Node parent, TKey key, out Node child)
+            {
+                // from parent node try to retrieve the child with the local id from key
+
+                child = null;
+                if (!parent.TryGetChildNode(key, out child))
+                    return false;
+
+                // remember parent was passed on the way down
+
+                tmp.Push(parent);
+                return true;
+            },
+            key: hierarchyPath, descendantAt: out node);
+
+            nodesAlongPath = tmp;
+            return found;
         }
     }
 }

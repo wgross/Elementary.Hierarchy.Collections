@@ -1,5 +1,6 @@
 ﻿namespace Elementary.Hierarchy.Collections
 {
+    using Elementary.Hierarchy.Generic;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -153,7 +154,7 @@
         #region Construction and initialization of this instance
 
         public MutableHierarchy()
-            : this(new Node(default(TKey)), pruneOnUnsetValue:false)
+            : this(new Node(default(TKey)), pruneOnUnsetValue: false)
         {
         }
 
@@ -171,8 +172,24 @@
         private readonly Node rootNode;
 
         private readonly bool pruneOnUnsetValue;
-        
+
         #endregion Construction and initialization of this instance
+
+        #region Add/Set a hierarchy nodes value
+
+        /// <summary>
+        /// Set the value of the specified node of teh hierarchy.
+        /// if the node doesn't exist, it is created.
+        /// </summary>
+        /// <param name="hierarchyPath"></param>
+        /// <returns></returns>
+        public TValue this[HierarchyPath<TKey> hierarchyPath]
+        {
+            set
+            {
+                this.GetOrCreateNode(hierarchyPath).SetValue(value);
+            }
+        }
 
         /// <summary>
         /// Adds a value to the immutable hierarchy at the specified position.
@@ -180,33 +197,28 @@
         /// <param name="hierarchyPath">Specifies where to set the value</param>
         /// <param name="value">the value to keep</param>
         /// <returns>returns this</returns>
-        public MutableHierarchy<TKey, TValue> Add(HierarchyPath<TKey> hierarchyPath, TValue value)
+        public void Add(HierarchyPath<TKey> hierarchyPath, TValue value)
         {
-            // find the the value node and the path to reach it as far as pssible
+            var nodeToSetValueAt = this.GetOrCreateNode(hierarchyPath);
 
-            var nodesFound = this.rootNode.DescentAlongPath(hierarchyPath).ToArray();
-            if (nodesFound.Length == hierarchyPath.Items.Count() + 1)
-            {
-                // the last node msut be the value node, becaus it has the same depth as the hierachy path
-                // -> store the value in it.
+            if (nodeToSetValueAt.HasValue)
+                throw new ArgumentException($"Node at '{hierarchyPath}' has already a value");
 
-                nodesFound[nodesFound.Length - 1].SetValue(value);
-                return this;
-            }
-
-            // the last visited node isn't the node that will hold the value.
-            // -> make more nodes!
-
-            Node currentNode = nodesFound[nodesFound.Length - 1];
-            foreach (var pathItem in hierarchyPath.Items.Skip(nodesFound.Length - 1))
-                currentNode.AddChildNode(currentNode = new Node(pathItem));
-
-            // now the current node is the value node.
-            // just store tha value and leave
-
-            currentNode.SetValue(value);
-            return this;
+            nodeToSetValueAt.SetValue(value);
         }
+
+        private Node GetOrCreateNode(HierarchyPath<TKey> hierarchyPath)
+        {
+            return this.rootNode.DescendantAt(delegate (Node current, TKey key, out Node child)
+            {
+                // if the chiiled ic not found, just create a new one on-the-fly
+                if (!current.TryGetChildNode(key, out child))
+                    current.AddChildNode(child = new Node(key));
+                return true;
+            }, hierarchyPath);
+        }
+
+        #endregion Add/Set a hierarchy nodes value
 
         /// <summary>
         /// Retrieves the nodes value from the immutable hierarchy.
@@ -226,28 +238,20 @@
 
         /// <summary>
         /// Removes the value from the specified node in hierarchy.
-        /// Value and nodes on under the specified nde remain unchanged
         /// </summary>
         /// <param name="hierarchyPath"></param>
-        /// <returns>true if value was removed</returns>
-        public MutableHierarchy<TKey, TValue> Remove(HierarchyPath<TKey> hierarchyPath)
+        /// <returns>true if value was removed, false otherwise</returns>
+        public bool Remove(HierarchyPath<TKey> hierarchyPath)
         {
-            // find the the value node and the path to reach it as far as pssible
+            Node node;
+            if (!this.rootNode.TryGetDescendantAt(hierarchyPath, out node))
+                return false;
 
-            var nodesAlongPath = this.rootNode.DescentAlongPath(hierarchyPath).ToArray();
-            if (nodesAlongPath.Length == hierarchyPath.Items.Count() + 1)
-            {
-                // the last node msut be the value node, becaus it has the same depth as the hierachy path
-                // -> unset value.
+            if (!node.HasValue)
+                return false;
 
-                nodesAlongPath[nodesAlongPath.Length - 1].UnsetValue(prune:this.pruneOnUnsetValue);
-            }
-            else
-            {
-                throw new KeyNotFoundException($"Could not find node '{hierarchyPath.Items.ElementAt(nodesAlongPath.Length - 1)}' under '{HierarchyPath.Create(hierarchyPath.Items.Take(nodesAlongPath.Length - 1)).ToString()}'");
-            }
-
-            return this;
+            node.UnsetValue(prune: this.pruneOnUnsetValue);
+            return true;
         }
     }
 }

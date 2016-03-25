@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace Elementary.Hierarchy.Collections.Test
 {
@@ -7,7 +6,7 @@ namespace Elementary.Hierarchy.Collections.Test
     public class MutableHierarchyTestRemoveValue
     {
         [Test]
-        public void MH_Remove_value_from_root_doesnt_create_new_hierarchy()
+        public void MH_Remove_value_from_root_returns_true()
         {
             // ARRANGE
 
@@ -15,8 +14,8 @@ namespace Elementary.Hierarchy.Collections.Test
             string test1 = "test1";
 
             var hierarchy = new MutableHierarchy<string, string>();
-            hierarchy = hierarchy.Add(HierarchyPath.Create<string>(), test);
-            hierarchy = hierarchy.Add(HierarchyPath.Create("a"), test1);
+            hierarchy.Add(HierarchyPath.Create<string>(), test);
+            hierarchy.Add(HierarchyPath.Create("a"), test1);
 
             // ACT
 
@@ -24,27 +23,27 @@ namespace Elementary.Hierarchy.Collections.Test
 
             // ASSERT
 
-            Assert.AreSame(hierarchy, result);
+            Assert.IsTrue(result);
 
             string value;
 
             // node has no value
-            Assert.IsFalse(result.TryGetValue(HierarchyPath.Create<string>(), out value));
-            Assert.IsTrue(result.TryGetValue(HierarchyPath.Create("a"), out value));
+            Assert.IsFalse(hierarchy.TryGetValue(HierarchyPath.Create<string>(), out value));
+            Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create("a"), out value));
             Assert.AreSame(test1, value);
         }
 
         [Test]
-        public void MH_Remove_value_twice_from_root_doesnt_create_new_hierarchy()
+        public void MH_Remove_value_twice_from_root_returns_false()
         {
             // ARRANGE
             string test = "test";
             string test1 = "test1";
 
             var hierarchy = new MutableHierarchy<string, string>();
-            hierarchy = hierarchy.Add(HierarchyPath.Create<string>(), test);
-            hierarchy = hierarchy.Add(HierarchyPath.Create("a"), test1);
-            hierarchy = hierarchy.Remove(HierarchyPath.Create<string>());
+            hierarchy.Add(HierarchyPath.Create<string>(), test);
+            hierarchy.Add(HierarchyPath.Create("a"), test1);
+            hierarchy.Remove(HierarchyPath.Create<string>());
 
             // ACT
 
@@ -52,21 +51,22 @@ namespace Elementary.Hierarchy.Collections.Test
 
             // ASSERT
 
-            Assert.AreSame(hierarchy, result);
+            Assert.IsFalse(result);
         }
 
         [Test]
-        public void MH_Remove_value_from_child_doesnt_create_new_hierarchy()
+        public void MH_Remove_value_from_child_returns_true()
         {
             // ARRANGE
+
             string test = "test";
             string test1 = "test1";
             string test2 = "test2";
 
             var hierarchy = new MutableHierarchy<string, string>();
-            hierarchy = hierarchy.Add(HierarchyPath.Create<string>(), test);
-            hierarchy = hierarchy.Add(HierarchyPath.Create("a"), test1);
-            hierarchy = hierarchy.Add(HierarchyPath.Create("a", "b"), test2);
+            hierarchy.Add(HierarchyPath.Create<string>(), test);
+            hierarchy.Add(HierarchyPath.Create("a"), test1);
+            hierarchy.Add(HierarchyPath.Create("a", "b"), test2);
 
             // ACT
 
@@ -74,20 +74,20 @@ namespace Elementary.Hierarchy.Collections.Test
 
             // ASSERT
 
-            Assert.AreSame(hierarchy, result);
+            Assert.IsTrue(result);
 
             string value;
 
             // node has no value
-            Assert.IsTrue(result.TryGetValue(HierarchyPath.Create<string>(), out value));
+            Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create<string>(), out value));
             Assert.AreSame(test, value);
-            Assert.IsFalse(result.TryGetValue(HierarchyPath.Create("a"), out value));
+            Assert.IsFalse(hierarchy.TryGetValue(HierarchyPath.Create("a"), out value));
             Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create("a", "b"), out value));
             Assert.AreSame(test2, value);
         }
 
         [Test]
-        public void MH_Remove_value_from_child_twice_doesnt_create_new_hierarchy()
+        public void MH_Remove_value_from_child_twice_returns_false()
         {
             // ARRANGE
             string test = "test";
@@ -95,10 +95,10 @@ namespace Elementary.Hierarchy.Collections.Test
             string test2 = "test2";
 
             var hierarchy = new MutableHierarchy<string, string>();
-            hierarchy = hierarchy.Add(HierarchyPath.Create<string>(), test);
-            hierarchy = hierarchy.Add(HierarchyPath.Create("a"), test1);
-            hierarchy = hierarchy.Add(HierarchyPath.Create("a", "b"), test2);
-            hierarchy = hierarchy.Remove(HierarchyPath.Create("a"));
+            hierarchy.Add(HierarchyPath.Create<string>(), test);
+            hierarchy.Add(HierarchyPath.Create("a"), test1);
+            hierarchy.Add(HierarchyPath.Create("a", "b"), test2);
+            hierarchy.Remove(HierarchyPath.Create("a"));
 
             // ACT
 
@@ -106,21 +106,23 @@ namespace Elementary.Hierarchy.Collections.Test
 
             // ASSERT
 
-            Assert.AreSame(hierarchy, result);
+            Assert.IsFalse(result);
         }
 
         [Test]
-        public void MH_Remove_value_from_unknown_node_throws()
+        public void MH_Remove_value_from_unknown_node_returns_false()
         {
             // ARRANGE
 
             var hierarchy = new MutableHierarchy<string, string>();
 
-            // ACT & ASSERT
+            // ACT
 
-            var result = Assert.Throws<KeyNotFoundException>(() => hierarchy.Remove(HierarchyPath.Create("a")));
+            var result = hierarchy.Remove(HierarchyPath.Create("a"));
 
-            Assert.That(result.Message.Contains("'a'"));
+            // ASSERT
+
+            Assert.IsFalse(result);
         }
     }
 }
