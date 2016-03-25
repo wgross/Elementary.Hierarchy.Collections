@@ -285,7 +285,7 @@
                 return this.CreateIfRootHasChanged(this.rootNode.UnsetValue(prune: this.pruneOnUnsetValue));
 
             // now find the the value node and the path to reach it
-            Stack<Node> nodesAlongPath = new Stack<Node>(this.rootNode.DescentAlongPath(hierarchyPath));
+            Stack<Node> nodesAlongPath = new Stack<Node>(this.rootNode.DescendAlongPath(hierarchyPath));
             if (nodesAlongPath.Count != hierarchyPath.Items.Count() + 1)
             {
                 // the value node doesn't exist: keep hierarchy as it is

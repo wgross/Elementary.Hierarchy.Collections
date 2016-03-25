@@ -6,3 +6,4 @@ packages/**
 .hgignore
 **.nupkg
 TestResults/**
+TestResult.xml
