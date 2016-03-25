@@ -175,8 +175,6 @@
 
         #endregion Construction and initialization of this instance
 
-        #region Add/Set value of at hierarchy path
-
         /// <summary>
         /// Adds a value to the immutable hierarchy at the specified position.
         /// </summary>
@@ -195,9 +193,7 @@
 
             return this;
         }
-
-        #endregion Add/Set value of at hierarchy path
-
+        
         /// <summary>
         /// Retrieves the nodes value from the immutable hierarchy.
         /// </summary>
