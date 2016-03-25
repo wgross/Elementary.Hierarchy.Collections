@@ -185,15 +185,14 @@
         /// <returns>returns this</returns>
         public MutableHierarchy<TKey, TValue> Add(HierarchyPath<TKey> hierarchyPath, TValue value)
         {
-            this.rootNode.DescendAlongPath(delegate (Node current, TKey key, out Node child)
+            this.rootNode.DescendantAt(delegate (Node current, TKey key, out Node child)
             {
                 // if the chiiled ic not found, just create a new one on-the-fly
                 if (!current.TryGetChildNode(key, out child))
                     current.AddChildNode(child = new Node(key));
                 return true;
-            }, hierarchyPath).Last().SetValue(value);
+            }, hierarchyPath).SetValue(value);
 
-            //this.GetOrCreateNode(hierarchyPath).SetValue(value);
             return this;
         }
 
