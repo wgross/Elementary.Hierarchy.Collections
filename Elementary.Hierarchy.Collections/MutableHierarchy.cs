@@ -1,5 +1,6 @@
 ﻿namespace Elementary.Hierarchy.Collections
 {
+    using Elementary.Hierarchy.Generic;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -184,32 +185,16 @@
         /// <returns>returns this</returns>
         public MutableHierarchy<TKey, TValue> Add(HierarchyPath<TKey> hierarchyPath, TValue value)
         {
-            this.GetOrCreateNode(hierarchyPath).SetValue(value);
-            return this;
-        }
-
-        private Node GetOrCreateNode(HierarchyPath<TKey> hierarchyPath)
-        {
-            // find the the value node and the path to reach it as far as pssible
-
-            var nodesFound = this.rootNode.DescendAlongPath(hierarchyPath).ToArray();
-            if (nodesFound.Length == hierarchyPath.Items.Count() + 1)
+            this.rootNode.DescendAlongPath(delegate (Node current, TKey key, out Node child)
             {
-                // the last node msut be the value node, becaus it has the same depth as the hierachy path
+                // if the chiiled ic not found, just create a new one on-the-fly
+                if (!current.TryGetChildNode(key, out child))
+                    current.AddChildNode(child = new Node(key));
+                return true;
+            }, hierarchyPath).Last().SetValue(value);
 
-                return nodesFound[nodesFound.Length - 1];
-            }
-
-            // the last visited node isn't the node that will hold the value.
-            // -> make more nodes!
-
-            Node currentNode = nodesFound[nodesFound.Length - 1];
-            foreach (var pathItem in hierarchyPath.Items.Skip(nodesFound.Length - 1))
-                currentNode.AddChildNode(currentNode = new Node(pathItem));
-
-            // now the current node is the value node.
-
-            return currentNode;
+            //this.GetOrCreateNode(hierarchyPath).SetValue(value);
+            return this;
         }
 
         #endregion Add/Set value of at hierarchy path
