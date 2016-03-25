@@ -222,21 +222,12 @@
         /// <returns>true if value was removed</returns>
         public MutableHierarchy<TKey, TValue> Remove(HierarchyPath<TKey> hierarchyPath)
         {
-            // find the the value node and the path to reach it as far as pssible
-
-            var nodesAlongPath = this.rootNode.DescendAlongPath(hierarchyPath).ToArray();
-            if (nodesAlongPath.Length == hierarchyPath.Items.Count() + 1)
-            {
-                // the last node msut be the value node, becaus it has the same depth as the hierachy path
-                // -> unset value.
-
-                nodesAlongPath[nodesAlongPath.Length - 1].UnsetValue(prune: this.pruneOnUnsetValue);
-            }
-            else
-            {
-                throw new KeyNotFoundException($"Could not find node '{hierarchyPath.Items.ElementAt(nodesAlongPath.Length - 1)}' under '{HierarchyPath.Create(hierarchyPath.Items.Take(nodesAlongPath.Length - 1)).ToString()}'");
-            }
-
+            Node node;
+            if (this.rootNode.TryGetDescendantAt(hierarchyPath, out node))
+                node.UnsetValue(prune: this.pruneOnUnsetValue);
+            else 
+                throw new KeyNotFoundException($"Could not find node '{hierarchyPath.ToString()}'");
+            
             return this;
         }
     }
