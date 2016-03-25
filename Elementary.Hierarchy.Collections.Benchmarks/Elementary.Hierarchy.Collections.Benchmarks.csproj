@@ -37,8 +37,8 @@
       <HintPath>..\packages\BenchmarkDotNet.0.9.2\lib\net45\BenchmarkDotNet.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Elementary.Hierarchy, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Elementary.Hierarchy.1.1.0.0\lib\portable-net45+win+wpa81+wp80\Elementary.Hierarchy.dll</HintPath>
+    <Reference Include="Elementary.Hierarchy, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Elementary.Hierarchy.1.2.0.0\lib\portable-net45+win+wpa81+wp80\Elementary.Hierarchy.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Build" />
