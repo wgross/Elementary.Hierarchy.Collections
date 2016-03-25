@@ -6,7 +6,7 @@ namespace Elementary.Hierarchy.Collections.Test
     public class MutableHierarchySetValueTest
     {
         [Test]
-        public void MH_Set_value_to_root_node_doesnt_create_new_hierarchy()
+        public void MH_Set_value_at_root_node()
         {
             // ARRANGE
 
@@ -103,7 +103,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void MH_Set_child_sibling_returns_same_hierachy_with_same_values()
+        public void MH_Set_value_at_child_sibling()
         {
             // ARRANGE
 
@@ -134,7 +134,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void MH_Set_grandchild_returns_same_hierachy_with_same_values()
+        public void MH_Set_value_at_grandchild()
         {
             // ARRANGE
             var hierarchy = new MutableHierarchy<string, string>();
