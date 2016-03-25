@@ -175,6 +175,22 @@
 
         #endregion Construction and initialization of this instance
 
+        #region Add/Set a hierarchy nodes value
+
+        /// <summary>
+        /// Set the value of the specified node of teh hierarchy.
+        /// if the node doesn't exist, it is created.
+        /// </summary>
+        /// <param name="hierarchyPath"></param>
+        /// <returns></returns>
+        public TValue this[HierarchyPath<TKey> hierarchyPath]
+        {
+            set
+            {
+                this.GetOrCreateNode(hierarchyPath).SetValue(value);
+            }
+        }
+
         /// <summary>
         /// Adds a value to the immutable hierarchy at the specified position.
         /// </summary>
@@ -183,20 +199,27 @@
         /// <returns>returns this</returns>
         public void Add(HierarchyPath<TKey> hierarchyPath, TValue value)
         {
-            var nodeToSetValueAt = this.rootNode.DescendantAt(delegate (Node current, TKey key, out Node child)
-             {
-                // if the chiiled ic not found, just create a new one on-the-fly
-                if (!current.TryGetChildNode(key, out child))
-                     current.AddChildNode(child = new Node(key));
-                 return true;
-             }, hierarchyPath);
+            var nodeToSetValueAt = this.GetOrCreateNode(hierarchyPath);
 
             if (nodeToSetValueAt.HasValue)
                 throw new ArgumentException($"Node at '{hierarchyPath}' has already a value");
 
             nodeToSetValueAt.SetValue(value);
         }
-        
+
+        private Node GetOrCreateNode(HierarchyPath<TKey> hierarchyPath)
+        {
+            return this.rootNode.DescendantAt(delegate (Node current, TKey key, out Node child)
+            {
+                // if the chiiled ic not found, just create a new one on-the-fly
+                if (!current.TryGetChildNode(key, out child))
+                    current.AddChildNode(child = new Node(key));
+                return true;
+            }, hierarchyPath);
+        }
+
+        #endregion Add/Set a hierarchy nodes value
+
         /// <summary>
         /// Retrieves the nodes value from the immutable hierarchy.
         /// </summary>
