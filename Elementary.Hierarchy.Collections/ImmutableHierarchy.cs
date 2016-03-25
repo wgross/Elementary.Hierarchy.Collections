@@ -1,6 +1,7 @@
 ﻿namespace Elementary.Hierarchy.Collections
 {
     using Elementary.Hierarchy;
+    using Elementary.Hierarchy.Generic;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -198,7 +199,85 @@
         /// <returns>Am immutable hierach which contains the specified value</returns>
         public ImmutableHierarchy<TKey, TValue> Add(HierarchyPath<TKey> hierarchyPath, TValue value)
         {
-            // if the path has no items, tthe root node is changed
+            // if the path has no items, the root node is changed
+
+            if (!hierarchyPath.Items.Any())
+                return this.CreateIfRootHasChanged(this.rootNode.SetValue(value));
+            
+            // Set the value at the destination node. The clone may substitute the current node.
+
+            Stack<Node> nodesAlongPath;
+            var currentNode = this.GetOrCreateNode(hierarchyPath, out nodesAlongPath).SetValue(value);
+
+            // now ascend again to the root and clone new parent node for the newly created child nodes.
+
+            currentNode = this.RebuildAscendingPathAfterChange(currentNode, nodesAlongPath);
+            
+            // this ist the new immutable hierachy root.
+            if (object.ReferenceEquals(this.rootNode, currentNode))
+                return this;
+
+            return new ImmutableHierarchy<TKey, TValue>(currentNode, this.pruneOnUnsetValue);
+        }
+
+        private Node GetOrCreateNode(HierarchyPath<TKey> hierarchyPath, out Stack<Node> nodesAlongPath)
+        {
+            nodesAlongPath = null;
+
+            // Create the new value node with the given value and the leaf id.
+
+            var tmp = new Stack<Node>();
+
+            // Descend in to the tree, create nodes along the way if they are missing
+
+            var result =  this.rootNode.DescendantAt(delegate (Node parentNode, TKey key, out Node childNode)
+            {
+                // get or create child. If created the clone of the parent node substitutes the 
+                // old parent node.
+
+                if (!parentNode.TryGetChildNode(key, out childNode))
+                    parentNode = parentNode.AddChildNode(childNode = new Node(key));
+
+                // Remember all the nodes passing along for later rebuild of the changed
+                // hierarchy path 
+
+                tmp.Push(parentNode);
+                return true;
+            },
+            hierarchyPath);
+
+            nodesAlongPath = tmp;
+            return result;
+        }
+
+        private Node RebuildAscendingPathAfterChange(Node changedNode, Stack<Node> nodesAlongPath)
+        {
+            var currentNode = changedNode;
+
+            while (nodesAlongPath.Any())
+            {
+                // the next (parent node) get the current child node as a substitute.
+                currentNode = nodesAlongPath.Peek().SetChildNode(currentNode);
+                nodesAlongPath.Pop();
+            }
+
+            // this is the new (or unchanged node)
+            return currentNode;
+        }
+
+        /// <summary>
+        /// Adds a value to the immutable hierachy at the specified position.
+        /// The result is a new ImmutableHiarachy contains the value. The
+        /// old one is unchanged.
+        /// If the value is equal to the value already stored at the position the hierachy remains unchanged.
+        /// </summary>
+        /// <param name="hierarchyPath">Specifies where to set the value</param>
+        /// <param name="value">the value to keep</param>
+        /// <returns>Am immutable hierach which contains the specified value</returns>
+        public ImmutableHierarchy<TKey, TValue> _Add(HierarchyPath<TKey> hierarchyPath, TValue value)
+        {
+            // if the path has no items, the root node is changed
+
             if (!hierarchyPath.Items.Any())
                 return this.CreateIfRootHasChanged(this.rootNode.SetValue(value));
 
@@ -206,7 +285,7 @@
             var hierarchyPathItems = hierarchyPath.Items.ToArray();
             var hierarchyPathItemsLength = hierarchyPathItems.Length;
 
-            // Create the new value node with the ngiven value and the leaf id.
+            // Create the new value node with the given value and the leaf id.
 
             Stack<Node> nodesAlongPath = new Stack<Node>();
 
@@ -293,7 +372,7 @@
             }
 
             // unset the value at the value node...
-            var currentNode = nodesAlongPath.Pop().UnsetValue(prune:this.pruneOnUnsetValue);
+            var currentNode = nodesAlongPath.Pop().UnsetValue(prune: this.pruneOnUnsetValue);
 
             // ... ascend again to the root and copy-on-change the ancestor nodes.
             while (nodesAlongPath.Any())
