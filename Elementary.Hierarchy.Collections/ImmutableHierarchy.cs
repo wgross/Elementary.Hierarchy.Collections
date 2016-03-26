@@ -294,21 +294,12 @@
                 return this.CreateIfRootHasChanged(this.rootNode.UnsetValue(prune: this.pruneOnUnsetValue));
 
             // now find the the value node and the path to reach it
-<<<<<<< HEAD
 
             Stack<Node> nodesAlongPath = new Stack<Node>();
             Node currentNode;
 
             if (!this.TryGetNode(hierarchyPath, out nodesAlongPath, out currentNode))
                 throw new KeyNotFoundException($"Could not find node '{hierarchyPath}'");
-=======
-            Stack<Node> nodesAlongPath = new Stack<Node>(this.rootNode.DescendAlongPath(hierarchyPath));
-            if (nodesAlongPath.Count != hierarchyPath.Items.Count() + 1)
-            {
-                // the value node doesn't exist: keep hierarchy as it is
-                throw new KeyNotFoundException($"Could not find node '{hierarchyPath.Items.ElementAt(nodesAlongPath.Count - 1)}' under '{HierarchyPath.Create(hierarchyPath.Items.Take(nodesAlongPath.Count - 1)).ToString()}'");
-            }
->>>>>>> 0.0.3
 
             // unset the value at the value node...
 
