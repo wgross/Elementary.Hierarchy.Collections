@@ -9,14 +9,15 @@
     using System.Threading;
 
     /// <summary>
-    /// An immutable hierachy holds a set of value but never changes ists structure.
-    /// Any strcuture change like adding or removing a node produces a new hierarchy.
-    /// The data is copied wothe the nodes. If TValue is a reference type all hierechay reference the same data
-    /// If TValue is a value type thevalues are cpied with their nodes.
+    /// An immutable hierachy holds a set of values but never changes its nodes in place.
+    /// Any change of the node structure or the value of a node cause to copy the node and rebuilding
+    /// if the path of tha ancestors includein the root node to create a new hierarchy referenceing the 
+    /// old unchanae nodes and the new changed nodes. 
+    /// In a multithreaded environment reading is still possible while a change is happening in parallel
     /// </summary>
     /// <typeparam name="TKey">type of the indetifier of the stires data</typeparam>s
     /// <typeparam name="TNode"></typeparam>
-    public class ImmutableHierarchy<TKey, TValue>
+    public class ImmutableHierarchy<TKey, TValue> : IHierarchy<TKey, TValue>
     {
         /// <summary>
         /// Internal node class: holds a value and child nodes.
