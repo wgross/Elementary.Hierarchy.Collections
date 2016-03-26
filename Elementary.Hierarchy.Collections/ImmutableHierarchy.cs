@@ -188,6 +188,24 @@
 
         #endregion Construction and initialization of this instance
 
+        #region Add/Set value
+
+        /// <summary>
+        /// Set the value of the specified node of the hierarchy.
+        /// if the node doesn't exist, it is created.
+        /// </summary>
+        /// <param name="hierarchyPath"></param>
+        /// <returns></returns>
+        public TValue this[HierarchyPath<TKey> hierarchyPath]
+        {
+            set
+            {
+                Stack<Node> nodesAlongPath;
+                this.rootNode = this.RebuildAscendingPathAfterChange(
+                    this.GetOrCreateNode(hierarchyPath, out nodesAlongPath).SetValue(value), nodesAlongPath);
+            }
+        }
+
         /// <summary>
         /// Adds a value to the immutable hierachy at the specified position.
         /// The result is a new ImmutableHiarachy contains the value. The
@@ -256,6 +274,10 @@
             // this is the new (or unchanged node)
             return reconnectedParentNode;
         }
+
+        #endregion Add/Set value
+
+
 
         /// <summary>
         /// Retrieves the nodes value from the immutable hierarchy.

@@ -178,7 +178,7 @@
         #region Add/Set a hierarchy nodes value
 
         /// <summary>
-        /// Set the value of the specified node of teh hierarchy.
+        /// Set the value of the specified node of the hierarchy.
         /// if the node doesn't exist, it is created.
         /// </summary>
         /// <param name="hierarchyPath"></param>
