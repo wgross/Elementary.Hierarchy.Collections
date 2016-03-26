@@ -6,6 +6,7 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
+    using System.Threading;
 
     /// <summary>
     /// An immutable hierachy holds a set of value but never changes ists structure.
@@ -178,6 +179,9 @@
 
         private readonly bool pruneOnUnsetValue;
 
+        // MSDN: Do not store SpinLock instances in readonly fields.
+        private SpinLock writeLock = new SpinLock();
+
         private ImmutableHierarchy<TKey, TValue> CreateIfRootHasChanged(Node newRoot)
         {
             if (object.ReferenceEquals(this.rootNode, newRoot))
@@ -200,9 +204,20 @@
         {
             set
             {
-                Stack<Node> nodesAlongPath;
-                this.rootNode = this.RebuildAscendingPathAfterChange(
-                    this.GetOrCreateNode(hierarchyPath, out nodesAlongPath).SetValue(value), nodesAlongPath);
+                bool isLocked = false;
+                try
+                {
+                    // this.writeLock.Enter(ref isLocked);
+
+                    Stack<Node> nodesAlongPath;
+                    this.rootNode = this.RebuildAscendingPathAfterChange(
+                        this.GetOrCreateNode(hierarchyPath, out nodesAlongPath).SetValue(value), nodesAlongPath);
+                }
+                finally
+                {
+                    if (isLocked)
+                        this.writeLock.Exit();
+                }
             }
         }
 
@@ -217,19 +232,30 @@
         /// <returns>Am immutable hierach which contains the specified value</returns>
         public void Add(HierarchyPath<TKey> hierarchyPath, TValue value)
         {
-            // Set the value at the destination node. The clone may substitute the current node.
+            bool isLocked = false;
+            try
+            {
+                // this.writeLock.Enter(ref isLocked);
 
-            Stack<Node> nodesAlongPath;
-            var currentNode = this.GetOrCreateNode(hierarchyPath, out nodesAlongPath);
+                // Set the value at the destination node. The clone may substitute the current node.
 
-            // if the node has already a value, add gails woth argument exception
+                Stack<Node> nodesAlongPath;
+                var currentNode = this.GetOrCreateNode(hierarchyPath, out nodesAlongPath);
 
-            if (currentNode.HasValue)
-                throw new ArgumentException($"Node at '{hierarchyPath}' already has a value");
+                // if the node has already a value, add gails woth argument exception
 
-            // now ascend again to the root and clone new parent node for the newly created child nodes.
+                if (currentNode.HasValue)
+                    throw new ArgumentException($"Node at '{hierarchyPath}' already has a value");
 
-            this.rootNode = this.RebuildAscendingPathAfterChange(currentNode.SetValue(value), nodesAlongPath);
+                // now ascend again to the root and clone new parent node for the newly created child nodes.
+
+                this.rootNode = this.RebuildAscendingPathAfterChange(currentNode.SetValue(value), nodesAlongPath);
+            }
+            finally
+            {
+                if (isLocked)
+                    this.writeLock.Exit();
+            }
         }
 
         private Node GetOrCreateNode(HierarchyPath<TKey> hierarchyPath, out Stack<Node> nodesAlongPath)
@@ -317,9 +343,18 @@
                 return false;
 
             // last node must be the root node: create new hierachy if root node has changed
-
-            this.rootNode = this.RebuildAscendingPathAfterChange(currentNode.UnsetValue(prune: this.pruneOnUnsetValue), nodesAlongPath);
-            return true;
+            bool isLocked = false;
+            try
+            {
+                // this.writeLock.Enter(ref isLocked);
+                this.rootNode = this.RebuildAscendingPathAfterChange(currentNode.UnsetValue(prune: this.pruneOnUnsetValue), nodesAlongPath);
+                return true;
+            }
+            finally
+            {
+                if (isLocked)
+                    this.writeLock.Exit();
+            }
         }
 
         private bool TryGetNode(HierarchyPath<TKey> hierarchyPath, out Stack<Node> nodesAlongPath, out Node node)
