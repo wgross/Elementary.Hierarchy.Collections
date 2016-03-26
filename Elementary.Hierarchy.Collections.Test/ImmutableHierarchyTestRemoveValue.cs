@@ -14,8 +14,8 @@ namespace Elementary.Hierarchy.Collections.Test
             string test1 = "test1";
 
             var hierarchy = new ImmutableHierarchy<string, string>();
-            hierarchy = hierarchy.Add(HierarchyPath.Create<string>(), test);
-            hierarchy = hierarchy.Add(HierarchyPath.Create("a"), test1);
+            hierarchy.Add(HierarchyPath.Create<string>(), test);
+            hierarchy.Add(HierarchyPath.Create("a"), test1);
 
             // ACT
 
@@ -47,9 +47,9 @@ namespace Elementary.Hierarchy.Collections.Test
             string test1 = "test1";
 
             var hierarchy = new ImmutableHierarchy<string, string>();
-            hierarchy = hierarchy.Add(HierarchyPath.Create<string>(), test);
-            hierarchy = hierarchy.Add(HierarchyPath.Create("a"), test1);
-            hierarchy = hierarchy.Remove(HierarchyPath.Create<string>());
+            hierarchy.Add(HierarchyPath.Create<string>(), test);
+            hierarchy.Add(HierarchyPath.Create("a"), test1);
+            hierarchy.Remove(HierarchyPath.Create<string>());
 
             // ACT
 
@@ -69,9 +69,9 @@ namespace Elementary.Hierarchy.Collections.Test
             string test2 = "test2";
 
             var hierarchy = new ImmutableHierarchy<string, string>();
-            hierarchy = hierarchy.Add(HierarchyPath.Create<string>(), test);
-            hierarchy = hierarchy.Add(HierarchyPath.Create("a"), test1);
-            hierarchy = hierarchy.Add(HierarchyPath.Create("a", "b"), test2);
+            hierarchy.Add(HierarchyPath.Create<string>(), test);
+            hierarchy.Add(HierarchyPath.Create("a"), test1);
+            hierarchy.Add(HierarchyPath.Create("a", "b"), test2);
 
             // ACT
 
@@ -108,10 +108,10 @@ namespace Elementary.Hierarchy.Collections.Test
             string test2 = "test2";
 
             var hierarchy = new ImmutableHierarchy<string, string>();
-            hierarchy = hierarchy.Add(HierarchyPath.Create<string>(), test);
-            hierarchy = hierarchy.Add(HierarchyPath.Create("a"), test1);
-            hierarchy = hierarchy.Add(HierarchyPath.Create("a", "b"), test2);
-            hierarchy = hierarchy.Remove(HierarchyPath.Create("a"));
+            hierarchy.Add(HierarchyPath.Create<string>(), test);
+            hierarchy.Add(HierarchyPath.Create("a"), test1);
+            hierarchy.Add(HierarchyPath.Create("a", "b"), test2);
+            hierarchy.Remove(HierarchyPath.Create("a"));
 
             // ACT
 

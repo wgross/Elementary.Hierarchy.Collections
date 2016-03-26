@@ -20,7 +20,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void MH_Add_value_to_root_node_doesnt_create_new_hierarchy()
+        public void MH_Add_value_to_root_node()
         {
             // ARRANGE
 
@@ -119,7 +119,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void MH_Add_child_sibling_returns_same_hierachy_with_same_values()
+        public void MH_Add_child_sibling()
         {
             // ARRANGE
 
@@ -150,7 +150,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void MH_Add_grandchild_returns_same_hierachy_with_same_values()
+        public void MH_Add_grandchild_()
         {
             // ARRANGE
             var hierarchy = new MutableHierarchy<string, string>();

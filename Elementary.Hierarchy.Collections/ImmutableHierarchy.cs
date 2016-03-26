@@ -174,7 +174,7 @@
             this.pruneOnUnsetValue = pruneOnUnsetValue;
         }
 
-        private readonly Node rootNode;
+        private Node rootNode;
 
         private readonly bool pruneOnUnsetValue;
 
@@ -197,7 +197,7 @@
         /// <param name="hierarchyPath">Specifies where to set the value</param>
         /// <param name="value">the value to keep</param>
         /// <returns>Am immutable hierach which contains the specified value</returns>
-        public ImmutableHierarchy<TKey, TValue> Add(HierarchyPath<TKey> hierarchyPath, TValue value)
+        public void Add(HierarchyPath<TKey> hierarchyPath, TValue value)
         {
             // Set the value at the destination node. The clone may substitute the current node.
 
@@ -206,13 +206,7 @@
 
             // now ascend again to the root and clone new parent node for the newly created child nodes.
 
-            currentNode = this.RebuildAscendingPathAfterChange(currentNode, nodesAlongPath);
-
-            // this ist the new immutable hierachy root.
-            if (object.ReferenceEquals(this.rootNode, currentNode))
-                return this;
-
-            return new ImmutableHierarchy<TKey, TValue>(currentNode, this.pruneOnUnsetValue);
+            this.rootNode = this.RebuildAscendingPathAfterChange(currentNode, nodesAlongPath);
         }
 
         private Node GetOrCreateNode(HierarchyPath<TKey> hierarchyPath, out Stack<Node> nodesAlongPath)
