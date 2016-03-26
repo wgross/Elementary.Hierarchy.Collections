@@ -202,11 +202,16 @@
             // Set the value at the destination node. The clone may substitute the current node.
 
             Stack<Node> nodesAlongPath;
-            var currentNode = this.GetOrCreateNode(hierarchyPath, out nodesAlongPath).SetValue(value);
+            var currentNode = this.GetOrCreateNode(hierarchyPath, out nodesAlongPath);
+
+            // if the node has already a value, add gails woth argument exception
+
+            if (currentNode.HasValue)
+                throw new ArgumentException($"Node at '{hierarchyPath}' already has a value");
 
             // now ascend again to the root and clone new parent node for the newly created child nodes.
 
-            this.rootNode = this.RebuildAscendingPathAfterChange(currentNode, nodesAlongPath);
+            this.rootNode = this.RebuildAscendingPathAfterChange(currentNode.SetValue(value), nodesAlongPath);
         }
 
         private Node GetOrCreateNode(HierarchyPath<TKey> hierarchyPath, out Stack<Node> nodesAlongPath)

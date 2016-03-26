@@ -55,7 +55,7 @@ namespace Elementary.Hierarchy.Collections.Test
 
             var result = Assert.Throws<ArgumentException>(() => hierarchy.Add(HierarchyPath.Create<string>(), "test2"));
 
-            Assert.That(() => result.Message.Contains("has already a value"));
+            Assert.That(() => result.Message.Contains("already has a value"));
 
             string value;
             Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create<string>(), out value));
@@ -106,7 +106,7 @@ namespace Elementary.Hierarchy.Collections.Test
 
             var result = Assert.Throws<ArgumentException>(() => hierarchy.Add(HierarchyPath.Create("a"), test1));
 
-            Assert.That(result.Message.Contains("has already a value"));
+            Assert.That(result.Message.Contains("already has a value"));
             Assert.That(result.Message.Contains("'a'"));
 
             string value;

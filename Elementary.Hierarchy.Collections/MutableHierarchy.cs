@@ -202,7 +202,7 @@
             var nodeToSetValueAt = this.GetOrCreateNode(hierarchyPath);
 
             if (nodeToSetValueAt.HasValue)
-                throw new ArgumentException($"Node at '{hierarchyPath}' has already a value");
+                throw new ArgumentException($"Node at '{hierarchyPath}' already has a value");
 
             nodeToSetValueAt.SetValue(value);
         }

@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 
 namespace Elementary.Hierarchy.Collections.Test
 {
@@ -41,20 +42,24 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void IMH_Add_same_value_to_root_node_doesnt_create_new_hierarchy()
+        public void IMH_Add_same_value_to_root_twice_throws_ArgumentException()
         {
             // ARRANGE
             var hierarchy = new ImmutableHierarchy<string, string>();
 
             string test = "test";
+            string test1 = "test1";
 
             hierarchy.Add(HierarchyPath.Create<string>(), test);
 
-            // ACT
+            // ACT & ASSERT
 
-            hierarchy.Add(HierarchyPath.Create<string>(), test);
+            var result = Assert.Throws<ArgumentException>(()=>hierarchy.Add(HierarchyPath.Create<string>(), test1));
 
             // ASSERT
+
+            Assert.That(result.Message.Contains("already has a value"));
+            Assert.That(result.Message.Contains("''"));
 
             string value;
             Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create<string>(), out value));
@@ -89,7 +94,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void IMH_Add_child_value_twice_doesnt_return_new_hierarchy()
+        public void IMH_Add_child_value_twice_throws_ArgumentException()
         {
             // ARRANGE
 
@@ -97,15 +102,19 @@ namespace Elementary.Hierarchy.Collections.Test
 
             string test = "test";
             string test1 = "test1";
+            string test2 = "test2";
 
             hierarchy.Add(HierarchyPath.Create<string>(), test);
             hierarchy.Add(HierarchyPath.Create("a"), test1);
 
             // ACT
 
-            hierarchy.Add(HierarchyPath.Create("a"), test1);
+            var result = Assert.Throws<ArgumentException>(()=>hierarchy.Add(HierarchyPath.Create("a"), test2));
 
             // ASSERT
+
+            Assert.That(result.Message.Contains("already has a value"));
+            Assert.That(result.Message.Contains("'a'"));
 
             string value;
 
@@ -144,7 +153,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void IMH_Add_child_sibling_value_twice_doesnt_return_new_hierachy()
+        public void IMH_Add_child_sibling_value_twice_throws_ArgumentException()
         {
             // ARRANGE
             var hierarchy = new ImmutableHierarchy<string, string>();
@@ -152,16 +161,20 @@ namespace Elementary.Hierarchy.Collections.Test
             string test = "test";
             string test1 = "test1";
             string test2 = "test2";
+            string test3 = "test3";
 
             hierarchy.Add(HierarchyPath.Create<string>(), test);
             hierarchy.Add(HierarchyPath.Create("a"), test1);
             hierarchy.Add(HierarchyPath.Create("b"), test2);
 
-            // ACT
+            // ACT & ASSERT
 
-            hierarchy.Add(HierarchyPath.Create("b"), test2);
+            var result = Assert.Throws<ArgumentException>(() => hierarchy.Add(HierarchyPath.Create("b"), test3));
 
             // ASSERT
+
+            Assert.That(result.Message.Contains("already has a value"));
+            Assert.That(result.Message.Contains("'b'"));
 
             string value;
             Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create("b"), out value));

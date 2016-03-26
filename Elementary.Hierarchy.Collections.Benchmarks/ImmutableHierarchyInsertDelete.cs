@@ -37,7 +37,7 @@ namespace Elementary.Hierarchy.Collections.Benchmarks
             this.hierarchy = new ImmutableHierarchy<int, int>(pruneOnUnsetValue: false);
 
             for (int i = 0; i < loops; i++)
-                this.hierarchy = this.hierarchy.Add(
+                this.hierarchy.Add(
                     HierarchyPath.Create(this.values[i], this.values[i + 1], this.values[i + 2], this.values[i + 3], this.values[i + 4], this.values[i + 5], this.values[i + 6]),
                     value: i);
 
