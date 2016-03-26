@@ -199,11 +199,6 @@
         /// <returns>Am immutable hierach which contains the specified value</returns>
         public ImmutableHierarchy<TKey, TValue> Add(HierarchyPath<TKey> hierarchyPath, TValue value)
         {
-            // if the path has no items, the root node is changed
-
-            if (!hierarchyPath.Items.Any())
-                return this.CreateIfRootHasChanged(this.rootNode.SetValue(value));
-
             // Set the value at the destination node. The clone may substitute the current node.
 
             Stack<Node> nodesAlongPath;
@@ -292,7 +287,7 @@
             Stack<Node> nodesAlongPath = new Stack<Node>();
             Node currentNode;
 
-            // try to get the node to remove values from 
+            // try to get the node to remove values from
 
             if (!this.TryGetNode(hierarchyPath, out nodesAlongPath, out currentNode))
                 throw new KeyNotFoundException($"Could not find node '{hierarchyPath}'");
