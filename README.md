@@ -18,5 +18,5 @@ A straightforward implementaion of a hierarchical key-value store following the 
 ## ImmutableHierarchy<TKey,TValue>
 
 A hierarchical key-value store targeted to multithreaded environments. Changes are not done inplace but cause copy of the part of the hierachy which is changed.
-The 'copy-on-write' scheme is continued until the root node of the ImmutableHierarchy is exchanged with a modified clone referencing a hierarchy consisting of the old uncganged nodes and the new changed nodes.
+The 'copy-on-write' scheme is continued until the root node of the ImmutableHierarchy is exchanged with a modified clone referencing a hierarchy consisting of the old uncganged nodes and the new modified ones.
 
