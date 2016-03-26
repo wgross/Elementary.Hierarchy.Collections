@@ -207,7 +207,7 @@
                 bool isLocked = false;
                 try
                 {
-                    // this.writeLock.Enter(ref isLocked);
+                    this.writeLock.Enter(ref isLocked);
 
                     Stack<Node> nodesAlongPath;
                     this.rootNode = this.RebuildAscendingPathAfterChange(
@@ -235,7 +235,7 @@
             bool isLocked = false;
             try
             {
-                // this.writeLock.Enter(ref isLocked);
+                this.writeLock.Enter(ref isLocked);
 
                 // Set the value at the destination node. The clone may substitute the current node.
 
@@ -346,7 +346,7 @@
             bool isLocked = false;
             try
             {
-                // this.writeLock.Enter(ref isLocked);
+                this.writeLock.Enter(ref isLocked);
                 this.rootNode = this.RebuildAscendingPathAfterChange(currentNode.UnsetValue(prune: this.pruneOnUnsetValue), nodesAlongPath);
                 return true;
             }
