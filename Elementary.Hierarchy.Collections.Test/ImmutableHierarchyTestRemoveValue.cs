@@ -108,7 +108,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void IMH_Remove_value_from_unknown_node_throws()
+        public void IMH_Remove_value_from_unknown_node_returns_false()
         {
             // ARRANGE
 
@@ -116,9 +116,11 @@ namespace Elementary.Hierarchy.Collections.Test
 
             // ACT & ASSERT
 
-            var result = Assert.Throws<KeyNotFoundException>(() => hierarchy.Remove(HierarchyPath.Create("a")));
+            var result = hierarchy.Remove(HierarchyPath.Create("a"));
 
-            Assert.That(result.Message.Contains("'a'"));
+            // ASSERT
+
+            Assert.IsFalse(result);
         }
     }
 }

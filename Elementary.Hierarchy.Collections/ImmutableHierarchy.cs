@@ -309,7 +309,7 @@
             // try to get the node to remove values from
 
             if (!this.TryGetNode(hierarchyPath, out nodesAlongPath, out currentNode))
-                throw new KeyNotFoundException($"Could not find node '{hierarchyPath}'");
+                return false;
 
             // If node hasn't a value Remove is finshed. Just return false
 
