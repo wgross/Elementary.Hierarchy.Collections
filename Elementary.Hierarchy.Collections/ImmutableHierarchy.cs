@@ -289,14 +289,10 @@
         /// <returns>true if value was removed</returns>
         public ImmutableHierarchy<TKey, TValue> Remove(HierarchyPath<TKey> hierarchyPath)
         {
-            // if the path has no items, the root node is changed
-            if (!hierarchyPath.Items.Any())
-                return this.CreateIfRootHasChanged(this.rootNode.UnsetValue(prune: this.pruneOnUnsetValue));
-
-            // now find the the value node and the path to reach it
-
             Stack<Node> nodesAlongPath = new Stack<Node>();
             Node currentNode;
+
+            // try to get the node to remove values from 
 
             if (!this.TryGetNode(hierarchyPath, out nodesAlongPath, out currentNode))
                 throw new KeyNotFoundException($"Could not find node '{hierarchyPath}'");
