@@ -1,0 +1,5 @@
+Type;Method;Mode;Platform;Jit;Framework;Toolchain;Runtime;LaunchCount;WarmupCount;TargetCount;Affinity;Median;StdDev
+ImmutableHierarchyInsertDelete;InsertAndDeleteNodesDeepWithPruning;Throughput;Host;Host;Host;Classic;Host;Auto;Auto;5;Auto;51.0661 ms;1.7943 ms
+ImmutableHierarchyInsertDelete;InsertAndDeleteNodesDeep;Throughput;Host;Host;Host;Classic;Host;Auto;Auto;5;Auto;49.9014 ms;0.6155 ms
+ImmutableHierarchyInsertDelete;InsertAndDeleteNodesShallowWithPruning;Throughput;Host;Host;Host;Classic;Host;Auto;Auto;5;Auto;45.1150 ms;1.2673 ms
+ImmutableHierarchyInsertDelete;InsertAndDeleteNodesShallow;Throughput;Host;Host;Host;Classic;Host;Auto;Auto;5;Auto;45.8256 ms;0.6477 ms

@@ -185,7 +185,7 @@ namespace Elementary.Hierarchy.Collections.Test
 
             Assert.AreSame(node, result);
         }
-        
+
         [Test]
         public void MHN_Unset_value_of_parent_node_removes_empty_child_On_UnsetVaue_with_prune()
         {
@@ -202,7 +202,7 @@ namespace Elementary.Hierarchy.Collections.Test
             // ASSERT
 
             Assert.AreSame(node, result);
-            
+
             // node has no value
             Assert.IsFalse(result.HasValue);
             Assert.AreEqual(0, result.ChildNodes.Count());
@@ -224,7 +224,7 @@ namespace Elementary.Hierarchy.Collections.Test
             // ASSERT
 
             Assert.AreSame(node, result);
-            
+
             // node has no value
             Assert.IsFalse(result.HasValue);
             Assert.AreEqual(1, result.ChildNodes.Count());

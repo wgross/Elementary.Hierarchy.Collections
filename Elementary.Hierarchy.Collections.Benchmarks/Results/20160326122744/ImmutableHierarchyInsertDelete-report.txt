@@ -1,0 +1,449 @@
+*** ImmutableHierarchyInsertDelete_InsertAndDeleteNodesDeepWithPruning_Target5 ***
+* Raw *
+Pilot 1: 20 op, 961437330.99 ns, 48.0719 ms/op
+IdleWarmup 1: 20 op, 10264.66 ns, 513.2330 ns/op
+IdleWarmup 2: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleWarmup 3: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleWarmup 4: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleWarmup 5: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 1: 20 op, 14781.1 ns, 739.0550 ns/op
+IdleTarget 2: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 3: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 4: 20 op, 5748.21 ns, 287.4105 ns/op
+IdleTarget 5: 20 op, 6158.79 ns, 307.9395 ns/op
+IdleTarget 6: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 7: 20 op, 5748.21 ns, 287.4105 ns/op
+IdleTarget 8: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 9: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 10: 20 op, 6979.97 ns, 348.9985 ns/op
+MainWarmup 1: 20 op, 966743747.39 ns, 48.3372 ms/op
+MainWarmup 2: 20 op, 958541876.92 ns, 47.9271 ms/op
+MainWarmup 3: 20 op, 961425013.41 ns, 48.0713 ms/op
+MainWarmup 4: 20 op, 960645310.16 ns, 48.0323 ms/op
+MainWarmup 5: 20 op, 962497054.04 ns, 48.1249 ms/op
+MainWarmup 6: 20 op, 961243944.88 ns, 48.0622 ms/op
+MainWarmup 7: 20 op, 969423233.1 ns, 48.4712 ms/op
+MainTarget 1: 20 op, 965947620.69 ns, 48.2974 ms/op
+MainTarget 2: 20 op, 973311074.09 ns, 48.6656 ms/op
+MainTarget 3: 20 op, 973258108.46 ns, 48.6629 ms/op
+MainTarget 4: 20 op, 954539071.8 ns, 47.7270 ms/op
+MainTarget 5: 20 op, 981221017.74 ns, 49.0611 ms/op
+Result 1: 20 op, 965940640.73 ns, 48.2970 ms/op
+Result 2: 20 op, 973304094.12 ns, 48.6652 ms/op
+Result 3: 20 op, 973251128.5 ns, 48.6626 ms/op
+Result 4: 20 op, 954532091.83 ns, 47.7266 ms/op
+Result 5: 20 op, 981214037.78 ns, 49.0607 ms/op
+Pilot 1: 20 op, 970286285.35 ns, 48.5143 ms/op
+IdleWarmup 1: 20 op, 9854.07 ns, 492.7035 ns/op
+IdleWarmup 2: 20 op, 5748.21 ns, 287.4105 ns/op
+IdleWarmup 3: 20 op, 6158.79 ns, 307.9395 ns/op
+IdleWarmup 4: 20 op, 5748.21 ns, 287.4105 ns/op
+IdleWarmup 5: 20 op, 6158.79 ns, 307.9395 ns/op
+IdleWarmup 6: 20 op, 5748.21 ns, 287.4105 ns/op
+IdleWarmup 7: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 1: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 2: 20 op, 6158.79 ns, 307.9395 ns/op
+IdleTarget 3: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 4: 20 op, 16012.86 ns, 800.6430 ns/op
+IdleTarget 5: 20 op, 6158.79 ns, 307.9395 ns/op
+IdleTarget 6: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 7: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 8: 20 op, 5748.21 ns, 287.4105 ns/op
+IdleTarget 9: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 10: 20 op, 6979.97 ns, 348.9985 ns/op
+MainWarmup 1: 20 op, 947449890 ns, 47.3725 ms/op
+MainWarmup 2: 20 op, 962910924.96 ns, 48.1455 ms/op
+MainWarmup 3: 20 op, 972863124.51 ns, 48.6432 ms/op
+MainWarmup 4: 20 op, 953995045.05 ns, 47.6998 ms/op
+MainWarmup 5: 20 op, 957806927.58 ns, 47.8903 ms/op
+MainTarget 1: 20 op, 983719024.35 ns, 49.1860 ms/op
+MainTarget 2: 20 op, 998699673.42 ns, 49.9350 ms/op
+MainTarget 3: 20 op, 1033076005.26 ns, 51.6538 ms/op
+MainTarget 4: 20 op, 1227865091.22 ns, 61.3933 ms/op
+MainTarget 5: 20 op, 1007700134.1 ns, 50.3850 ms/op
+Result 1: 20 op, 983712044.38 ns, 49.1856 ms/op
+Result 2: 20 op, 998692693.45 ns, 49.9346 ms/op
+Result 3: 20 op, 1033069025.29 ns, 51.6535 ms/op
+Result 4: 20 op, 1227858111.25 ns, 61.3929 ms/op
+Result 5: 20 op, 1007693154.13 ns, 50.3847 ms/op
+
+* Statistics for Pilot
+Mean = 48.2931 ms, StdError = 0.2212 ms (0.46%); N = 2, StdDev = 0.3129 ms
+Min = 48.0719 ms, Q1 = 48.0719 ms, Median = 48.2931 ms, Q3 = 48.5143 ms, Max = 48.5143 ms
+IQR = 0.4424 ms, LowerFence = 47.4082 ms, UpperFence = 49.1780 ms
+ConfidenceInterval = [47.8595 ms; 48.7267 ms] (CI 95%)
+
+
+* Statistics for IdleWarmup
+Mean = 352.4200 ns, StdError = 21.7134 ns (6.16%); N = 12, StdDev = 75.2176 ns
+Min = 287.4105 ns, Q1 = 297.6750 ns, Median = 348.9985 ns, Q3 = 348.9985 ns, Max = 513.2330 ns
+IQR = 51.3235 ns, LowerFence = 220.6898 ns, UpperFence = 425.9838 ns
+ConfidenceInterval = [309.8616 ns; 394.9783 ns] (CI 95%)
+
+
+* Statistics for IdleTarget
+Mean = 375.6865 ns, StdError = 30.7074 ns (8.17%); N = 20, StdDev = 137.3276 ns
+Min = 287.4105 ns, Q1 = 307.9395 ns, Median = 348.9985 ns, Q3 = 348.9985 ns, Max = 800.6430 ns
+IQR = 41.0590 ns, LowerFence = 246.3510 ns, UpperFence = 410.5870 ns
+ConfidenceInterval = [315.5000 ns; 435.8730 ns] (CI 95%)
+
+
+* Statistics for MainWarmup
+Mean = 48.0648 ms, StdError = 0.0972 ms (0.2%); N = 12, StdDev = 0.3367 ms
+Min = 47.3725 ms, Q1 = 47.9087 ms, Median = 48.0667 ms, Q3 = 48.2414 ms, Max = 48.6432 ms
+IQR = 0.3326 ms, LowerFence = 47.4098 ms, UpperFence = 48.7403 ms
+ConfidenceInterval = [47.8743 ms; 48.2553 ms] (CI 95%)
+
+
+* Statistics for MainTarget
+Mean = 50.4967 ms, StdError = 1.2623 ms (2.5%); N = 10, StdDev = 3.9917 ms
+Min = 47.7270 ms, Q1 = 48.6629 ms, Median = 49.1235 ms, Q3 = 50.3850 ms, Max = 61.3933 ms
+IQR = 1.7221 ms, LowerFence = 46.0798 ms, UpperFence = 52.9682 ms
+ConfidenceInterval = [48.0226 ms; 52.9708 ms] (CI 95%)
+
+
+* Statistics for Result
+Mean = 50.4963 ms, StdError = 1.2623 ms (2.5%); N = 10, StdDev = 3.9917 ms
+Min = 47.7266 ms, Q1 = 48.6626 ms, Median = 49.1232 ms, Q3 = 50.3847 ms, Max = 61.3929 ms
+IQR = 1.7221 ms, LowerFence = 46.0794 ms, UpperFence = 52.9678 ms
+ConfidenceInterval = [48.0222 ms; 52.9704 ms] (CI 95%)
+
+*** ImmutableHierarchyInsertDelete_InsertAndDeleteNodesDeep_Target5 ***
+* Raw *
+Pilot 1: 20 op, 997272886.28 ns, 49.8636 ms/op
+IdleWarmup 1: 20 op, 9854.07 ns, 492.7035 ns/op
+IdleWarmup 2: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleWarmup 3: 20 op, 5748.21 ns, 287.4105 ns/op
+IdleWarmup 4: 20 op, 5748.21 ns, 287.4105 ns/op
+IdleWarmup 5: 20 op, 5748.21 ns, 287.4105 ns/op
+IdleWarmup 6: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 1: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 2: 20 op, 5748.21 ns, 287.4105 ns/op
+IdleTarget 3: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 4: 20 op, 6158.79 ns, 307.9395 ns/op
+IdleTarget 5: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 6: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 7: 20 op, 5748.21 ns, 287.4105 ns/op
+IdleTarget 8: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 9: 20 op, 14781.1 ns, 739.0550 ns/op
+IdleTarget 10: 20 op, 6158.79 ns, 307.9395 ns/op
+MainWarmup 1: 20 op, 969498780.97 ns, 48.4749 ms/op
+MainWarmup 2: 20 op, 995146870.8 ns, 49.7573 ms/op
+MainWarmup 3: 20 op, 992490788.5 ns, 49.6245 ms/op
+MainWarmup 4: 20 op, 991566148.32 ns, 49.5783 ms/op
+MainWarmup 5: 20 op, 1024637226.54 ns, 51.2319 ms/op
+MainWarmup 6: 20 op, 993424050.99 ns, 49.6712 ms/op
+MainWarmup 7: 20 op, 997566866.02 ns, 49.8783 ms/op
+MainTarget 1: 20 op, 1034236732.52 ns, 51.7118 ms/op
+MainTarget 2: 20 op, 1011335053.96 ns, 50.5668 ms/op
+MainTarget 3: 20 op, 1020425022.44 ns, 51.0213 ms/op
+MainTarget 4: 20 op, 963183964.8 ns, 48.1592 ms/op
+MainTarget 5: 20 op, 984523773.35 ns, 49.2262 ms/op
+Result 1: 20 op, 1034229752.56 ns, 51.7115 ms/op
+Result 2: 20 op, 1011328074 ns, 50.5664 ms/op
+Result 3: 20 op, 1020418042.47 ns, 51.0209 ms/op
+Result 4: 20 op, 963176984.84 ns, 48.1588 ms/op
+Result 5: 20 op, 984516793.39 ns, 49.2258 ms/op
+Pilot 1: 20 op, 1028419957.45 ns, 51.4210 ms/op
+IdleWarmup 1: 20 op, 9032.9 ns, 451.6450 ns/op
+IdleWarmup 2: 20 op, 45164.48 ns, 2.2582 us/op
+IdleWarmup 3: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleWarmup 4: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleWarmup 5: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 1: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 2: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 3: 20 op, 6158.79 ns, 307.9395 ns/op
+IdleTarget 4: 20 op, 5748.21 ns, 287.4105 ns/op
+IdleTarget 5: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 6: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 7: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 8: 20 op, 6158.79 ns, 307.9395 ns/op
+IdleTarget 9: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 10: 20 op, 5748.21 ns, 287.4105 ns/op
+MainWarmup 1: 20 op, 971309876.82 ns, 48.5655 ms/op
+MainWarmup 2: 20 op, 979589758.67 ns, 48.9795 ms/op
+MainWarmup 3: 20 op, 1037274249.43 ns, 51.8637 ms/op
+MainWarmup 4: 20 op, 999389868.87 ns, 49.9695 ms/op
+MainWarmup 5: 20 op, 970221002.14 ns, 48.5111 ms/op
+MainWarmup 6: 20 op, 962201021.37 ns, 48.1101 ms/op
+MainWarmup 7: 20 op, 967245894.34 ns, 48.3623 ms/op
+MainTarget 1: 20 op, 971887982.22 ns, 48.5944 ms/op
+MainTarget 2: 20 op, 991896259.64 ns, 49.5948 ms/op
+MainTarget 3: 20 op, 1043729075.5 ns, 52.1865 ms/op
+MainTarget 4: 20 op, 1017727060.34 ns, 50.8864 ms/op
+MainTarget 5: 20 op, 966972033.33 ns, 48.3486 ms/op
+Result 1: 20 op, 971881002.26 ns, 48.5941 ms/op
+Result 2: 20 op, 991889279.68 ns, 49.5945 ms/op
+Result 3: 20 op, 1043722095.53 ns, 52.1861 ms/op
+Result 4: 20 op, 1017720080.38 ns, 50.8860 ms/op
+Result 5: 20 op, 966965053.36 ns, 48.3483 ms/op
+
+* Statistics for Pilot
+Mean = 50.6423 ms, StdError = 0.7787 ms (1.54%); N = 2, StdDev = 1.1012 ms
+Min = 49.8636 ms, Q1 = 49.8636 ms, Median = 50.6423 ms, Q3 = 51.4210 ms, Max = 51.4210 ms
+IQR = 1.5574 ms, LowerFence = 47.5276 ms, UpperFence = 53.7570 ms
+ConfidenceInterval = [49.1161 ms; 52.1685 ms] (CI 95%)
+
+
+* Statistics for IdleWarmup
+Mean = 528.1633 ns, StdError = 174.1109 ns (32.97%); N = 11, StdDev = 577.4607 ns
+Min = 287.4105 ns, Q1 = 287.4105 ns, Median = 348.9985 ns, Q3 = 451.6450 ns, Max = 2,258.2240 ns
+IQR = 164.2345 ns, LowerFence = 41.0588 ns, UpperFence = 697.9968 ns
+ConfidenceInterval = [186.9059 ns; 869.4208 ns] (CI 95%)
+
+
+* Statistics for IdleTarget
+Mean = 347.9719 ns, StdError = 21.4009 ns (6.15%); N = 20, StdDev = 95.7075 ns
+Min = 287.4105 ns, Q1 = 307.9395 ns, Median = 348.9985 ns, Q3 = 348.9985 ns, Max = 739.0550 ns
+IQR = 41.0590 ns, LowerFence = 246.3510 ns, UpperFence = 410.5870 ns
+ConfidenceInterval = [306.0263 ns; 389.9176 ns] (CI 95%)
+
+
+* Statistics for MainWarmup
+Mean = 49.4699 ms, StdError = 0.2914 ms (0.59%); N = 14, StdDev = 1.0903 ms
+Min = 48.1101 ms, Q1 = 48.5111 ms, Median = 49.6014 ms, Q3 = 49.8783 ms, Max = 51.8637 ms
+IQR = 1.3673 ms, LowerFence = 46.4601 ms, UpperFence = 51.9293 ms
+ConfidenceInterval = [48.8987 ms; 50.0410 ms] (CI 95%)
+
+
+* Statistics for MainTarget
+Mean = 50.0296 ms, StdError = 0.4559 ms (0.91%); N = 10, StdDev = 1.4417 ms
+Min = 48.1592 ms, Q1 = 48.5944 ms, Median = 50.0808 ms, Q3 = 51.0213 ms, Max = 52.1865 ms
+IQR = 2.4269 ms, LowerFence = 44.9541 ms, UpperFence = 54.6615 ms
+ConfidenceInterval = [49.1360 ms; 50.9232 ms] (CI 95%)
+
+
+* Statistics for Result
+Mean = 50.0292 ms, StdError = 0.4559 ms (0.91%); N = 10, StdDev = 1.4417 ms
+Min = 48.1588 ms, Q1 = 48.5941 ms, Median = 50.0804 ms, Q3 = 51.0209 ms, Max = 52.1861 ms
+IQR = 2.4269 ms, LowerFence = 44.9538 ms, UpperFence = 54.6612 ms
+ConfidenceInterval = [49.1357 ms; 50.9228 ms] (CI 95%)
+
+*** ImmutableHierarchyInsertDelete_InsertAndDeleteNodesShallowWithPruning_Target5 ***
+* Raw *
+Pilot 1: 20 op, 870712966.56 ns, 43.5356 ms/op
+IdleWarmup 1: 20 op, 10264.66 ns, 513.2330 ns/op
+IdleWarmup 2: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleWarmup 3: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleWarmup 4: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleWarmup 5: 20 op, 6158.79 ns, 307.9395 ns/op
+IdleWarmup 6: 20 op, 16834.04 ns, 841.7020 ns/op
+IdleTarget 1: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 2: 20 op, 5748.21 ns, 287.4105 ns/op
+IdleTarget 3: 20 op, 5748.21 ns, 287.4105 ns/op
+IdleTarget 4: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 5: 20 op, 6158.79 ns, 307.9395 ns/op
+IdleTarget 6: 20 op, 6158.79 ns, 307.9395 ns/op
+IdleTarget 7: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 8: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 9: 20 op, 5748.21 ns, 287.4105 ns/op
+IdleTarget 10: 20 op, 6158.79 ns, 307.9395 ns/op
+MainWarmup 1: 20 op, 873592818.35 ns, 43.6796 ms/op
+MainWarmup 2: 20 op, 879871092.35 ns, 43.9936 ms/op
+MainWarmup 3: 20 op, 877408806.75 ns, 43.8704 ms/op
+MainWarmup 4: 20 op, 875359981.47 ns, 43.7680 ms/op
+MainWarmup 5: 20 op, 878955074.48 ns, 43.9478 ms/op
+MainWarmup 6: 20 op, 871695088.81 ns, 43.5848 ms/op
+MainWarmup 7: 20 op, 879843993.66 ns, 43.9922 ms/op
+MainTarget 1: 20 op, 872783142.31 ns, 43.6392 ms/op
+MainTarget 2: 20 op, 876999862.86 ns, 43.8500 ms/op
+MainTarget 3: 20 op, 893097717.06 ns, 44.6549 ms/op
+MainTarget 4: 20 op, 882323934.47 ns, 44.1162 ms/op
+MainTarget 5: 20 op, 875161257.74 ns, 43.7581 ms/op
+Result 1: 20 op, 872776983.52 ns, 43.6388 ms/op
+Result 2: 20 op, 876993704.07 ns, 43.8497 ms/op
+Result 3: 20 op, 893091558.27 ns, 44.6546 ms/op
+Result 4: 20 op, 882317775.67 ns, 44.1159 ms/op
+Result 5: 20 op, 875155098.95 ns, 43.7578 ms/op
+Pilot 1: 20 op, 882240174.88 ns, 44.1120 ms/op
+IdleWarmup 1: 20 op, 9854.07 ns, 492.7035 ns/op
+IdleWarmup 2: 20 op, 5748.21 ns, 287.4105 ns/op
+IdleWarmup 3: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleWarmup 4: 20 op, 20118.73 ns, 1.0059 us/op
+IdleWarmup 5: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleWarmup 6: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 1: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 2: 20 op, 5748.21 ns, 287.4105 ns/op
+IdleTarget 3: 20 op, 5748.21 ns, 287.4105 ns/op
+IdleTarget 4: 20 op, 7390.55 ns, 369.5275 ns/op
+IdleTarget 5: 20 op, 5748.21 ns, 287.4105 ns/op
+IdleTarget 6: 20 op, 5748.21 ns, 287.4105 ns/op
+IdleTarget 7: 20 op, 5748.21 ns, 287.4105 ns/op
+IdleTarget 8: 20 op, 14781.1 ns, 739.0550 ns/op
+IdleTarget 9: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 10: 20 op, 6979.97 ns, 348.9985 ns/op
+MainWarmup 1: 20 op, 879675242.72 ns, 43.9838 ms/op
+MainWarmup 2: 20 op, 881757736.06 ns, 44.0879 ms/op
+MainWarmup 3: 20 op, 879303662.18 ns, 43.9652 ms/op
+MainWarmup 4: 20 op, 904977208.36 ns, 45.2489 ms/op
+MainWarmup 5: 20 op, 882535386.37 ns, 44.1268 ms/op
+MainWarmup 6: 20 op, 879967990.7 ns, 43.9984 ms/op
+MainWarmup 7: 20 op, 883298255.58 ns, 44.1649 ms/op
+MainTarget 1: 20 op, 896232953.49 ns, 44.8116 ms/op
+MainTarget 2: 20 op, 912433043.65 ns, 45.6217 ms/op
+MainTarget 3: 20 op, 912246226.92 ns, 45.6123 ms/op
+MainTarget 4: 20 op, 892791830.32 ns, 44.6396 ms/op
+MainTarget 5: 20 op, 896229258.21 ns, 44.8115 ms/op
+Result 1: 20 op, 896226589.4 ns, 44.8113 ms/op
+Result 2: 20 op, 912426679.56 ns, 45.6213 ms/op
+Result 3: 20 op, 912239862.83 ns, 45.6120 ms/op
+Result 4: 20 op, 892785466.23 ns, 44.6393 ms/op
+Result 5: 20 op, 896222894.12 ns, 44.8111 ms/op
+
+* Statistics for Pilot
+Mean = 43.8238 ms, StdError = 0.2882 ms (0.66%); N = 2, StdDev = 0.4075 ms
+Min = 43.5356 ms, Q1 = 43.5356 ms, Median = 43.8238 ms, Q3 = 44.1120 ms, Max = 44.1120 ms
+IQR = 0.5764 ms, LowerFence = 42.6711 ms, UpperFence = 44.9765 ms
+ConfidenceInterval = [43.2590 ms; 44.3887 ms] (CI 95%)
+
+
+* Statistics for IdleWarmup
+Mean = 461.9097 ns, StdError = 65.9683 ns (14.28%); N = 12, StdDev = 228.5210 ns
+Min = 287.4105 ns, Q1 = 348.9985 ns, Median = 348.9985 ns, Q3 = 502.9683 ns, Max = 1,005.9365 ns
+IQR = 153.9698 ns, LowerFence = 118.0439 ns, UpperFence = 733.9229 ns
+ConfidenceInterval = [332.6118 ns; 591.2076 ns] (CI 95%)
+
+
+* Statistics for IdleTarget
+Mean = 338.7337 ns, StdError = 22.1157 ns (6.53%); N = 20, StdDev = 98.9046 ns
+Min = 287.4105 ns, Q1 = 287.4105 ns, Median = 307.9395 ns, Q3 = 348.9985 ns, Max = 739.0550 ns
+IQR = 61.5880 ns, LowerFence = 195.0285 ns, UpperFence = 441.3805 ns
+ConfidenceInterval = [295.3869 ns; 382.0806 ns] (CI 95%)
+
+
+* Statistics for MainWarmup
+Mean = 44.0294 ms, StdError = 0.1035 ms (0.24%); N = 14, StdDev = 0.3871 ms
+Min = 43.5848 ms, Q1 = 43.8704 ms, Median = 43.9880 ms, Q3 = 44.0879 ms, Max = 45.2489 ms
+IQR = 0.2174 ms, LowerFence = 43.5443 ms, UpperFence = 44.4141 ms
+ConfidenceInterval = [43.8266 ms; 44.2322 ms] (CI 95%)
+
+
+* Statistics for MainTarget
+Mean = 44.5515 ms, StdError = 0.2253 ms (0.51%); N = 10, StdDev = 0.7124 ms
+Min = 43.6392 ms, Q1 = 43.8500 ms, Median = 44.6472 ms, Q3 = 44.8116 ms, Max = 45.6217 ms
+IQR = 0.9617 ms, LowerFence = 42.4075 ms, UpperFence = 46.2541 ms
+ConfidenceInterval = [44.1099 ms; 44.9931 ms] (CI 95%)
+
+
+* Statistics for Result
+Mean = 44.5512 ms, StdError = 0.2253 ms (0.51%); N = 10, StdDev = 0.7124 ms
+Min = 43.6388 ms, Q1 = 43.8497 ms, Median = 44.6469 ms, Q3 = 44.8113 ms, Max = 45.6213 ms
+IQR = 0.9616 ms, LowerFence = 42.4072 ms, UpperFence = 46.2538 ms
+ConfidenceInterval = [44.1096 ms; 44.9927 ms] (CI 95%)
+
+*** ImmutableHierarchyInsertDelete_InsertAndDeleteNodesShallow_Target5 ***
+* Raw *
+Pilot 1: 20 op, 867113767.7 ns, 43.3557 ms/op
+IdleWarmup 1: 20 op, 10264.66 ns, 513.2330 ns/op
+IdleWarmup 2: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleWarmup 3: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleWarmup 4: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleWarmup 5: 20 op, 5748.21 ns, 287.4105 ns/op
+IdleWarmup 6: 20 op, 6158.79 ns, 307.9395 ns/op
+IdleTarget 1: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 2: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 3: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 4: 20 op, 5748.21 ns, 287.4105 ns/op
+IdleTarget 5: 20 op, 6158.79 ns, 307.9395 ns/op
+IdleTarget 6: 20 op, 5748.21 ns, 287.4105 ns/op
+IdleTarget 7: 20 op, 5748.21 ns, 287.4105 ns/op
+IdleTarget 8: 20 op, 6158.79 ns, 307.9395 ns/op
+IdleTarget 9: 20 op, 6158.79 ns, 307.9395 ns/op
+IdleTarget 10: 20 op, 6979.97 ns, 348.9985 ns/op
+MainWarmup 1: 20 op, 880736197.53 ns, 44.0368 ms/op
+MainWarmup 2: 20 op, 880394179.2 ns, 44.0197 ms/op
+MainWarmup 3: 20 op, 877764785 ns, 43.8882 ms/op
+MainWarmup 4: 20 op, 875374762.58 ns, 43.7687 ms/op
+MainWarmup 5: 20 op, 883866917.51 ns, 44.1933 ms/op
+MainWarmup 6: 20 op, 880662702.59 ns, 44.0331 ms/op
+MainWarmup 7: 20 op, 879904760.42 ns, 43.9952 ms/op
+MainWarmup 8: 20 op, 887467758.72 ns, 44.3734 ms/op
+MainWarmup 9: 20 op, 880889346.19 ns, 44.0445 ms/op
+MainWarmup 10: 20 op, 874926813.01 ns, 43.7463 ms/op
+MainWarmup 11: 20 op, 879214975.56 ns, 43.9607 ms/op
+MainTarget 1: 20 op, 876608984.78 ns, 43.8304 ms/op
+MainTarget 2: 20 op, 883228045.34 ns, 44.1614 ms/op
+MainTarget 3: 20 op, 880514891.55 ns, 44.0257 ms/op
+MainTarget 4: 20 op, 876129009.48 ns, 43.8065 ms/op
+MainTarget 5: 20 op, 879352932.53 ns, 43.9676 ms/op
+Result 1: 20 op, 876602825.98 ns, 43.8301 ms/op
+Result 2: 20 op, 883221886.55 ns, 44.1611 ms/op
+Result 3: 20 op, 880508732.76 ns, 44.0254 ms/op
+Result 4: 20 op, 876122850.68 ns, 43.8061 ms/op
+Result 5: 20 op, 879346773.74 ns, 43.9673 ms/op
+Pilot 1: 20 op, 879558636.23 ns, 43.9779 ms/op
+IdleWarmup 1: 20 op, 9032.9 ns, 451.6450 ns/op
+IdleWarmup 2: 20 op, 5748.21 ns, 287.4105 ns/op
+IdleWarmup 3: 20 op, 6158.79 ns, 307.9395 ns/op
+IdleWarmup 4: 20 op, 6158.79 ns, 307.9395 ns/op
+IdleWarmup 5: 20 op, 5748.21 ns, 287.4105 ns/op
+IdleWarmup 6: 20 op, 6158.79 ns, 307.9395 ns/op
+IdleTarget 1: 20 op, 5748.21 ns, 287.4105 ns/op
+IdleTarget 2: 20 op, 6158.79 ns, 307.9395 ns/op
+IdleTarget 3: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 4: 20 op, 19708.14 ns, 985.4070 ns/op
+IdleTarget 5: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 6: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 7: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 8: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 9: 20 op, 6979.97 ns, 348.9985 ns/op
+IdleTarget 10: 20 op, 6979.97 ns, 348.9985 ns/op
+MainWarmup 1: 20 op, 904892217.01 ns, 45.2446 ms/op
+MainWarmup 2: 20 op, 879444082.67 ns, 43.9722 ms/op
+MainWarmup 3: 20 op, 881082732.3 ns, 44.0541 ms/op
+MainWarmup 4: 20 op, 902719805.28 ns, 45.1360 ms/op
+MainWarmup 5: 20 op, 881919917.62 ns, 44.0960 ms/op
+MainWarmup 6: 20 op, 871679075.95 ns, 43.5840 ms/op
+MainWarmup 7: 20 op, 883502727.52 ns, 44.1751 ms/op
+MainTarget 1: 20 op, 880318220.75 ns, 44.0159 ms/op
+MainTarget 2: 20 op, 883301129.69 ns, 44.1651 ms/op
+MainTarget 3: 20 op, 884633892.58 ns, 44.2317 ms/op
+MainTarget 4: 20 op, 878381074.93 ns, 43.9191 ms/op
+MainTarget 5: 20 op, 879169811.07 ns, 43.9585 ms/op
+Result 1: 20 op, 880311240.78 ns, 44.0156 ms/op
+Result 2: 20 op, 883294149.72 ns, 44.1647 ms/op
+Result 3: 20 op, 884626912.61 ns, 44.2313 ms/op
+Result 4: 20 op, 878374094.97 ns, 43.9187 ms/op
+Result 5: 20 op, 879162831.11 ns, 43.9581 ms/op
+
+* Statistics for Pilot
+Mean = 43.6668 ms, StdError = 0.3111 ms (0.71%); N = 2, StdDev = 0.4400 ms
+Min = 43.3557 ms, Q1 = 43.3557 ms, Median = 43.6668 ms, Q3 = 43.9779 ms, Max = 43.9779 ms
+IQR = 0.6222 ms, LowerFence = 42.4223 ms, UpperFence = 44.9113 ms
+ConfidenceInterval = [43.0570 ms; 44.2766 ms] (CI 95%)
+
+
+* Statistics for IdleWarmup
+Mean = 342.1553 ns, StdError = 20.4254 ns (5.97%); N = 12, StdDev = 70.7556 ns
+Min = 287.4105 ns, Q1 = 297.6750 ns, Median = 307.9395 ns, Q3 = 348.9985 ns, Max = 513.2330 ns
+IQR = 51.3235 ns, LowerFence = 220.6898 ns, UpperFence = 425.9838 ns
+ConfidenceInterval = [302.1215 ns; 382.1890 ns] (CI 95%)
+
+
+* Statistics for IdleTarget
+Mean = 360.2895 ns, StdError = 33.4185 ns (9.28%); N = 20, StdDev = 149.4519 ns
+Min = 287.4105 ns, Q1 = 307.9395 ns, Median = 348.9985 ns, Q3 = 348.9985 ns, Max = 985.4070 ns
+IQR = 41.0590 ns, LowerFence = 246.3510 ns, UpperFence = 410.5870 ns
+ConfidenceInterval = [294.7893 ns; 425.7897 ns] (CI 95%)
+
+
+* Statistics for MainWarmup
+Mean = 44.1290 ms, StdError = 0.1002 ms (0.23%); N = 18, StdDev = 0.4250 ms
+Min = 43.5840 ms, Q1 = 43.9607 ms, Median = 44.0350 ms, Q3 = 44.1751 ms, Max = 45.2446 ms
+IQR = 0.2144 ms, LowerFence = 43.6392 ms, UpperFence = 44.4967 ms
+ConfidenceInterval = [43.9327 ms; 44.3253 ms] (CI 95%)
+
+
+* Statistics for MainTarget
+Mean = 44.0082 ms, StdError = 0.0451 ms (0.1%); N = 10, StdDev = 0.1425 ms
+Min = 43.8065 ms, Q1 = 43.9191 ms, Median = 43.9918 ms, Q3 = 44.1614 ms, Max = 44.2317 ms
+IQR = 0.2423 ms, LowerFence = 43.5555 ms, UpperFence = 44.5249 ms
+ConfidenceInterval = [43.9199 ms; 44.0965 ms] (CI 95%)
+
+
+* Statistics for Result
+Mean = 44.0079 ms, StdError = 0.0451 ms (0.1%); N = 10, StdDev = 0.1425 ms
+Min = 43.8061 ms, Q1 = 43.9187 ms, Median = 43.9915 ms, Q3 = 44.1611 ms, Max = 44.2313 ms
+IQR = 0.2424 ms, LowerFence = 43.5551 ms, UpperFence = 44.5247 ms
+ConfidenceInterval = [43.9195 ms; 44.0962 ms] (CI 95%)
+

@@ -20,7 +20,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void MH_Add_value_to_root_node_doesnt_create_new_hierarchy()
+        public void MH_Add_value_to_root_node()
         {
             // ARRANGE
 
@@ -55,7 +55,7 @@ namespace Elementary.Hierarchy.Collections.Test
 
             var result = Assert.Throws<ArgumentException>(() => hierarchy.Add(HierarchyPath.Create<string>(), "test2"));
 
-            Assert.That(() => result.Message.Contains("has already a value"));
+            Assert.That(() => result.Message.Contains("already has a value"));
 
             string value;
             Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create<string>(), out value));
@@ -106,7 +106,7 @@ namespace Elementary.Hierarchy.Collections.Test
 
             var result = Assert.Throws<ArgumentException>(() => hierarchy.Add(HierarchyPath.Create("a"), test1));
 
-            Assert.That(result.Message.Contains("has already a value"));
+            Assert.That(result.Message.Contains("already has a value"));
             Assert.That(result.Message.Contains("'a'"));
 
             string value;
@@ -119,7 +119,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void MH_Add_child_sibling_returns_same_hierachy_with_same_values()
+        public void MH_Add_child_sibling()
         {
             // ARRANGE
 
@@ -150,7 +150,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void MH_Add_grandchild_returns_same_hierachy_with_same_values()
+        public void MH_Add_grandchild_()
         {
             // ARRANGE
             var hierarchy = new MutableHierarchy<string, string>();

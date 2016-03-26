@@ -6,6 +6,7 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
+    using System.Threading;
 
     /// <summary>
     /// An immutable hierachy holds a set of value but never changes ists structure.
@@ -174,9 +175,12 @@
             this.pruneOnUnsetValue = pruneOnUnsetValue;
         }
 
-        private readonly Node rootNode;
+        private Node rootNode;
 
         private readonly bool pruneOnUnsetValue;
+
+        // MSDN: Do not store SpinLock instances in readonly fields.
+        private SpinLock writeLock = new SpinLock();
 
         private ImmutableHierarchy<TKey, TValue> CreateIfRootHasChanged(Node newRoot)
         {
@@ -188,6 +192,35 @@
 
         #endregion Construction and initialization of this instance
 
+        #region Add/Set value
+
+        /// <summary>
+        /// Set the value of the specified node of the hierarchy.
+        /// if the node doesn't exist, it is created.
+        /// </summary>
+        /// <param name="hierarchyPath"></param>
+        /// <returns></returns>
+        public TValue this[HierarchyPath<TKey> hierarchyPath]
+        {
+            set
+            {
+                bool isLocked = false;
+                try
+                {
+                    this.writeLock.Enter(ref isLocked);
+
+                    Stack<Node> nodesAlongPath;
+                    this.rootNode = this.RebuildAscendingPathAfterChange(
+                        this.GetOrCreateNode(hierarchyPath, out nodesAlongPath).SetValue(value), nodesAlongPath);
+                }
+                finally
+                {
+                    if (isLocked)
+                        this.writeLock.Exit();
+                }
+            }
+        }
+
         /// <summary>
         /// Adds a value to the immutable hierachy at the specified position.
         /// The result is a new ImmutableHiarachy contains the value. The
@@ -197,27 +230,32 @@
         /// <param name="hierarchyPath">Specifies where to set the value</param>
         /// <param name="value">the value to keep</param>
         /// <returns>Am immutable hierach which contains the specified value</returns>
-        public ImmutableHierarchy<TKey, TValue> Add(HierarchyPath<TKey> hierarchyPath, TValue value)
+        public void Add(HierarchyPath<TKey> hierarchyPath, TValue value)
         {
-            // if the path has no items, the root node is changed
+            bool isLocked = false;
+            try
+            {
+                this.writeLock.Enter(ref isLocked);
 
-            if (!hierarchyPath.Items.Any())
-                return this.CreateIfRootHasChanged(this.rootNode.SetValue(value));
+                // Set the value at the destination node. The clone may substitute the current node.
 
-            // Set the value at the destination node. The clone may substitute the current node.
+                Stack<Node> nodesAlongPath;
+                var currentNode = this.GetOrCreateNode(hierarchyPath, out nodesAlongPath);
 
-            Stack<Node> nodesAlongPath;
-            var currentNode = this.GetOrCreateNode(hierarchyPath, out nodesAlongPath).SetValue(value);
+                // if the node has already a value, add gails woth argument exception
 
-            // now ascend again to the root and clone new parent node for the newly created child nodes.
+                if (currentNode.HasValue)
+                    throw new ArgumentException($"Node at '{hierarchyPath}' already has a value");
 
-            currentNode = this.RebuildAscendingPathAfterChange(currentNode, nodesAlongPath);
+                // now ascend again to the root and clone new parent node for the newly created child nodes.
 
-            // this ist the new immutable hierachy root.
-            if (object.ReferenceEquals(this.rootNode, currentNode))
-                return this;
-
-            return new ImmutableHierarchy<TKey, TValue>(currentNode, this.pruneOnUnsetValue);
+                this.rootNode = this.RebuildAscendingPathAfterChange(currentNode.SetValue(value), nodesAlongPath);
+            }
+            finally
+            {
+                if (isLocked)
+                    this.writeLock.Exit();
+            }
         }
 
         private Node GetOrCreateNode(HierarchyPath<TKey> hierarchyPath, out Stack<Node> nodesAlongPath)
@@ -263,6 +301,8 @@
             return reconnectedParentNode;
         }
 
+        #endregion Add/Set value
+
         /// <summary>
         /// Retrieves the nodes value from the immutable hierarchy.
         /// </summary>
@@ -287,36 +327,34 @@
         /// </summary>
         /// <param name="hierarchyPath"></param>
         /// <returns>true if value was removed</returns>
-        public ImmutableHierarchy<TKey, TValue> Remove(HierarchyPath<TKey> hierarchyPath)
+        public bool Remove(HierarchyPath<TKey> hierarchyPath)
         {
-            // if the path has no items, the root node is changed
-            if (!hierarchyPath.Items.Any())
-                return this.CreateIfRootHasChanged(this.rootNode.UnsetValue(prune: this.pruneOnUnsetValue));
-
-            // now find the the value node and the path to reach it
-<<<<<<< HEAD
-
             Stack<Node> nodesAlongPath = new Stack<Node>();
             Node currentNode;
 
+            // try to get the node to remove values from
+
             if (!this.TryGetNode(hierarchyPath, out nodesAlongPath, out currentNode))
-                throw new KeyNotFoundException($"Could not find node '{hierarchyPath}'");
-=======
-            Stack<Node> nodesAlongPath = new Stack<Node>(this.rootNode.DescendAlongPath(hierarchyPath));
-            if (nodesAlongPath.Count != hierarchyPath.Items.Count() + 1)
-            {
-                // the value node doesn't exist: keep hierarchy as it is
-                throw new KeyNotFoundException($"Could not find node '{hierarchyPath.Items.ElementAt(nodesAlongPath.Count - 1)}' under '{HierarchyPath.Create(hierarchyPath.Items.Take(nodesAlongPath.Count - 1)).ToString()}'");
-            }
->>>>>>> 0.0.3
+                return false;
 
-            // unset the value at the value node...
+            // If node hasn't a value Remove is finshed. Just return false
 
-            currentNode = currentNode.UnsetValue(prune: this.pruneOnUnsetValue);
+            if (!currentNode.HasValue)
+                return false;
 
             // last node must be the root node: create new hierachy if root node has changed
-
-            return this.CreateIfRootHasChanged(this.RebuildAscendingPathAfterChange(currentNode, nodesAlongPath));
+            bool isLocked = false;
+            try
+            {
+                this.writeLock.Enter(ref isLocked);
+                this.rootNode = this.RebuildAscendingPathAfterChange(currentNode.UnsetValue(prune: this.pruneOnUnsetValue), nodesAlongPath);
+                return true;
+            }
+            finally
+            {
+                if (isLocked)
+                    this.writeLock.Exit();
+            }
         }
 
         private bool TryGetNode(HierarchyPath<TKey> hierarchyPath, out Stack<Node> nodesAlongPath, out Node node)

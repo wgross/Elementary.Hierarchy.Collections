@@ -178,7 +178,7 @@
         #region Add/Set a hierarchy nodes value
 
         /// <summary>
-        /// Set the value of the specified node of teh hierarchy.
+        /// Set the value of the specified node of the hierarchy.
         /// if the node doesn't exist, it is created.
         /// </summary>
         /// <param name="hierarchyPath"></param>
@@ -199,24 +199,10 @@
         /// <returns>returns this</returns>
         public void Add(HierarchyPath<TKey> hierarchyPath, TValue value)
         {
-<<<<<<< HEAD
             var nodeToSetValueAt = this.GetOrCreateNode(hierarchyPath);
-=======
-            // find the the value node and the path to reach it as far as pssible
-
-            var nodesFound = this.rootNode.DescendAlongPath(hierarchyPath).ToArray();
-            if (nodesFound.Length == hierarchyPath.Items.Count() + 1)
-            {
-                // the last node msut be the value node, becaus it has the same depth as the hierachy path
-                // -> store the value in it.
-
-                nodesFound[nodesFound.Length - 1].SetValue(value);
-                return this;
-            }
->>>>>>> 0.0.3
 
             if (nodeToSetValueAt.HasValue)
-                throw new ArgumentException($"Node at '{hierarchyPath}' has already a value");
+                throw new ArgumentException($"Node at '{hierarchyPath}' already has a value");
 
             nodeToSetValueAt.SetValue(value);
         }
@@ -257,19 +243,9 @@
         /// <returns>true if value was removed, false otherwise</returns>
         public bool Remove(HierarchyPath<TKey> hierarchyPath)
         {
-<<<<<<< HEAD
             Node node;
             if (!this.rootNode.TryGetDescendantAt(hierarchyPath, out node))
                 return false;
-=======
-            // find the the value node and the path to reach it as far as pssible
-
-            var nodesAlongPath = this.rootNode.DescendAlongPath(hierarchyPath).ToArray();
-            if (nodesAlongPath.Length == hierarchyPath.Items.Count() + 1)
-            {
-                // the last node msut be the value node, becaus it has the same depth as the hierachy path
-                // -> unset value.
->>>>>>> 0.0.3
 
             if (!node.HasValue)
                 return false;
