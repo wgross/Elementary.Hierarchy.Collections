@@ -14,7 +14,7 @@
     /// </summary>
     /// <typeparam name="TKey">type of the indetifier of the stires data</typeparam>s
     /// <typeparam name="TNode"></typeparam>
-    public class MutableHierarchy<TKey, TValue>
+    public class MutableHierarchy<TKey, TValue> : IHierarchy<TKey,TValue>
     {
         /// <summary>
         /// Internal node class: holds a value and child nodes.
