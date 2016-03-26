@@ -277,8 +277,6 @@
 
         #endregion Add/Set value
 
-
-
         /// <summary>
         /// Retrieves the nodes value from the immutable hierarchy.
         /// </summary>
@@ -303,7 +301,7 @@
         /// </summary>
         /// <param name="hierarchyPath"></param>
         /// <returns>true if value was removed</returns>
-        public ImmutableHierarchy<TKey, TValue> Remove(HierarchyPath<TKey> hierarchyPath)
+        public bool Remove(HierarchyPath<TKey> hierarchyPath)
         {
             Stack<Node> nodesAlongPath = new Stack<Node>();
             Node currentNode;
@@ -313,13 +311,15 @@
             if (!this.TryGetNode(hierarchyPath, out nodesAlongPath, out currentNode))
                 throw new KeyNotFoundException($"Could not find node '{hierarchyPath}'");
 
-            // unset the value at the value node...
+            // If node hasn't a value Remove is finshed. Just return false
 
-            currentNode = currentNode.UnsetValue(prune: this.pruneOnUnsetValue);
+            if (!currentNode.HasValue)
+                return false;
 
             // last node must be the root node: create new hierachy if root node has changed
 
-            return this.CreateIfRootHasChanged(this.RebuildAscendingPathAfterChange(currentNode, nodesAlongPath));
+            this.rootNode = this.RebuildAscendingPathAfterChange(currentNode.UnsetValue(prune: this.pruneOnUnsetValue), nodesAlongPath);
+            return true;
         }
 
         private bool TryGetNode(HierarchyPath<TKey> hierarchyPath, out Stack<Node> nodesAlongPath, out Node node)

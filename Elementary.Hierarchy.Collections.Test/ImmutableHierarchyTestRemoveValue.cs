@@ -7,7 +7,7 @@ namespace Elementary.Hierarchy.Collections.Test
     public class ImmutableHierarchyTestRemoveValue
     {
         [Test]
-        public void IMH_Remove_value_from_root_creates_new_hierarchy()
+        public void IMH_Remove_value_from_root_returns_true()
         {
             // ARRANGE
             string test = "test";
@@ -23,24 +23,17 @@ namespace Elementary.Hierarchy.Collections.Test
 
             // ASSERT
 
-            Assert.AreNotSame(hierarchy, result);
+            Assert.IsTrue(result);
 
             string value;
 
-            // old node is unchanged
-            Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create<string>(), out value));
-            Assert.AreSame(test, value);
+            Assert.IsFalse(hierarchy.TryGetValue(HierarchyPath.Create<string>(), out value));
             Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create("a"), out value));
-            Assert.AreSame(test1, value);
-
-            // new node has no value
-            Assert.IsFalse(result.TryGetValue(HierarchyPath.Create<string>(), out value));
-            Assert.IsTrue(result.TryGetValue(HierarchyPath.Create("a"), out value));
             Assert.AreSame(test1, value);
         }
 
         [Test]
-        public void IMH_Remove_value_twice_from_root_doesnt_creates_new_hierarchy()
+        public void IMH_Remove_value_twice_from_root_returns_false()
         {
             // ARRANGE
             string test = "test";
@@ -57,11 +50,11 @@ namespace Elementary.Hierarchy.Collections.Test
 
             // ASSERT
 
-            Assert.AreSame(hierarchy, result);
+            Assert.IsFalse(result);
         }
 
         [Test]
-        public void IMH_Remove_value_from_child_creates_new_hierarchy()
+        public void IMH_Remove_value_from_child_returns_true()
         {
             // ARRANGE
             string test = "test";
@@ -79,28 +72,20 @@ namespace Elementary.Hierarchy.Collections.Test
 
             // ASSERT
 
-            Assert.AreNotSame(hierarchy, result);
+            Assert.IsTrue(result);
 
             string value;
 
-            // old node is unchanged
+            // new node has no value
             Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create<string>(), out value));
             Assert.AreSame(test, value);
-            Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create("a"), out value));
-            Assert.AreSame(test1, value);
-            Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create("a", "b"), out value));
-            Assert.AreSame(test2, value);
-
-            // new node has no value
-            Assert.IsTrue(result.TryGetValue(HierarchyPath.Create<string>(), out value));
-            Assert.AreSame(test, value);
-            Assert.IsFalse(result.TryGetValue(HierarchyPath.Create("a"), out value));
+            Assert.IsFalse(hierarchy.TryGetValue(HierarchyPath.Create("a"), out value));
             Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create("a", "b"), out value));
             Assert.AreSame(test2, value);
         }
 
         [Test]
-        public void IMH_Remove_value_from_child_twice_doesnt_create_new_hierarchy()
+        public void IMH_Remove_value_from_child_twice_returns_false()
         {
             // ARRANGE
             string test = "test";
@@ -119,7 +104,7 @@ namespace Elementary.Hierarchy.Collections.Test
 
             // ASSERT
 
-            Assert.AreSame(hierarchy, result);
+            Assert.IsFalse(result);
         }
 
         [Test]

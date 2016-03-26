@@ -42,7 +42,7 @@ namespace Elementary.Hierarchy.Collections.Benchmarks
                     value: i);
 
             for (int i = 0; i < loops; i++)
-                this.hierarchy = this.hierarchy.Remove(
+                this.hierarchy.Remove(
                     HierarchyPath.Create(this.values[i], this.values[i + 1], this.values[i + 2], this.values[i + 3], this.values[i + 4], this.values[i + 5], this.values[i + 6]));
         }
 
@@ -57,7 +57,7 @@ namespace Elementary.Hierarchy.Collections.Benchmarks
                     value: i);
 
             for (int i = 0; i < loops; i++)
-                this.hierarchy = this.hierarchy.Remove(
+                this.hierarchy.Remove(
                     HierarchyPath.Create(this.values[i], this.values[i + 1], this.values[i + 2], this.values[i + 3], this.values[i + 4], this.values[i + 5], this.values[i + 6]));
         }
 
@@ -72,7 +72,7 @@ namespace Elementary.Hierarchy.Collections.Benchmarks
                     value: i);
 
             for (int i = 0; i < loops; i++)
-                this.hierarchy = this.hierarchy.Remove(
+                this.hierarchy.Remove(
                     HierarchyPath.Create(this.values[i], this.values[i + 1]));
         }
 
@@ -87,7 +87,7 @@ namespace Elementary.Hierarchy.Collections.Benchmarks
                     value: i);
 
             for (int i = 0; i < loops; i++)
-                this.hierarchy = this.hierarchy.Remove(
+                this.hierarchy.Remove(
                     HierarchyPath.Create(this.values[i], this.values[i + 1]));
         }
     }

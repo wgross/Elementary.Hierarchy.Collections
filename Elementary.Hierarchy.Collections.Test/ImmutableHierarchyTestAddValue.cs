@@ -54,7 +54,7 @@ namespace Elementary.Hierarchy.Collections.Test
 
             // ACT & ASSERT
 
-            var result = Assert.Throws<ArgumentException>(()=>hierarchy.Add(HierarchyPath.Create<string>(), test1));
+            var result = Assert.Throws<ArgumentException>(() => hierarchy.Add(HierarchyPath.Create<string>(), test1));
 
             // ASSERT
 
@@ -109,7 +109,7 @@ namespace Elementary.Hierarchy.Collections.Test
 
             // ACT
 
-            var result = Assert.Throws<ArgumentException>(()=>hierarchy.Add(HierarchyPath.Create("a"), test2));
+            var result = Assert.Throws<ArgumentException>(() => hierarchy.Add(HierarchyPath.Create("a"), test2));
 
             // ASSERT
 
