@@ -199,11 +199,23 @@
         {
             private readonly Traverser parentTraverser;
             private readonly Node node;
+            private readonly Lazy<HierarchyPath<TKey>> path;
+
+            public Traverser(Node rootNode)
+            {
+                this.parentTraverser = null;
+                this.node = rootNode;
+                this.path = new Lazy<HierarchyPath<TKey>>(() => HierarchyPath.Create<TKey>(), isThreadSafe: false);
+            }
 
             public Traverser(Traverser parentTraverser, Node rootNode)
             {
+                if (parentTraverser == null)
+                    throw new ArgumentNullException(nameof(parentTraverser));
+
                 this.parentTraverser = parentTraverser;
                 this.node = rootNode;
+                this.path = new Lazy<HierarchyPath<TKey>>(() => this.parentTraverser.Path.Join(this.node.id), isThreadSafe: false);
             }
 
             public IEnumerable<IHierarchyNode<TKey>> ChildNodes => this.node.Children().Select(c => new Traverser(this, c));
@@ -213,6 +225,8 @@
             public bool HasParentNode => this.parentTraverser != null;
 
             public IHierarchyNode<TKey> ParentNode => this.parentTraverser;
+
+            public HierarchyPath<TKey> Path => this.path.Value;
 
             public override bool Equals(object obj)
             {
@@ -234,12 +248,12 @@
         }
 
         /// <summary>
-        /// Starts a traversal of the hierarchy at the root node. 
+        /// Starts a traversal of the hierarchy at the root node.
         /// </summary>
         /// <returns>A traversable representation of the root node</returns>
         public IHierarchyNode<TKey> Traverse()
         {
-            return new Traverser(null, this.rootNode);
+            return new Traverser(this.rootNode);
         }
 
         #endregion Hierarchy Node Traversal

@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="HasPerantNodeExtensions.cs" />
     <Compile Include="IHierarchy.cs" />
     <Compile Include="ImmutableHierarchy.cs" />
     <Compile Include="HierarchyNodeBase.cs" />

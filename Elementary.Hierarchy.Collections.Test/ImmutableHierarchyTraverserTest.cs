@@ -10,7 +10,7 @@ namespace Elementary.Hierarchy.Collections.Test
         {
             // ARRANGE
 
-            var a = new ImmutableHierarchy<string, int>.Traverser(null, new ImmutableHierarchy<string, int>.Node(""));
+            var a = new ImmutableHierarchy<string, int>.Traverser(new ImmutableHierarchy<string, int>.Node(""));
 
             // ACT
 
@@ -27,8 +27,8 @@ namespace Elementary.Hierarchy.Collections.Test
             // ARRANGE
 
             var node = new ImmutableHierarchy<string, int>.Node("");
-            var a = new ImmutableHierarchy<string, int>.Traverser(null, node);
-            var b = new ImmutableHierarchy<string, int>.Traverser(null, node);
+            var a = new ImmutableHierarchy<string, int>.Traverser(node);
+            var b = new ImmutableHierarchy<string, int>.Traverser(node);
 
             // ACT
 

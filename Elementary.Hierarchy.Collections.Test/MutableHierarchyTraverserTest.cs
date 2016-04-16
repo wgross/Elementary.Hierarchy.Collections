@@ -10,7 +10,7 @@ namespace Elementary.Hierarchy.Collections.Test
         {
             // ARRANGE
 
-            var a = new MutableHierarchy<string, int>.Traverser(null, new MutableHierarchy<string, int>.Node(""));
+            var a = new MutableHierarchy<string, int>.Traverser(new MutableHierarchy<string, int>.Node(""));
 
             // ACT
 
@@ -27,8 +27,8 @@ namespace Elementary.Hierarchy.Collections.Test
             // ARRANGE
 
             var node = new MutableHierarchy<string, int>.Node("");
-            var a = new MutableHierarchy<string, int>.Traverser(null, node);
-            var b = new MutableHierarchy<string, int>.Traverser(null, node);
+            var a = new MutableHierarchy<string, int>.Traverser(node);
+            var b = new MutableHierarchy<string, int>.Traverser(node);
 
             // ACT
 

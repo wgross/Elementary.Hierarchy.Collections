@@ -7,6 +7,22 @@ namespace Elementary.Hierarchy.Collections.Test
     public class ImmutableHierarchyTraversalTest
     {
         [Test]
+        public void IMH_node_knows_its_path()
+        {
+            // ARRANGE
+
+            var hierarchy = new ImmutableHierarchy<string, string>();
+
+            // ACT
+
+            var result = hierarchy.Traverse().Path;
+
+            // ASSERT
+
+            Assert.AreEqual(HierarchyPath.Create<string>(), result);
+        }
+
+        [Test]
         public void IMH_hierarchy_has_no_children_if_root_has_no_children()
         {
             // ARRANGE
@@ -39,6 +55,23 @@ namespace Elementary.Hierarchy.Collections.Test
 
             Assert.AreEqual(2, result.Length);
         }
+
+        [Test]
+        public void IMH_child_node_knows_its_path()
+        {
+            // ARRANGE
+
+            var hierarchy = new ImmutableHierarchy<string, string>();
+            hierarchy.Add(HierarchyPath.Create("a"), "v1");
+
+            // ACT
+
+            var result = hierarchy.Traverse().ChildNodes.Single().Path;
+
+            // ASSERT
+
+            Assert.AreEqual(HierarchyPath.Create("a"), result);
+        } 
 
         [Test]
         public void IMH_root_has_no_parent()
