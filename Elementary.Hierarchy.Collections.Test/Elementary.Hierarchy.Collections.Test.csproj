@@ -53,6 +53,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ImmutableHierarchySetValueTest.cs" />
+    <Compile Include="ImmutableHierarchyTraversalTest.cs" />
+    <Compile Include="ImmutableHierarchyTraverserTest.cs" />
     <Compile Include="MutableHierarchySetValueTest.cs" />
     <Compile Include="MutableHierarchyTestRemoveValue.cs" />
     <Compile Include="MutableHierarchyTestAddValue.cs" />

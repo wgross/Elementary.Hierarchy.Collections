@@ -11,8 +11,8 @@
     /// <summary>
     /// An immutable hierachy holds a set of values but never changes its nodes in place.
     /// Any change of the node structure or the value of a node cause to copy the node and rebuilding
-    /// if the path of tha ancestors includein the root node to create a new hierarchy referenceing the 
-    /// old unchanae nodes and the new changed nodes. 
+    /// if the path of tha ancestors includein the root node to create a new hierarchy referenceing the
+    /// old unchanae nodes and the new changed nodes.
     /// In a multithreaded environment reading is still possible while a change is happening in parallel
     /// </summary>
     /// <typeparam name="TKey">type of the indetifier of the stires data</typeparam>s
@@ -192,6 +192,53 @@
         }
 
         #endregion Construction and initialization of this instance
+
+        #region Hierarchy Node Traversal
+
+        public sealed class Traverser : IHierarchyNode<TKey>
+        {
+            private readonly Traverser parentTraverser;
+            private readonly Node node;
+
+            public Traverser(Traverser parentTraverser, Node rootNode)
+            {
+                this.parentTraverser = parentTraverser;
+                this.node = rootNode;
+            }
+
+            public IEnumerable<IHierarchyNode<TKey>> ChildNodes => this.node.Children().Select(c => new Traverser(this, c));
+
+            public bool HasChildNodes => this.node.HasChildNodes;
+
+            public bool HasParentNode => this.parentTraverser != null;
+
+            public IHierarchyNode<TKey> ParentNode => this.parentTraverser;
+
+            public override bool Equals(object obj)
+            {
+                if (object.ReferenceEquals(this, obj))
+                    return true;
+
+                var objAsTraverser = obj as Traverser;
+                if (objAsTraverser == null)
+                    return false;
+
+                // Traversers are equals if the point to the same node
+                return object.ReferenceEquals(this.node, objAsTraverser.node);
+            }
+
+            public override int GetHashCode()
+            {
+                return this.node.GetHashCode();
+            }
+        }
+
+        public IHierarchyNode<TKey> StartTraversal()
+        {
+            return new Traverser(null, this.rootNode);
+        }
+
+        #endregion Hierarchy Node Traversal
 
         #region Add/Set value
 
