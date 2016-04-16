@@ -1,16 +1,13 @@
 ﻿namespace Elementary.Hierarchy.Collections
 {
-    public interface IHierarchyNode<TKey, TItem> :
-        // Support the public hierarchy traversal methods
-        IHasChildNodes<TItem>,
-        IHasIdentifiableChildNodes<TKey, TItem>,
-        IHasParentNode<TItem>
-        where TItem : IHierarchyNode<TKey, TItem>
+    public interface IHierarchyNode<TKey,TValue> :
+        IHasChildNodes<IHierarchyNode<TKey,TValue>>,
+        IHasParentNode<IHierarchyNode<TKey,TValue>>
     {
-        TKey LocalPath { get; }
+        HierarchyPath<TKey> Path { get; }
 
-        TItem AddChildNode(TItem newChild);
+        bool HasValue { get; }
 
-        void ClearChildNodes();
+        TValue Value { get;}
     }
 }

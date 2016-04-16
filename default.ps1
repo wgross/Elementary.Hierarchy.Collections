@@ -4,7 +4,6 @@ $nuget = (Get-Command nuget.exe).Path
 $msbuild = (Get-Command msbuild.exe).Path
 $hg = (Get-Command hg.exe).Path
 $git = (Get-Command git.exe).Path
-$nunit = (Get-Command $PSScriptRoot\packages\NUnit.ConsoleRunner.3.2.0\tools\nunit3-console.exe).Path
 $solutionFile = (Resolve-path $PSScriptRoot\Elementary.Hierarchy.Collections.sln)
 $packedProject = (Resolve-path $PSScriptRoot\Elementary.Hierarchy.Collections\Elementary.Hierarchy.Collections.csproj)
 $localPackageSource = (Resolve-Path "C:\src\packages")
@@ -42,15 +41,17 @@ Task pack {
 
 Task build {
 
-    & $msbuild $solutionFile /t:Build /p:Configuration=Release
+    & $msbuild $solutionFile /t:Build /p:Configuration=Debug
 
 } -precondition { Test-Path $msbuild } -depends package_restore
 
 Task test {
 
+    $nunit = (Get-Command $PSScriptRoot\packages\NUnit.ConsoleRunner.3.2.0\tools\nunit3-console.exe).Path
+
     & $nunit (Resolve-Path $PSScriptRoot/Elementary.Hierarchy.Collections.Test/Elementary.Hierarchy.Collections.Test.csproj)
 
-} -precondition { Test-Path $nunit } -depends build,package_restore
+} -depends build,package_restore
 
 Task measure {
     
