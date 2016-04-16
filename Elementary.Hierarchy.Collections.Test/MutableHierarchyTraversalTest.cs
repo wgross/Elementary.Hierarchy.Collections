@@ -4,14 +4,14 @@ using System.Linq;
 namespace Elementary.Hierarchy.Collections.Test
 {
     [TestFixture]
-    public class ImmutableHierarchyTraversalTest
+    public class MutableHierarchyTraversalTest
     {
         [Test]
-        public void IMH_node_knows_its_path()
+        public void MH_node_knows_its_path()
         {
             // ARRANGE
 
-            var hierarchy = new ImmutableHierarchy<string, string>();
+            var hierarchy = new MutableHierarchy<string, string>();
 
             // ACT
 
@@ -23,11 +23,11 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void IMH_hierarchy_has_no_children_if_root_has_no_children()
+        public void MH_hierarchy_has_no_children_if_root_has_no_children()
         {
             // ARRANGE
 
-            var hierarchy = new ImmutableHierarchy<string, string>();
+            var hierarchy = new MutableHierarchy<string, string>();
 
             // ACT
 
@@ -39,11 +39,11 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void IMH_get_a_nodes_value()
+        public void MH_get_a_nodes_value()
         {
             // ARRANGE
 
-            var hierarchy = new ImmutableHierarchy<string, string>();
+            var hierarchy = new MutableHierarchy<string, string>();
             hierarchy.Add(HierarchyPath.Create<string>(), "v1");
 
             // ACT
@@ -52,15 +52,15 @@ namespace Elementary.Hierarchy.Collections.Test
 
             // ASSERT
 
-            Assert.AreEqual("v1", result);
+            Assert.AreEqual("v1",result);
         }
-
+        
         [Test]
-        public void IMH_Get_children_of_root_node()
+        public void MH_Get_children_of_root_node()
         {
             // ARRANGE
 
-            var hierarchy = new ImmutableHierarchy<string, string>();
+            var hierarchy = new MutableHierarchy<string, string>();
             hierarchy.Add(HierarchyPath.Create("a"), "v1");
             hierarchy.Add(HierarchyPath.Create("b"), "v2");
 
@@ -74,11 +74,11 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void IMH_child_node_knows_its_path()
+        public void MH_child_node_knows_its_path()
         {
             // ARRANGE
 
-            var hierarchy = new ImmutableHierarchy<string, string>();
+            var hierarchy = new MutableHierarchy<string, string>();
             hierarchy.Add(HierarchyPath.Create("a"), "v1");
 
             // ACT
@@ -88,14 +88,14 @@ namespace Elementary.Hierarchy.Collections.Test
             // ASSERT
 
             Assert.AreEqual(HierarchyPath.Create("a"), result);
-        } 
+        }
 
         [Test]
-        public void IMH_root_has_no_parent()
+        public void MH_root_has_no_parent()
         {
             // ARRANGE
 
-            var hierarchy = new ImmutableHierarchy<string, string>();
+            var hierarchy = new MutableHierarchy<string, string>();
 
             // ACT
 
@@ -107,11 +107,11 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void IMH_children_of_root_have_root_as_parent()
+        public void MH_children_of_root_have_root_as_parent()
         {
             // ARRANGE
 
-            var hierarchy = new ImmutableHierarchy<string, string>();
+            var hierarchy = new MutableHierarchy<string, string>();
             hierarchy.Add(HierarchyPath.Create("a"), "v1");
 
             var root = hierarchy.Traverse();

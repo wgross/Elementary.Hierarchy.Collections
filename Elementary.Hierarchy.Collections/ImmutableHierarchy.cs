@@ -32,28 +32,28 @@
 
             #region Construction and initialization of this instance
 
-            public Node(TKey id)
+            public Node(TKey key)
             {
-                this.id = id;
+                this.key = key;
                 this.value = ValueNotSet;
                 this.childNodes = new Node[0];
             }
 
-            public Node(TKey id, object value)
+            public Node(TKey key, object value)
             {
-                this.id = id;
+                this.key = key;
                 this.value = value;
                 this.childNodes = new Node[0];
             }
 
-            public Node(TKey id, object value, IEnumerable<Node> childNodes)
+            public Node(TKey key, object value, IEnumerable<Node> childNodes)
             {
-                this.id = id;
+                this.key = key;
                 this.value = value;
                 this.childNodes = childNodes.ToArray();
             }
 
-            public readonly TKey id;
+            public readonly TKey key;
 
             public readonly object value = ValueNotSet;
 
@@ -73,7 +73,7 @@
 
             public bool TryGetChildNode(TKey id, out Node childNode)
             {
-                childNode = this.childNodes.SingleOrDefault(n => EqualityComparer<TKey>.Default.Equals(n.id, id));
+                childNode = this.childNodes.SingleOrDefault(n => EqualityComparer<TKey>.Default.Equals(n.key, id));
                 return childNode != null;
             }
 
@@ -89,7 +89,7 @@
                 newChildNodes[this.childNodes.Length] = newChildNode;
 
                 // return a new node as susbtitute for this node to add to the new parent
-                return new Node(this.id, this.value, newChildNodes);
+                return new Node(this.key, this.value, newChildNodes);
             }
 
             public Node SetChildNode(Node newChildNode)
@@ -99,7 +99,7 @@
 
                 for (int i = 0; i < newChildNodes.Length; i++)
                 {
-                    if (EqualityComparer<TKey>.Default.Equals(newChildNodes[i].id, newChildNode.id))
+                    if (EqualityComparer<TKey>.Default.Equals(newChildNodes[i].key, newChildNode.key))
                     {
                         // the node is already child of this node -> just return this node as changed node.
                         if (object.ReferenceEquals(newChildNodes[i], newChildNode))
@@ -109,10 +109,10 @@
                         newChildNodes[i] = newChildNode;
 
                         // return a sunstitut for this node contains the new child node.
-                        return new Node(this.id, this.value, newChildNodes);
+                        return new Node(this.key, this.value, newChildNodes);
                     }
                 }
-                throw new InvalidOperationException($"The node (id={newChildNode.id}) doesn't substutite any of the existing child nodes in (id={this.id})");
+                throw new InvalidOperationException($"The node (id={newChildNode.key}) doesn't substutite any of the existing child nodes in (id={this.key})");
             }
 
             public Node SetValue(TValue value)
@@ -122,7 +122,7 @@
                 if (this.HasValue && EqualityComparer<TValue>.Default.Equals((TValue)this.value, value))
                     return this;
                 else
-                    return new Node(this.id, (object)value, this.childNodes);
+                    return new Node(this.key, (object)value, this.childNodes);
             }
 
             public bool TryGetValue(out TValue value)
@@ -150,11 +150,11 @@
 
                 if (prune)
                     if (!this.Descendants().Any(c => c.HasValue))
-                        return new Node(this.id, ValueNotSet);
+                        return new Node(this.key, ValueNotSet);
 
                 // return a clone of this node, changed only at its value
 
-                return new Node(this.id, ValueNotSet, this.childNodes);
+                return new Node(this.key, ValueNotSet, this.childNodes);
             }
         }
 
@@ -195,24 +195,42 @@
 
         #region Hierarchy Node Traversal
 
-        public sealed class Traverser : IHierarchyNode<TKey>
+        public sealed class Traverser : IHierarchyNode<TKey, TValue>
         {
             private readonly Traverser parentTraverser;
             private readonly Node node;
+            private readonly Lazy<HierarchyPath<TKey>> path;
+
+            public Traverser(Node rootNode)
+            {
+                this.parentTraverser = null;
+                this.node = rootNode;
+                this.path = new Lazy<HierarchyPath<TKey>>(() => HierarchyPath.Create<TKey>(), isThreadSafe: false);
+            }
 
             public Traverser(Traverser parentTraverser, Node rootNode)
             {
+                if (parentTraverser == null)
+                    throw new ArgumentNullException(nameof(parentTraverser));
+
                 this.parentTraverser = parentTraverser;
                 this.node = rootNode;
+                this.path = new Lazy<HierarchyPath<TKey>>(() => this.parentTraverser.Path.Join(this.node.key), isThreadSafe: false);
             }
 
-            public IEnumerable<IHierarchyNode<TKey>> ChildNodes => this.node.Children().Select(c => new Traverser(this, c));
+            public IEnumerable<IHierarchyNode<TKey, TValue>> ChildNodes => this.node.Children().Select(c => new Traverser(this, c));
 
             public bool HasChildNodes => this.node.HasChildNodes;
 
             public bool HasParentNode => this.parentTraverser != null;
 
-            public IHierarchyNode<TKey> ParentNode => this.parentTraverser;
+            public IHierarchyNode<TKey, TValue> ParentNode => this.parentTraverser;
+
+            public HierarchyPath<TKey> Path => this.path.Value;
+
+            public bool HasValue => this.node.HasValue;
+
+            public TValue Value => (TValue)this.node.value;
 
             public override bool Equals(object obj)
             {
@@ -233,9 +251,13 @@
             }
         }
 
-        public IHierarchyNode<TKey> StartTraversal()
+        /// <summary>
+        /// Starts a traversal of the hierarchy at the root node.
+        /// </summary>
+        /// <returns>A traversable representation of the root node</returns>
+        public IHierarchyNode<TKey, TValue> Traverse()
         {
-            return new Traverser(null, this.rootNode);
+            return new Traverser(this.rootNode);
         }
 
         #endregion Hierarchy Node Traversal

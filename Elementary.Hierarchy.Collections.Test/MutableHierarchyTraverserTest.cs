@@ -3,14 +3,14 @@
 namespace Elementary.Hierarchy.Collections.Test
 {
     [TestFixture]
-    public class ImmutableHierarchyTraverserTest
+    public class MutableHierarchyTraverserTest
     {
         [Test]
-        public void IMH_Same_traverser_are_equal()
+        public void MH_Same_traverser_are_equal()
         {
             // ARRANGE
 
-            var a = new ImmutableHierarchy<string, int>.Traverser(new ImmutableHierarchy<string, int>.Node(""));
+            var a = new MutableHierarchy<string, int>.Traverser(new MutableHierarchy<string, int>.Node(""));
 
             // ACT
 
@@ -22,13 +22,13 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void IMH_Traversers_are_equal_if_node_is_same()
+        public void MH_Traversers_are_equal_if_node_is_same()
         {
             // ARRANGE
 
-            var node = new ImmutableHierarchy<string, int>.Node("");
-            var a = new ImmutableHierarchy<string, int>.Traverser(node);
-            var b = new ImmutableHierarchy<string, int>.Traverser(node);
+            var node = new MutableHierarchy<string, int>.Node("");
+            var a = new MutableHierarchy<string, int>.Traverser(node);
+            var b = new MutableHierarchy<string, int>.Traverser(node);
 
             // ACT
 
