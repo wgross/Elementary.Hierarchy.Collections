@@ -29,28 +29,28 @@
 
             #region Construction and initialization of this instance
 
-            public Node(TKey id)
+            public Node(TKey key)
             {
-                this.id = id;
+                this.key = key;
                 this.value = ValueNotSet;
                 this.childNodes = new Node[0];
             }
 
-            public Node(TKey id, object value)
+            public Node(TKey key, object value)
             {
-                this.id = id;
+                this.key = key;
                 this.value = value;
                 this.childNodes = new Node[0];
             }
 
-            public Node(TKey id, object value, IEnumerable<Node> childNodes)
+            public Node(TKey key, object value, IEnumerable<Node> childNodes)
             {
-                this.id = id;
+                this.key = key;
                 this.value = value;
                 this.childNodes = childNodes.ToArray();
             }
 
-            public readonly TKey id;
+            public readonly TKey key;
 
             public object value = ValueNotSet;
 
@@ -70,7 +70,7 @@
 
             public bool TryGetChildNode(TKey id, out Node childNode)
             {
-                childNode = this.childNodes.SingleOrDefault(n => EqualityComparer<TKey>.Default.Equals(n.id, id));
+                childNode = this.childNodes.SingleOrDefault(n => EqualityComparer<TKey>.Default.Equals(n.key, id));
                 return childNode != null;
             }
 
@@ -93,14 +93,14 @@
             {
                 for (int i = 0; i < this.childNodes.Length; i++)
                 {
-                    if (EqualityComparer<TKey>.Default.Equals(this.childNodes[i].id, newChildNode.id))
+                    if (EqualityComparer<TKey>.Default.Equals(this.childNodes[i].key, newChildNode.key))
                     {
                         //substitute the existing child node with the new one.
                         this.childNodes[i] = newChildNode;
                         return this;
                     }
                 }
-                throw new InvalidOperationException($"The node (id={newChildNode.id}) doesn't substutite any of the existing child nodes in (id={this.id})");
+                throw new InvalidOperationException($"The node (id={newChildNode.key}) doesn't substutite any of the existing child nodes in (id={this.key})");
             }
 
             public Node SetValue(TValue value)
@@ -199,7 +199,7 @@
 
                 this.parentTraverser = parentTraverser;
                 this.node = node;
-                this.path = new Lazy<HierarchyPath<TKey>>(() => this.parentTraverser.Path.Join(this.node.id),isThreadSafe:false);
+                this.path = new Lazy<HierarchyPath<TKey>>(() => this.parentTraverser.Path.Join(this.node.key),isThreadSafe:false);
             }
 
             public IEnumerable<IHierarchyNode<TKey>> ChildNodes => this.node.Children().Select(c => new Traverser(this, c));
