@@ -195,7 +195,7 @@
 
         #region Hierarchy Node Traversal
 
-        public sealed class Traverser : IHierarchyNode<TKey>
+        public sealed class Traverser : IHierarchyNode<TKey, TValue>
         {
             private readonly Traverser parentTraverser;
             private readonly Node node;
@@ -218,15 +218,19 @@
                 this.path = new Lazy<HierarchyPath<TKey>>(() => this.parentTraverser.Path.Join(this.node.key), isThreadSafe: false);
             }
 
-            public IEnumerable<IHierarchyNode<TKey>> ChildNodes => this.node.Children().Select(c => new Traverser(this, c));
+            public IEnumerable<IHierarchyNode<TKey, TValue>> ChildNodes => this.node.Children().Select(c => new Traverser(this, c));
 
             public bool HasChildNodes => this.node.HasChildNodes;
 
             public bool HasParentNode => this.parentTraverser != null;
 
-            public IHierarchyNode<TKey> ParentNode => this.parentTraverser;
+            public IHierarchyNode<TKey, TValue> ParentNode => this.parentTraverser;
 
             public HierarchyPath<TKey> Path => this.path.Value;
+
+            public bool HasValue => this.node.HasValue;
+
+            public TValue Value => (TValue)this.node.value;
 
             public override bool Equals(object obj)
             {
@@ -251,7 +255,7 @@
         /// Starts a traversal of the hierarchy at the root node.
         /// </summary>
         /// <returns>A traversable representation of the root node</returns>
-        public IHierarchyNode<TKey> Traverse()
+        public IHierarchyNode<TKey, TValue> Traverse()
         {
             return new Traverser(this.rootNode);
         }

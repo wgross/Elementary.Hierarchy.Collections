@@ -39,6 +39,23 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
+        public void MH_get_a_nodes_value()
+        {
+            // ARRANGE
+
+            var hierarchy = new MutableHierarchy<string, string>();
+            hierarchy.Add(HierarchyPath.Create<string>(), "v1");
+
+            // ACT
+
+            var result = hierarchy.Traverse().Value;
+
+            // ASSERT
+
+            Assert.AreEqual("v1",result);
+        }
+        
+        [Test]
         public void MH_Get_children_of_root_node()
         {
             // ARRANGE
