@@ -175,6 +175,56 @@
 
         #endregion Construction and initialization of this instance
 
+        #region Hierarchy Node Traversal
+
+        public sealed class Traverser : IHierarchyNode<TKey>
+        {
+            private readonly Traverser parentTraverser;
+            private readonly Node node;
+
+            public Traverser(Traverser parentTraverser, Node rootNode)
+            {
+                this.parentTraverser = parentTraverser;
+                this.node = rootNode;
+            }
+
+            public IEnumerable<IHierarchyNode<TKey>> ChildNodes => this.node.Children().Select(c => new Traverser(this, c));
+
+            public bool HasChildNodes => this.node.HasChildNodes;
+
+            public bool HasParentNode => this.parentTraverser != null;
+
+            public IHierarchyNode<TKey> ParentNode => this.parentTraverser;
+
+            public override bool Equals(object obj)
+            {
+                if (object.ReferenceEquals(this, obj))
+                    return true;
+
+                var objAsTraverser = obj as Traverser;
+                if (objAsTraverser == null)
+                    return false;
+
+                // Traversers are equals if the point to the same node
+                return object.ReferenceEquals(this.node, objAsTraverser.node);
+            }
+
+            public override int GetHashCode()
+            {
+                return this.node.GetHashCode();
+            }
+        }
+
+        /// <summary>
+        /// Starts a traversal of the hierarchy at the root node. 
+        /// </summary>
+        /// <returns>A traversable representation of the root node</returns>
+        public IHierarchyNode<TKey> Traverse()
+        {
+            return new Traverser(null, this.rootNode);
+        }
+
+        #endregion Hierarchy Node Traversal
         #region Add/Set a hierarchy nodes value
 
         /// <summary>

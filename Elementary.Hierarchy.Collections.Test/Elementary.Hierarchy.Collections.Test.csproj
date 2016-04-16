@@ -62,6 +62,8 @@
     <Compile Include="ImmutableHierarchyNodeTest.cs" />
     <Compile Include="ImmutableHierarchyTestAddValue.cs" />
     <Compile Include="ImmutableHierarchyTestRemoveValue.cs" />
+    <Compile Include="MutableHierarchyTraversalTest.cs" />
+    <Compile Include="MutableHierarchyTraverserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

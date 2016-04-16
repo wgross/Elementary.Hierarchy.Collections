@@ -233,7 +233,11 @@
             }
         }
 
-        public IHierarchyNode<TKey> StartTraversal()
+        /// <summary>
+        /// Starts a traversal of the hierarchy at the root node. 
+        /// </summary>
+        /// <returns>A traversable representation of the root node</returns>
+        public IHierarchyNode<TKey> Traverse()
         {
             return new Traverser(null, this.rootNode);
         }
