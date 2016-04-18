@@ -19,6 +19,8 @@
     /// <typeparam name="TNode"></typeparam>
     public class ImmutableHierarchy<TKey, TValue> : IHierarchy<TKey, TValue>
     {
+        #region Internal Node class
+
         /// <summary>
         /// Internal node class: holds a value and child nodes.
         /// </summary>
@@ -157,6 +159,8 @@
                 return new Node(this.key, ValueNotSet, this.childNodes);
             }
         }
+
+        #endregion Internal Node class
 
         #region Construction and initialization of this instance
 

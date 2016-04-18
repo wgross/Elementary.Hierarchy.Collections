@@ -14,8 +14,10 @@
     /// </summary>
     /// <typeparam name="TKey">type of the indetifier of the stires data</typeparam>s
     /// <typeparam name="TNode"></typeparam>
-    public class MutableHierarchy<TKey, TValue> : IHierarchy<TKey,TValue>
+    public class MutableHierarchy<TKey, TValue> : IHierarchy<TKey, TValue>
     {
+        #region Internal Node class
+
         /// <summary>
         /// Internal node class: holds a value and child nodes.
         /// </summary>
@@ -151,6 +153,8 @@
             }
         }
 
+        #endregion Internal Node class
+
         #region Construction and initialization of this instance
 
         public MutableHierarchy()
@@ -177,7 +181,7 @@
 
         #region Hierarchy Node Traversal
 
-        public sealed class Traverser : IHierarchyNode<TKey,TValue>
+        public sealed class Traverser : IHierarchyNode<TKey, TValue>
         {
             private readonly Traverser parentTraverser;
 
@@ -199,16 +203,16 @@
 
                 this.parentTraverser = parentTraverser;
                 this.node = node;
-                this.path = new Lazy<HierarchyPath<TKey>>(() => this.parentTraverser.Path.Join(this.node.key),isThreadSafe:false);
+                this.path = new Lazy<HierarchyPath<TKey>>(() => this.parentTraverser.Path.Join(this.node.key), isThreadSafe: false);
             }
 
-            public IEnumerable<IHierarchyNode<TKey,TValue>> ChildNodes => this.node.Children().Select(c => new Traverser(this, c));
+            public IEnumerable<IHierarchyNode<TKey, TValue>> ChildNodes => this.node.Children().Select(c => new Traverser(this, c));
 
             public bool HasChildNodes => this.node.HasChildNodes;
 
             public bool HasParentNode => this.parentTraverser != null;
 
-            public IHierarchyNode<TKey,TValue> ParentNode => this.parentTraverser;
+            public IHierarchyNode<TKey, TValue> ParentNode => this.parentTraverser;
 
             public HierarchyPath<TKey> Path => this.path.Value;
 
@@ -236,16 +240,16 @@
         }
 
         /// <summary>
-        /// Starts a traversal of the hierarchy at the root node. 
+        /// Starts a traversal of the hierarchy at the root node.
         /// </summary>
         /// <returns>A traversable representation of the root node</returns>
-        public IHierarchyNode<TKey,TValue> Traverse()
+        public IHierarchyNode<TKey, TValue> Traverse()
         {
             return new Traverser(this.rootNode);
         }
 
         #endregion Hierarchy Node Traversal
-        
+
         #region Add/Set a hierarchy nodes value
 
         /// <summary>
