@@ -46,7 +46,7 @@ Task build {
 
 Task test {
 
-    $nunit = (Get-ChildItem -Path .\packages\*\nunit3-console.exe -Recurse | Select-Object -First 1).FullName
+    $nunit = (Get-Command $PSScriptRoot\packages\NUnit.ConsoleRunner.3.2.1\tools\nunit3-console.exe).Path
 
     & $nunit (Resolve-Path $PSScriptRoot/Elementary.Hierarchy.Collections.Test/Elementary.Hierarchy.Collections.Test.csproj)
 
