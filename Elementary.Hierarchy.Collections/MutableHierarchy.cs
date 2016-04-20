@@ -243,9 +243,26 @@
         /// Starts a traversal of the hierarchy at the root node.
         /// </summary>
         /// <returns>A traversable representation of the root node</returns>
-        public IHierarchyNode<TKey, TValue> Traverse()
+        public IHierarchyNode<TKey, TValue> Traverse(HierarchyPath<TKey> startAt)
         {
-            return new Traverser(this.rootNode);
+            Traverser startNode = new Traverser(this.rootNode);
+
+            // Descend along the soecifed path and buidl ap teh chain of ancestors of the start node.
+            // if the start node can't be reached because it doesn't exist in the hierarchy a 
+            // KeyNotFound exception is thrown
+
+            this.rootNode.DescendantAt(tryGetChildNode: delegate (Node parent, TKey key, out Node child)
+            {
+                child = null;
+                if (!parent.TryGetChildNode(key, out child))
+                    throw new KeyNotFoundException($"node '{startAt}'  doesn't exist");
+                startNode = new Traverser(startNode, child);
+                return true;
+            }, key: startAt);
+
+            // Travesal was successul.
+            // just return wwhat is now in 'startNode'
+            return startNode;
         }
 
         #endregion Hierarchy Node Traversal

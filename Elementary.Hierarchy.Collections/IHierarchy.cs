@@ -10,6 +10,6 @@
 
         bool TryGetValue(HierarchyPath<TKey> hierarchyPath, out TValue value);
 
-        IHierarchyNode<TKey, TValue> Traverse();
+        IHierarchyNode<TKey, TValue> Traverse(HierarchyPath<TKey> startAt);
     }
 }
