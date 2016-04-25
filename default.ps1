@@ -5,7 +5,7 @@ $msbuild = (Get-Command msbuild.exe).Path
 $git = (Get-Command git.exe).Path
 $solutionFile = (Resolve-path $PSScriptRoot\Elementary.Hierarchy.Collections.sln)
 $packedProject = (Resolve-path $PSScriptRoot\Elementary.Hierarchy.Collections\Elementary.Hierarchy.Collections.csproj)
-$localPackageSource = (Resolve-Path "C:\src\packages")
+$localPackageSource = (Resolve-Path "$PSScriptRoot\..\packages")
 $benchmarkResultExtensions = @(
     "*.csv"
     "*.html"
