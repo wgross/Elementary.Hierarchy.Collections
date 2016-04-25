@@ -248,7 +248,7 @@
             Traverser startNode = new Traverser(this.rootNode);
 
             // Descend along the soecifed path and buidl ap teh chain of ancestors of the start node.
-            // if the start node can't be reached because it doesn't exist in the hierarchy a 
+            // if the start node can't be reached because it doesn't exist in the hierarchy a
             // KeyNotFound exception is thrown
 
             this.rootNode.DescendantAt(tryGetChildNode: delegate (Node parent, TKey key, out Node child)
@@ -333,17 +333,36 @@
         /// </summary>
         /// <param name="hierarchyPath"></param>
         /// <returns>true if value was removed, false otherwise</returns>
-        public bool Remove(HierarchyPath<TKey> hierarchyPath)
+        public bool Remove(HierarchyPath<TKey> hierarchyPath, int? maxDepth = null)
         {
-            Node node;
-            if (!this.rootNode.TryGetDescendantAt(hierarchyPath, out node))
+            int maxDepthCoalesced = maxDepth.GetValueOrDefault(1);
+
+            Node startNode;
+            if (!this.rootNode.TryGetDescendantAt(hierarchyPath, out startNode))
                 return false;
 
-            if (!node.HasValue)
-                return false;
+            if (maxDepthCoalesced == 1)
+            {
+                if (!startNode.HasValue)
+                    return false;
 
-            node.UnsetValue(prune: this.pruneOnUnsetValue);
-            return true;
+                startNode.UnsetValue(prune: this.pruneOnUnsetValue);
+                return true;
+            }
+            else if (maxDepthCoalesced > 1)
+            {
+                bool removed = false;
+                foreach (var descandant in startNode.DescendantsOrSelf(depthFirst: false, maxDepth: maxDepthCoalesced))
+                {
+                    if (descandant.HasValue)
+                    {
+                        descandant.UnsetValue(this.pruneOnUnsetValue);
+                        removed = removed || true;
+                    }
+                }
+                return removed;
+            }
+            else return false;
         }
     }
 }

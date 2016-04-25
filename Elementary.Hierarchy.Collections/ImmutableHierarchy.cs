@@ -264,7 +264,7 @@
             Traverser startNode = new Traverser(this.rootNode);
 
             // Descend along the soecifed path and buidl ap teh chain of ancestors of the start node.
-            // if the start node can't be reached because it doesn't exist in the hierarchy a 
+            // if the start node can't be reached because it doesn't exist in the hierarchy a
             // KeyNotFound exception is thrown
 
             this.rootNode.DescendantAt(tryGetChildNode: delegate (Node parent, TKey key, out Node child)
@@ -412,14 +412,28 @@
             return false;
         }
 
-        /// <summary>
-        /// Removes the value from the specified node in hierarchy.
-        /// Value and nodes on under the specified nde remain unchanged
-        /// </summary>
-        /// <param name="hierarchyPath"></param>
-        /// <returns>true if value was removed</returns>
-        public bool Remove(HierarchyPath<TKey> hierarchyPath)
+        public bool Remove(HierarchyPath<TKey> hierarchyPath, int? maxDepth = null)
         {
+            if (maxDepth == null || maxDepth == 1)
+            {
+                return this.RemoveAtSingleNode(hierarchyPath);
+            }
+            else if(maxDepth>1)
+            {
+                bool removed = false;
+                foreach (var node in this.Traverse(hierarchyPath)
+                    .DescendantsOrSelf(depthFirst: false, maxDepth: maxDepth).ToList())
+                {
+                    removed = this.RemoveAtSingleNode(node.Path) || removed;
+                }
+                return removed;
+            }
+            return false;
+        }
+
+        public bool RemoveAtSingleNode(HierarchyPath<TKey> hierarchyPath)
+        { 
+            
             Stack<Node> nodesAlongPath = new Stack<Node>();
             Node currentNode;
 
@@ -434,6 +448,7 @@
                 return false;
 
             // last node must be the root node: create new hierachy if root node has changed
+
             bool isLocked = false;
             try
             {
