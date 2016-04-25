@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Elementary.Hierarchy.Collections.Test
@@ -15,11 +16,12 @@ namespace Elementary.Hierarchy.Collections.Test
 
             // ACT
 
-            var result = hierarchy.Traverse().Path;
+            var result = hierarchy.Traverse(HierarchyPath.Create<string>());
 
             // ASSERT
 
-            Assert.AreEqual(HierarchyPath.Create<string>(), result);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(HierarchyPath.Create<string>(), result.Path);
         }
 
         [Test]
@@ -31,7 +33,7 @@ namespace Elementary.Hierarchy.Collections.Test
 
             // ACT
 
-            var result = hierarchy.Traverse().HasChildNodes;
+            var result = hierarchy.Traverse(HierarchyPath.Create<string>()).HasChildNodes;
 
             // ASSERT
 
@@ -48,7 +50,7 @@ namespace Elementary.Hierarchy.Collections.Test
 
             // ACT
 
-            var result = hierarchy.Traverse().Value;
+            var result = hierarchy.Traverse(HierarchyPath.Create<string>()).Value;
 
             // ASSERT
 
@@ -66,7 +68,7 @@ namespace Elementary.Hierarchy.Collections.Test
 
             // ACT
 
-            var result = hierarchy.Traverse().ChildNodes.ToArray();
+            var result = hierarchy.Traverse(HierarchyPath.Create<string>()).ChildNodes.ToArray();
 
             // ASSERT
 
@@ -83,12 +85,12 @@ namespace Elementary.Hierarchy.Collections.Test
 
             // ACT
 
-            var result = hierarchy.Traverse().ChildNodes.Single().Path;
+            var result = hierarchy.Traverse(HierarchyPath.Create<string>()).ChildNodes.Single().Path;
 
             // ASSERT
 
             Assert.AreEqual(HierarchyPath.Create("a"), result);
-        } 
+        }
 
         [Test]
         public void IMH_root_has_no_parent()
@@ -99,7 +101,7 @@ namespace Elementary.Hierarchy.Collections.Test
 
             // ACT
 
-            var result = hierarchy.Traverse().HasParentNode;
+            var result = hierarchy.Traverse(HierarchyPath.Create<string>()).HasParentNode;
 
             // ASSERT
 
@@ -114,15 +116,76 @@ namespace Elementary.Hierarchy.Collections.Test
             var hierarchy = new ImmutableHierarchy<string, string>();
             hierarchy.Add(HierarchyPath.Create("a"), "v1");
 
-            var root = hierarchy.Traverse();
+            var root = hierarchy.Traverse(HierarchyPath.Create<string>());
 
             // ACT
 
-            var result = hierarchy.Traverse().Children().Single().Parent();
+            var result = hierarchy.Traverse(HierarchyPath.Create<string>()).Children().Single().Parent();
 
             // ASSERT
 
             Assert.AreEqual(root, result);
+        }
+
+        [Test]
+        public void IMH_Start_traversal_at_child_of_root()
+        {
+            // ARRANGE
+
+            var hierarchy = new ImmutableHierarchy<string, string>();
+            hierarchy.Add(HierarchyPath.Create("a"), "v1");
+
+            var node_a = hierarchy.Traverse(HierarchyPath.Create<string>()).Children().First();
+
+            // ACT
+
+            var result = hierarchy.Traverse(HierarchyPath.Create("a"));
+
+            // ASSERT
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(HierarchyPath.Create("a"), result.Path);
+        }
+
+        [Test]
+        public void IMH_start_at_inner_node_stil_allows_to_ascend()
+        {
+            var hierarchy = new ImmutableHierarchy<string, string>();
+            hierarchy.Add(HierarchyPath.Create("a"), "v1");
+            hierarchy.Add(HierarchyPath.Create("a", "b", "c"), "v2");
+
+            // ACT
+
+            var result = hierarchy.Traverse(HierarchyPath.Create("a", "b", "c"));
+
+            // ASSERT
+
+            Assert.IsNotNull(result);
+            CollectionAssert.AreEqual(new[] {
+                    HierarchyPath.Create("a","b"),
+                    HierarchyPath.Create("a"),
+                    HierarchyPath.Create<string>(),
+                },
+                result.Ancestors().Select(n => n.Path));
+        }
+
+        [Test]
+        public void IMH_throw_if_start_path_doesnt_exist()
+        {
+            // ARRANGE
+
+            var hierarchy = new ImmutableHierarchy<string, string>();
+            hierarchy.Add(HierarchyPath.Create("a"), "v1");
+
+            var node_a = hierarchy.Traverse(HierarchyPath.Create<string>()).Children().First();
+
+            // ACT
+
+            var result = Assert.Throws<KeyNotFoundException>(() => hierarchy.Traverse(HierarchyPath.Create("b")));
+
+            // ASSERT
+
+            Assert.IsTrue(result.Message.Contains("'b'"));
         }
     }
 }

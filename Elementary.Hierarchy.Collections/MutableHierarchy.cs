@@ -243,9 +243,26 @@
         /// Starts a traversal of the hierarchy at the root node.
         /// </summary>
         /// <returns>A traversable representation of the root node</returns>
-        public IHierarchyNode<TKey, TValue> Traverse()
+        public IHierarchyNode<TKey, TValue> Traverse(HierarchyPath<TKey> startAt)
         {
-            return new Traverser(this.rootNode);
+            Traverser startNode = new Traverser(this.rootNode);
+
+            // Descend along the soecifed path and buidl ap teh chain of ancestors of the start node.
+            // if the start node can't be reached because it doesn't exist in the hierarchy a
+            // KeyNotFound exception is thrown
+
+            this.rootNode.DescendantAt(tryGetChildNode: delegate (Node parent, TKey key, out Node child)
+            {
+                child = null;
+                if (!parent.TryGetChildNode(key, out child))
+                    throw new KeyNotFoundException($"node '{startAt}'  doesn't exist");
+                startNode = new Traverser(startNode, child);
+                return true;
+            }, key: startAt);
+
+            // Travesal was successul.
+            // just return wwhat is now in 'startNode'
+            return startNode;
         }
 
         #endregion Hierarchy Node Traversal
@@ -316,17 +333,36 @@
         /// </summary>
         /// <param name="hierarchyPath"></param>
         /// <returns>true if value was removed, false otherwise</returns>
-        public bool Remove(HierarchyPath<TKey> hierarchyPath)
+        public bool Remove(HierarchyPath<TKey> hierarchyPath, int? maxDepth = null)
         {
-            Node node;
-            if (!this.rootNode.TryGetDescendantAt(hierarchyPath, out node))
+            int maxDepthCoalesced = maxDepth.GetValueOrDefault(1);
+
+            Node startNode;
+            if (!this.rootNode.TryGetDescendantAt(hierarchyPath, out startNode))
                 return false;
 
-            if (!node.HasValue)
-                return false;
+            if (maxDepthCoalesced == 1)
+            {
+                if (!startNode.HasValue)
+                    return false;
 
-            node.UnsetValue(prune: this.pruneOnUnsetValue);
-            return true;
+                startNode.UnsetValue(prune: this.pruneOnUnsetValue);
+                return true;
+            }
+            else if (maxDepthCoalesced > 1)
+            {
+                bool removed = false;
+                foreach (var descandant in startNode.DescendantsOrSelf(depthFirst: false, maxDepth: maxDepthCoalesced))
+                {
+                    if (descandant.HasValue)
+                    {
+                        descandant.UnsetValue(this.pruneOnUnsetValue);
+                        removed = removed || true;
+                    }
+                }
+                return removed;
+            }
+            else return false;
         }
     }
 }

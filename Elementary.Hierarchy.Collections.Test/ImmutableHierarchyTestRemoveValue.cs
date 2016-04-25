@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using System.Collections.Generic;
 
 namespace Elementary.Hierarchy.Collections.Test
 {
@@ -80,6 +79,60 @@ namespace Elementary.Hierarchy.Collections.Test
             Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create<string>(), out value));
             Assert.AreSame(test, value);
             Assert.IsFalse(hierarchy.TryGetValue(HierarchyPath.Create("a"), out value));
+            Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create("a", "b"), out value));
+            Assert.AreSame(test2, value);
+        }
+
+        [Test]
+        public void IMH_Remove_value_from_root_recursive_returns_true()
+        {
+            // ARRANGE
+            string test = "test";
+            string test1 = "test1";
+            string test2 = "test2";
+
+            var hierarchy = new ImmutableHierarchy<string, string>();
+            hierarchy.Add(HierarchyPath.Create<string>(), test);
+            hierarchy.Add(HierarchyPath.Create("a"), test1);
+            hierarchy.Add(HierarchyPath.Create("a", "b"), test2);
+
+            // ACT
+
+            var result = hierarchy.Remove(HierarchyPath.Create<string>(), maxDepth: 2);
+
+            // ASSERT
+
+            Assert.IsTrue(result);
+
+            string value;
+
+            // new node has no value
+            Assert.IsFalse(hierarchy.TryGetValue(HierarchyPath.Create<string>(), out value));
+            Assert.IsFalse(hierarchy.TryGetValue(HierarchyPath.Create("a"), out value));
+            Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create("a", "b"), out value));
+            Assert.AreSame(test2, value);
+        }
+
+        [Test]
+        public void IMH_Remove_false_if_no_value_was_removed()
+        {
+            // ARRANGE
+            string test2 = "test2";
+
+            var hierarchy = new ImmutableHierarchy<string, string>();
+            hierarchy.Add(HierarchyPath.Create("a", "b"), test2);
+
+            // ACT
+
+            var result = hierarchy.Remove(HierarchyPath.Create<string>(), maxDepth: 2);
+
+            // ASSERT
+
+            Assert.IsFalse(result);
+
+            string value;
+
+            // new node has no value
             Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create("a", "b"), out value));
             Assert.AreSame(test2, value);
         }
