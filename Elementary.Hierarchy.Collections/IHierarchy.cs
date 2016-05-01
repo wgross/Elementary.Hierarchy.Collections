@@ -1,4 +1,6 @@
-﻿namespace Elementary.Hierarchy.Collections
+﻿using System;
+
+namespace Elementary.Hierarchy.Collections
 {
     public interface IHierarchy<TKey, TValue>
     {
@@ -18,6 +20,6 @@
 
         bool TryGetValue(HierarchyPath<TKey> hierarchyPath, out TValue value);
 
-        IHierarchyNode<TKey, TValue> Traverse(HierarchyPath<TKey> startAt);
+        IHierarchyNode<TKey, TValue> Traverse(HierarchyPath<TKey> startAt, bool? createMissingChild=null);
     }
 }

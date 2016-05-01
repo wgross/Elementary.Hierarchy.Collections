@@ -8,7 +8,7 @@ namespace Elementary.Hierarchy.Collections.Test
     public class ImmutableHierarchyTraversalTest
     {
         [Test]
-        public void IMH_node_knows_its_path()
+        public void IMH_Traverse_node_knows_its_path()
         {
             // ARRANGE
 
@@ -25,7 +25,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void IMH_hierarchy_has_no_children_if_root_has_no_children()
+        public void IMH_Traverse_hierarchy_has_no_children_if_root_has_no_children()
         {
             // ARRANGE
 
@@ -41,7 +41,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void IMH_get_a_nodes_value()
+        public void IMH_Traverse_get_a_nodes_value()
         {
             // ARRANGE
 
@@ -58,7 +58,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void IMH_Get_children_of_root_node()
+        public void IMH_Traverse_Get_children_of_root_node()
         {
             // ARRANGE
 
@@ -76,7 +76,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void IMH_child_node_knows_its_path()
+        public void IMH_Traverse_child_node_knows_its_path()
         {
             // ARRANGE
 
@@ -93,7 +93,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void IMH_root_has_no_parent()
+        public void IMH_Traverse_root_has_no_parent()
         {
             // ARRANGE
 
@@ -109,7 +109,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void IMH_children_of_root_have_root_as_parent()
+        public void IMH_Traverse_children_of_root_have_root_as_parent()
         {
             // ARRANGE
 
@@ -128,7 +128,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void IMH_Start_traversal_at_child_of_root()
+        public void IMH_Traverse_start_traversal_at_child_of_root()
         {
             // ARRANGE
 
@@ -148,7 +148,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void IMH_start_at_inner_node_stil_allows_to_ascend()
+        public void IMH_Traverse_starts_at_inner_node_stil_allows_to_ascend()
         {
             var hierarchy = new ImmutableHierarchy<string, string>();
             hierarchy.Add(HierarchyPath.Create("a"), "v1");
@@ -170,7 +170,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void IMH_throw_if_start_path_doesnt_exist()
+        public void IMH_Traverse_throws_if_start_path_doesnt_exist()
         {
             // ARRANGE
 
@@ -186,6 +186,27 @@ namespace Elementary.Hierarchy.Collections.Test
             // ASSERT
 
             Assert.IsTrue(result.Message.Contains("'b'"));
+        }
+
+        [Test]
+        public void IMH_Traverse_creates_sub_nodes_if_forced()
+        {
+            // ARRANGE
+
+            var hierarchy = new ImmutableHierarchy<string, string>();
+            hierarchy.Add(HierarchyPath.Create("a"), "v1");
+
+            var node_a = hierarchy.Traverse(HierarchyPath.Create<string>()).Children().First();
+
+            // ACT
+
+            var result = hierarchy.Traverse(HierarchyPath.Create("b"), createMissingChild:true);
+
+            // ASSERT
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(HierarchyPath.Create("b"), result.Path);
+            Assert.AreEqual(HierarchyPath.Create<string>(), result.Parent().Path);
         }
     }
 }

@@ -243,11 +243,11 @@
         /// Starts a traversal of the hierarchy at the root node.
         /// </summary>
         /// <returns>A traversable representation of the root node</returns>
-        public IHierarchyNode<TKey, TValue> Traverse(HierarchyPath<TKey> startAt)
+        public IHierarchyNode<TKey, TValue> Traverse(HierarchyPath<TKey> startAt, bool? createMissingChild = null)
         {
             Traverser startNode = new Traverser(this.rootNode);
 
-            // Descend along the soecifed path and buidl ap teh chain of ancestors of the start node.
+            // Descend along the specifed path and builds up the chain of ancestors of the start node.
             // if the start node can't be reached because it doesn't exist in the hierarchy a
             // KeyNotFound exception is thrown
 
@@ -255,12 +255,25 @@
             {
                 child = null;
                 if (!parent.TryGetChildNode(key, out child))
-                    throw new KeyNotFoundException($"node '{startAt}'  doesn't exist");
+                {
+                    // the required child down exist... ask for permisson to create
+                    if (createMissingChild.GetValueOrDefault(false))
+                    {
+                        // add a new child
+                        parent.AddChildNode(child = new Node(key));
+                    }
+                    else
+                    {
+                        // not allowed just throw
+                        throw new KeyNotFoundException($"node '{startNode.Path.Join(key)}' doesn't exist");
+                    }
+                }
+
                 startNode = new Traverser(startNode, child);
                 return true;
             }, key: startAt);
 
-            // Travesal was successul.
+            // Traversal was successul.
             // just return wwhat is now in 'startNode'
             return startNode;
         }

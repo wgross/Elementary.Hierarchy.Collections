@@ -259,13 +259,23 @@
         /// Starts a traversal of the hierarchy at the root node.
         /// </summary>
         /// <returns>A traversable representation of the root node</returns>
-        public IHierarchyNode<TKey, TValue> Traverse(HierarchyPath<TKey> startAt)
+
+        public IHierarchyNode<TKey, TValue> Traverse(HierarchyPath<TKey> startAt, bool? createMissingChild = null)
         {
+            // make sure the requested node exists, if child creation is allowed
+
+            if (createMissingChild.GetValueOrDefault(false))
+            {
+                Stack<Node> nodesAlongPath;
+                var node = this.GetOrCreateNode(startAt, out nodesAlongPath);
+                this.rootNode = this.RebuildAscendingPathAfterChange(node, nodesAlongPath);
+            }
+
             Traverser startNode = new Traverser(this.rootNode);
 
-            // Descend along the soecifed path and buidl ap teh chain of ancestors of the start node.
+            // Descend along the specifed path and build at the chain of ancestors of the start node.
             // if the start node can't be reached because it doesn't exist in the hierarchy a
-            // KeyNotFound exception is thrown
+            // KeyNotFoundException is thrown.
 
             this.rootNode.DescendantAt(tryGetChildNode: delegate (Node parent, TKey key, out Node child)
             {
@@ -276,8 +286,8 @@
                 return true;
             }, key: startAt);
 
-            // Travesal was successul.
-            // just return wwhat is now in 'startNode'
+            // Traversal was successful.
+            // just return what is now in 'startNode'
             return startNode;
         }
 
@@ -360,19 +370,19 @@
             // Descend in to the tree, create nodes along the way if they are missing
 
             var result = this.rootNode.DescendantAt(delegate (Node parentNode, TKey key, out Node childNode)
-           {
-               // get or create child. If created the clone of the parent node substitutes the
-               // old parent node.
+            {
+                // get or create child. If created the clone of the parent node substitutes the
+                // old parent node.
 
-               if (!parentNode.TryGetChildNode(key, out childNode))
-                   parentNode = parentNode.AddChildNode(childNode = new Node(key));
+                if (!parentNode.TryGetChildNode(key, out childNode))
+                    parentNode = parentNode.AddChildNode(childNode = new Node(key));
 
-               // Remember all the nodes passing along for later rebuild of the changed
-               // hierarchy path
+                // Remember all the nodes passing along for later rebuild of the changed
+                // hierarchy path
 
-               tmp.Push(parentNode);
-               return true;
-           },
+                tmp.Push(parentNode);
+                return true;
+            },
             hierarchyPath);
 
             nodesAlongPath = tmp;
@@ -418,7 +428,7 @@
             {
                 return this.RemoveAtSingleNode(hierarchyPath);
             }
-            else if(maxDepth>1)
+            else if (maxDepth > 1)
             {
                 bool removed = false;
                 foreach (var node in this.Traverse(hierarchyPath)
@@ -432,8 +442,7 @@
         }
 
         public bool RemoveAtSingleNode(HierarchyPath<TKey> hierarchyPath)
-        { 
-            
+        {
             Stack<Node> nodesAlongPath = new Stack<Node>();
             Node currentNode;
 
