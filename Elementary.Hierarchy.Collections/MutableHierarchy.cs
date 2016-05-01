@@ -158,17 +158,32 @@
         #region Construction and initialization of this instance
 
         public MutableHierarchy()
-            : this(new Node(default(TKey)), pruneOnUnsetValue: false)
+            : this(new Node(default(TKey)), pruneOnUnsetValue: false, getDefaultValue: null)
+        {
+        }
+
+        public MutableHierarchy(Func<HierarchyPath<TKey>, TValue> getDefaultValue)
+            : this(new Node(default(TKey)), pruneOnUnsetValue: false, getDefaultValue: getDefaultValue)
         {
         }
 
         public MutableHierarchy(bool pruneOnUnsetValue)
-            : this(new Node(default(TKey)), pruneOnUnsetValue: pruneOnUnsetValue)
+            : this(new Node(default(TKey)), pruneOnUnsetValue: pruneOnUnsetValue, getDefaultValue: null)
         {
         }
 
-        private MutableHierarchy(Node rootNode, bool pruneOnUnsetValue)
+        private MutableHierarchy(Node rootNode, bool pruneOnUnsetValue, Func<HierarchyPath<TKey>, TValue> getDefaultValue)
         {
+            this.getDefaultValue = getDefaultValue;
+            if (this.getDefaultValue != null)
+            {
+                this.rootNode = rootNode.SetValue(this.getDefaultValue(HierarchyPath.Create<TKey>()));
+            }
+            else
+            {
+                this.rootNode = rootNode;
+            }
+
             this.rootNode = rootNode;
             this.pruneOnUnsetValue = pruneOnUnsetValue;
         }
@@ -176,6 +191,8 @@
         private readonly Node rootNode;
 
         private readonly bool pruneOnUnsetValue;
+
+        private readonly Func<HierarchyPath<TKey>, TValue> getDefaultValue;
 
         #endregion Construction and initialization of this instance
 
@@ -301,11 +318,24 @@
 
         private Node GetOrCreateNode(HierarchyPath<TKey> hierarchyPath)
         {
+            var currentPosition = HierarchyPath.Create<TKey>();
+
             return this.rootNode.DescendantAt(delegate (Node current, TKey key, out Node child)
             {
+                currentPosition = currentPosition.Join(key);
+
                 // if the chiiled ic not found, just create a new one on-the-fly
                 if (!current.TryGetChildNode(key, out child))
-                    current.AddChildNode(child = new Node(key));
+                {
+                    if (currentPosition.Items.Count() < hierarchyPath.Items.Count() && this.getDefaultValue != null)
+                    {
+                        current.AddChildNode(child = new Node(key, this.getDefaultValue(currentPosition)));
+                    }
+                    else
+                    {
+                        current.AddChildNode(child = new Node(key));
+                    }
+                }
                 return true;
             }, hierarchyPath);
         }
