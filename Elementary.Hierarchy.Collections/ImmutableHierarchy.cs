@@ -165,24 +165,42 @@
         #region Construction and initialization of this instance
 
         public ImmutableHierarchy()
-            : this(new Node(default(TKey)), pruneOnUnsetValue: false)
+            : this(new Node(default(TKey)), pruneOnUnsetValue: false, getDefaultValue: null)
+        {
+        }
+
+        public ImmutableHierarchy(Func<HierarchyPath<TKey>, TValue> getDefaultValue)
+            : this(new Node(default(TKey)), pruneOnUnsetValue: false, getDefaultValue: getDefaultValue)
         {
         }
 
         public ImmutableHierarchy(bool pruneOnUnsetValue)
-            : this(new Node(default(TKey)), pruneOnUnsetValue: pruneOnUnsetValue)
+            : this(new Node(default(TKey)), pruneOnUnsetValue: pruneOnUnsetValue, getDefaultValue: null)
         {
         }
 
-        private ImmutableHierarchy(Node rootNode, bool pruneOnUnsetValue)
+        public ImmutableHierarchy(bool pruneOnUnsetValue, Func<HierarchyPath<TKey>, TValue> getDefaultValue)
+            : this(new Node(default(TKey)), pruneOnUnsetValue: pruneOnUnsetValue, getDefaultValue: getDefaultValue)
         {
-            this.rootNode = rootNode;
+        }
+
+        private ImmutableHierarchy(Node rootNode, bool pruneOnUnsetValue, Func<HierarchyPath<TKey>, TValue> getDefaultValue)
+        {
+            this.getDefaultValue = getDefaultValue;
+
+            if (this.getDefaultValue != null)
+                this.rootNode = rootNode.SetValue(this.getDefaultValue(HierarchyPath.Create<TKey>()));
+            else
+                this.rootNode = rootNode;
+            
             this.pruneOnUnsetValue = pruneOnUnsetValue;
         }
 
         private Node rootNode;
 
         private readonly bool pruneOnUnsetValue;
+
+        private readonly Func<HierarchyPath<TKey>, TValue> getDefaultValue;
 
         // MSDN: Do not store SpinLock instances in readonly fields.
         private SpinLock writeLock = new SpinLock();
@@ -192,7 +210,7 @@
             if (object.ReferenceEquals(this.rootNode, newRoot))
                 return this;
 
-            return new ImmutableHierarchy<TKey, TValue>(newRoot, this.pruneOnUnsetValue);
+            return new ImmutableHierarchy<TKey, TValue>(newRoot, this.pruneOnUnsetValue, this.getDefaultValue);
         }
 
         #endregion Construction and initialization of this instance
@@ -356,23 +374,39 @@
             // Create the new value node with the given value and the leaf id.
 
             var tmp = new Stack<Node>();
+            var currentPosition = HierarchyPath.Create<TKey>();
 
             // Descend in to the tree, create nodes along the way if they are missing
 
             var result = this.rootNode.DescendantAt(delegate (Node parentNode, TKey key, out Node childNode)
-           {
-               // get or create child. If created the clone of the parent node substitutes the
-               // old parent node.
+            {
+                currentPosition = currentPosition.Join(key);
 
-               if (!parentNode.TryGetChildNode(key, out childNode))
-                   parentNode = parentNode.AddChildNode(childNode = new Node(key));
+                // get or create child. If created the clone of the parent node substitutes the
+                // old parent node.
 
-               // Remember all the nodes passing along for later rebuild of the changed
-               // hierarchy path
+                if (!parentNode.TryGetChildNode(key, out childNode))
+                {
+                    if (currentPosition.Items.Count() < hierarchyPath.Items.Count() && this.getDefaultValue != null)
+                    {
+                        // new inner node ist initialized with default value.
+                        childNode = new Node(key, this.getDefaultValue(currentPosition));
+                    }
+                    else
+                    {
+                        // final node is taken as it is
+                        childNode = new Node(key);
+                    }
 
-               tmp.Push(parentNode);
-               return true;
-           },
+                    parentNode = parentNode.AddChildNode(childNode);
+                }
+
+                // Remember all the nodes passing along for later rebuild of the changed
+                // hierarchy path
+
+                tmp.Push(parentNode);
+                return true;
+            },
             hierarchyPath);
 
             nodesAlongPath = tmp;
@@ -418,7 +452,7 @@
             {
                 return this.RemoveAtSingleNode(hierarchyPath);
             }
-            else if(maxDepth>1)
+            else if (maxDepth > 1)
             {
                 bool removed = false;
                 foreach (var node in this.Traverse(hierarchyPath)
@@ -432,8 +466,7 @@
         }
 
         public bool RemoveAtSingleNode(HierarchyPath<TKey> hierarchyPath)
-        { 
-            
+        {
             Stack<Node> nodesAlongPath = new Stack<Node>();
             Node currentNode;
 
