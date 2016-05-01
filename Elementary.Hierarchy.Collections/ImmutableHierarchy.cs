@@ -192,7 +192,7 @@
                 this.rootNode = rootNode.SetValue(this.getDefaultValue(HierarchyPath.Create<TKey>()));
             else
                 this.rootNode = rootNode;
-            
+
             this.pruneOnUnsetValue = pruneOnUnsetValue;
         }
 
@@ -390,15 +390,13 @@
                     if (currentPosition.Items.Count() < hierarchyPath.Items.Count() && this.getDefaultValue != null)
                     {
                         // new inner node ist initialized with default value.
-                        childNode = new Node(key, this.getDefaultValue(currentPosition));
+                        parentNode = parentNode.AddChildNode(childNode = new Node(key, this.getDefaultValue(currentPosition)));
                     }
                     else
                     {
                         // final node is taken as it is
-                        childNode = new Node(key);
+                        parentNode = parentNode.AddChildNode(childNode = new Node(key));
                     }
-
-                    parentNode = parentNode.AddChildNode(childNode);
                 }
 
                 // Remember all the nodes passing along for later rebuild of the changed

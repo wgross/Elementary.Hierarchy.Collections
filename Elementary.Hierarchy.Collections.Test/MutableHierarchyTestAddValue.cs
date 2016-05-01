@@ -20,6 +20,20 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
+        public void MH_Rootnode_has_default_value()
+        {
+            // ARRANGE
+
+            var hierarchy = new MutableHierarchy<string, string>(p=>"default value");
+
+            // ACT & ASSERT
+
+            string value;
+            Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create<string>(), out value));
+            Assert.AreEqual("default value", value);
+        }
+
+        [Test]
         public void MH_Add_value_to_root_node()
         {
             // ARRANGE
@@ -150,7 +164,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void MH_Add_grandchild_()
+        public void MH_Add_grandchild_under_existing_nodes_returns_new_hierachy_with_same_values()
         {
             // ARRANGE
             var hierarchy = new MutableHierarchy<string, string>();
@@ -179,6 +193,31 @@ namespace Elementary.Hierarchy.Collections.Test
             Assert.AreSame(test1, value);
             Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create("b"), out value));
             Assert.AreSame(test2, value);
+            Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create("a", "c"), out value));
+            Assert.AreSame(test3, value);
+        }
+
+        [Test]
+        public void MH_Add_grandchild_as_first_node_returns_new_hierachy_with_same_values()
+        {
+            // ARRANGE
+            var hierarchy = new MutableHierarchy<string, string>(p => string.Empty);
+
+            string test3 = "test3";
+
+            // ACT
+
+            hierarchy.Add(HierarchyPath.Create("a", "c"), test3);
+
+            // ASSERT
+
+            string value;
+
+            // new hierarchy contains the root date and the new node.
+            Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create<string>(), out value));
+            Assert.AreSame(string.Empty, value);
+            Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create("a"), out value));
+            Assert.AreSame(string.Empty, value);
             Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create("a", "c"), out value));
             Assert.AreSame(test3, value);
         }
