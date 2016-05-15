@@ -303,15 +303,15 @@
         /// <summary>
         /// Adds a value to the immutable hierarchy at the specified position.
         /// </summary>
-        /// <param name="hierarchyPath">Specifies where to set the value</param>
+        /// <param name="path">Specifies where to set the value</param>
         /// <param name="value">the value to keep</param>
         /// <returns>returns this</returns>
-        public void Add(HierarchyPath<TKey> hierarchyPath, TValue value)
+        public void Add(HierarchyPath<TKey> path, TValue value)
         {
-            var nodeToSetValueAt = this.GetOrCreateNode(hierarchyPath);
+            var nodeToSetValueAt = this.GetOrCreateNode(path);
 
             if (nodeToSetValueAt.HasValue)
-                throw new ArgumentException($"Node at '{hierarchyPath}' already has a value");
+                throw new ArgumentException($"Node at '{path}' already has a value", nameof(path));
 
             nodeToSetValueAt.SetValue(value);
         }
