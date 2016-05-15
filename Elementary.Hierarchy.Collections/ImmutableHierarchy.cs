@@ -336,10 +336,10 @@
         /// old one is unchanged.
         /// If the value is equal to the value already stored at the position the hierachy remains unchanged.
         /// </summary>
-        /// <param name="hierarchyPath">Specifies where to set the value</param>
+        /// <param name="path">Specifies where to set the value</param>
         /// <param name="value">the value to keep</param>
         /// <returns>Am immutable hierach which contains the specified value</returns>
-        public void Add(HierarchyPath<TKey> hierarchyPath, TValue value)
+        public void Add(HierarchyPath<TKey> path, TValue value)
         {
             bool isLocked = false;
             try
@@ -349,12 +349,12 @@
                 // Set the value at the destination node. The clone may substitute the current node.
 
                 Stack<Node> nodesAlongPath;
-                var currentNode = this.GetOrCreateNode(hierarchyPath, out nodesAlongPath);
+                var currentNode = this.GetOrCreateNode(path, out nodesAlongPath);
 
                 // if the node has already a value, add gails woth argument exception
 
                 if (currentNode.HasValue)
-                    throw new ArgumentException($"Node at '{hierarchyPath}' already has a value");
+                    throw new ArgumentException($"Node at '{path}' already has a value", nameof(path));
 
                 // now ascend again to the root and clone new parent node for the newly created child nodes.
 

@@ -78,6 +78,7 @@ namespace Elementary.Hierarchy.Collections.Test
             string value;
             Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create<string>(), out value));
             Assert.AreSame(test, value);
+            Assert.AreEqual("path", result.ParamName);
         }
 
         [Test]
@@ -134,6 +135,7 @@ namespace Elementary.Hierarchy.Collections.Test
 
             Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create("a"), out value));
             Assert.AreSame(test1, value);
+            Assert.AreEqual("path", result.ParamName);
         }
 
         [Test]
@@ -193,6 +195,7 @@ namespace Elementary.Hierarchy.Collections.Test
             string value;
             Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create("b"), out value));
             Assert.AreSame(test2, value);
+            Assert.AreEqual("path", result.ParamName);
         }
 
         [Test]

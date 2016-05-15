@@ -74,6 +74,7 @@ namespace Elementary.Hierarchy.Collections.Test
             string value;
             Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create<string>(), out value));
             Assert.AreSame(test, value);
+            Assert.AreEqual("path", result.ParamName);
         }
 
         [Test]
@@ -104,7 +105,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void MH_Add_child_twice_thries_ArgumentException()
+        public void MH_Add_child_twice_throws_ArgumentException()
         {
             // ARRANGE
 
@@ -122,6 +123,7 @@ namespace Elementary.Hierarchy.Collections.Test
 
             Assert.That(result.Message.Contains("already has a value"));
             Assert.That(result.Message.Contains("'a'"));
+            Assert.AreEqual("path", result.ParamName);
 
             string value;
 
