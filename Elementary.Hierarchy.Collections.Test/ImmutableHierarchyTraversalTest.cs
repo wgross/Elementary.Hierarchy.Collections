@@ -25,6 +25,24 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
+        public void IMH_node_knows_its_key()
+        {
+            // ARRANGE
+
+            var hierarchy = new ImmutableHierarchy<string, string>();
+
+            // ACT
+
+            var result = hierarchy.Traverse(HierarchyPath.Create<string>());
+
+            // ASSERT
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(null, result.Key);
+        }
+
+
+        [Test]
         public void IMH_hierarchy_has_no_children_if_root_has_no_children()
         {
             // ARRANGE

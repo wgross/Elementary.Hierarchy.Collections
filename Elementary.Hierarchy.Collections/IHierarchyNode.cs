@@ -6,6 +6,8 @@
     {
         HierarchyPath<TKey> Path { get; }
 
+        TKey Key { get; }
+
         bool HasValue { get; }
 
         TValue Value { get;}
