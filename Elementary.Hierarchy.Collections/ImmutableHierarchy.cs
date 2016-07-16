@@ -463,7 +463,7 @@
             return false;
         }
 
-        public bool RemoveAtSingleNode(HierarchyPath<TKey> hierarchyPath)
+        private bool RemoveAtSingleNode(HierarchyPath<TKey> hierarchyPath)
         {
             Stack<Node> nodesAlongPath = new Stack<Node>();
             Node currentNode;
