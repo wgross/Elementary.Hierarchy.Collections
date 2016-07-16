@@ -35,6 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="HasPerantNodeExtensions.cs" />
+    <Compile Include="HierarchyDictionary.cs" />
     <Compile Include="IHierarchy.cs" />
     <Compile Include="IHierarchyNode1.cs" />
     <Compile Include="ImmutableHierarchy.cs" />
