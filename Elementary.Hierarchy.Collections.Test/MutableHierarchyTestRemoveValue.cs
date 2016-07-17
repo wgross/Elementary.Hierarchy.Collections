@@ -115,7 +115,7 @@ namespace Elementary.Hierarchy.Collections.Test
             Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create("a", "b"), out value));
             Assert.AreSame(test2, value);
         }
-                
+
         [Test]
         public void MH_Remove_false_if_no_value_was_removed()
         {

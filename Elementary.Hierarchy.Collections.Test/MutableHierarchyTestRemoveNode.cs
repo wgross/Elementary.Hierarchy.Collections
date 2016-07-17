@@ -121,7 +121,7 @@ namespace Elementary.Hierarchy.Collections.Test
             Assert.IsFalse(hierarchy.TryGetValue(subNode1, out value));
 
             // nodes are no longer present
-            if(!node.IsRoot) Assert.Throws<KeyNotFoundException>(() => hierarchy.Traverse(node));
+            if (!node.IsRoot) Assert.Throws<KeyNotFoundException>(() => hierarchy.Traverse(node));
             Assert.Throws<KeyNotFoundException>(() => hierarchy.Traverse(subNode1));
         }
 

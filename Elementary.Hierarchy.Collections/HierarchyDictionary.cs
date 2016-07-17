@@ -264,7 +264,7 @@ namespace Elementary.Hierarchy.Collections
 
         #endregion Construction and initialization of this instance
 
-        public IHierarchyNode<K,V> Root => this.hierarchy.Traverse(HierarchyPath.Create<K>());
+        public IHierarchyNode<K, V> Root => this.hierarchy.Traverse(HierarchyPath.Create<K>());
         public IDictionary<HierarchyPath<K>, V> Values => this.values;
     }
 }

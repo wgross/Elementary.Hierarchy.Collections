@@ -427,7 +427,7 @@
         #endregion Add/Set value
 
         /// <summary>
-        /// Retrieves a nodes value from the immutable hierarchy. 
+        /// Retrieves a nodes value from the immutable hierarchy.
         /// </summary>
         /// <param name="hierarchyPath">path to the value</param>
         /// <param name="value">found value</param>

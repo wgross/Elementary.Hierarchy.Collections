@@ -25,7 +25,7 @@ namespace Elementary.Hierarchy.Collections.Test
         {
             // ARRANGE
 
-            var hierarchy = new MutableHierarchy<string, string>(p=>"default value");
+            var hierarchy = new MutableHierarchy<string, string>(p => "default value");
 
             // ACT & ASSERT
 

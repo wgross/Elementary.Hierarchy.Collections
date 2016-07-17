@@ -428,7 +428,7 @@
             {
                 // remove this node from parent node, if all child could be removed
                 // root node is not removed, only cleared
-                
+
                 Node parentNode;
                 this.rootNode.TryGetDescendantAt(hierarchyPath.Parent(), out parentNode);
                 parentNode.RemoveChildNode(nodeToRemove);
