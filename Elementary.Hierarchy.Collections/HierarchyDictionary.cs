@@ -9,11 +9,11 @@ namespace Elementary.Hierarchy.Collections
     {
         #region Implements IDictionary interface based on the hierarchical value storage
 
-        private class ValuesAsDictionaryFacade : IDictionary<HierarchyPath<K>, V>
+        private class ValuesAsDictionaryAdapter : IDictionary<HierarchyPath<K>, V>
         {
             #region Initialization of this instance
 
-            public ValuesAsDictionaryFacade(IHierarchy<K, V> hierarchy)
+            public ValuesAsDictionaryAdapter(IHierarchy<K, V> hierarchy)
             {
                 this.hierarchy = hierarchy;
             }
@@ -135,20 +135,136 @@ namespace Elementary.Hierarchy.Collections
 
         #endregion Implements IDictionary interface based on the hierarchical value storage
 
-        #region Initialization of this instance
+        #region Implements IDictionary interface based on the hierarchical value store
+
+        private class NodesAsDictionaryAdapter : IDictionary<HierarchyPath<K>, IHierarchyNode<K, V>>
+        {
+            private IHierarchy<K, V> hierarchy;
+
+            public NodesAsDictionaryAdapter(IHierarchy<K, V> hierarchy)
+            {
+                this.hierarchy = hierarchy;
+            }
+
+            public IHierarchyNode<K, V> this[HierarchyPath<K> key]
+            {
+                get
+                {
+                    throw new NotImplementedException();
+                }
+
+                set
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
+            public int Count
+            {
+                get
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
+            public bool IsReadOnly
+            {
+                get
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
+            public ICollection<HierarchyPath<K>> Keys
+            {
+                get
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
+            public ICollection<IHierarchyNode<K, V>> Values
+            {
+                get
+                {
+                    throw new NotImplementedException();
+                }
+            }
+
+            public void Add(KeyValuePair<HierarchyPath<K>, IHierarchyNode<K, V>> item)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Add(HierarchyPath<K> key, IHierarchyNode<K, V> value)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Clear()
+            {
+                throw new NotImplementedException();
+            }
+
+            public bool Contains(KeyValuePair<HierarchyPath<K>, IHierarchyNode<K, V>> item)
+            {
+                throw new NotImplementedException();
+            }
+
+            public bool ContainsKey(HierarchyPath<K> key)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void CopyTo(KeyValuePair<HierarchyPath<K>, IHierarchyNode<K, V>>[] array, int arrayIndex)
+            {
+                throw new NotImplementedException();
+            }
+
+            public IEnumerator<KeyValuePair<HierarchyPath<K>, IHierarchyNode<K, V>>> GetEnumerator()
+            {
+                throw new NotImplementedException();
+            }
+
+            public bool Remove(KeyValuePair<HierarchyPath<K>, IHierarchyNode<K, V>> item)
+            {
+                throw new NotImplementedException();
+            }
+
+            public bool Remove(HierarchyPath<K> key)
+            {
+                throw new NotImplementedException();
+            }
+
+            public bool TryGetValue(HierarchyPath<K> key, out IHierarchyNode<K, V> value)
+            {
+                throw new NotImplementedException();
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        #endregion Implements IDictionary interface based on the hierarchical value store
+
+        #region Construction and initialization of this instance
 
         public HierarchyDictionary(IHierarchy<K, V> hierarchyImplementation)
         {
             this.hierarchy = hierarchyImplementation;
-            this.values = new ValuesAsDictionaryFacade(this.hierarchy);
+            this.values = new ValuesAsDictionaryAdapter(this.hierarchy);
+            this.nodes = new NodesAsDictionaryAdapter(this.hierarchy);
         }
 
         private readonly IDictionary<HierarchyPath<K>, V> values;
         private readonly IHierarchy<K, V> hierarchy;
+        private readonly IDictionary<HierarchyPath<K>, IHierarchyNode<K, V>> nodes;
 
-        #endregion Initialization of this instance
+        #endregion Construction and initialization of this instance
 
-        public object Nodes { get; set; }
+        public IHierarchyNode<K,V> Root => this.hierarchy.Traverse(HierarchyPath.Create<K>());
         public IDictionary<HierarchyPath<K>, V> Values => this.values;
     }
 }
