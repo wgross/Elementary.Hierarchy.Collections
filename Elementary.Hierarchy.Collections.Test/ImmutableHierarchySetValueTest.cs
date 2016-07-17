@@ -22,7 +22,7 @@ namespace Elementary.Hierarchy.Collections.Test
 
             string value;
 
-            // hierachy contains the value
+            // hierarchy contains the value
             Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create<string>(), out value));
             Assert.AreSame(test, value);
         }

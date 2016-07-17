@@ -7,12 +7,12 @@
     using System.Linq;
 
     /// <summary>
-    /// An immutable hierachy holds a set of value but never changes ists structure.
+    /// An immutable hierarchy holds a set of value but never changes ists structure.
     /// Any strcuture change like adding or removing a node produces a new hierarchy.
     /// The data is copied wothe the nodes. If TValue is a reference type all hierechay reference the same data
     /// If TValue is a value type thevalues are cpied with their nodes.
     /// </summary>
-    /// <typeparam name="TKey">type of the indetifier of the stires data</typeparam>s
+    /// <typeparam name="TKey">type of the identifier of the stires data</typeparam>s
     /// <typeparam name="TNode"></typeparam>
     public class MutableHierarchy<TKey, TValue> : IHierarchy<TKey, TValue>
     {

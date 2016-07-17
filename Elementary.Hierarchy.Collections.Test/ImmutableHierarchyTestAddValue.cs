@@ -50,7 +50,7 @@ namespace Elementary.Hierarchy.Collections.Test
 
             string value;
 
-            // new hierachy contains all values
+            // new hierarchy contains all values
             Assert.IsTrue(hierarchy.TryGetValue(HierarchyPath.Create<string>(), out value));
             Assert.AreSame(test, value);
         }

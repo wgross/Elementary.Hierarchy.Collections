@@ -9,13 +9,13 @@
     using System.Threading;
 
     /// <summary>
-    /// An immutable hierachy holds a set of values but never changes its nodes in place.
-    /// Any change of the node structure or the value of a node cause to copy the node and rebuilding
-    /// if the path of tha ancestors includein the root node to create a new hierarchy referenceing the
-    /// old unchanae nodes and the new changed nodes.
+    /// An immutable hierarchy holds a set of values but never changes its nodes in place.
+    /// Any change of the node structure or the value of a node causes a copy of the node and rebuilding
+    /// of the path of tha ancestors including the root node to create a new hierarchy referencing both the
+    /// old unchanged nodes and the new changed nodes.
     /// In a multithreaded environment reading is still possible while a change is happening in parallel
     /// </summary>
-    /// <typeparam name="TKey">type of the indetifier of the stires data</typeparam>s
+    /// <typeparam name="TKey">type of the identifier of the stored data</typeparam>s
     /// <typeparam name="TNode"></typeparam>
     public class ImmutableHierarchy<TKey, TValue> : IHierarchy<TKey, TValue>
     {
@@ -331,10 +331,10 @@
         }
 
         /// <summary>
-        /// Adds a value to the immutable hierachy at the specified position.
+        /// Adds a value to the immutable hierarchy at the specified position.
         /// The result is a new ImmutableHiarachy contains the value. The
         /// old one is unchanged.
-        /// If the value is equal to the value already stored at the position the hierachy remains unchanged.
+        /// If the value is equal to the value already stored at the position the hierarchy remains unchanged.
         /// </summary>
         /// <param name="path">Specifies where to set the value</param>
         /// <param name="value">the value to keep</param>
@@ -478,7 +478,7 @@
             if (!currentNode.HasValue)
                 return false;
 
-            // last node must be the root node: create new hierachy if root node has changed
+            // last node must be the root node: create new hierarchy if root node has changed
 
             bool isLocked = false;
             try
