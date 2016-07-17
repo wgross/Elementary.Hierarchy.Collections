@@ -8,6 +8,19 @@ namespace Elementary.Hierarchy.Collections.Test
     public class MutableHierarchyTraversalTest
     {
         [Test]
+        public void MH_Rootnode_has_default_value_on_traversal()
+        {
+            // ARRANGE
+
+            var hierarchy = new MutableHierarchy<string, string>(p => "default value");
+
+            // ACT & ASSERT
+
+            Assert.IsTrue(hierarchy.Traverse(HierarchyPath.Create<string>()).HasValue);
+            Assert.AreEqual("default value", hierarchy.Traverse(HierarchyPath.Create<string>()).Value);
+        }
+
+        [Test]
         public void MH_node_knows_its_path()
         {
             // ARRANGE

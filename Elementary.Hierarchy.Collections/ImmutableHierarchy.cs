@@ -427,11 +427,11 @@
         #endregion Add/Set value
 
         /// <summary>
-        /// Retrieves the nodes value from the immutable hierarchy.
+        /// Retrieves a nodes value from the immutable hierarchy. 
         /// </summary>
         /// <param name="hierarchyPath">path to the value</param>
         /// <param name="value">found value</param>
-        /// <returns>zre, if value could be found, false otherwise</returns>
+        /// <returns>true, if value could be found, false otherwise</returns>
         public bool TryGetValue(HierarchyPath<TKey> hierarchyPath, out TValue value)
         {
             Node descendantNode;

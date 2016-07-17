@@ -130,7 +130,7 @@
             /// Unset ths value of this this node instance.
             /// </summary>
             /// <returns></returns>
-            public Node UnsetValue(bool prune = false)
+            public Node UnsetValue(bool prune = false, bool forcePrune = false)
             {
                 this.value = ValueNotSet;
 
@@ -365,34 +365,62 @@
         /// <returns>true if value was removed, false otherwise</returns>
         public bool Remove(HierarchyPath<TKey> hierarchyPath, int? maxDepth = null)
         {
-            int maxDepthCoalesced = maxDepth.GetValueOrDefault(1);
+            return this.Remove(hierarchyPath, maxDepth.GetValueOrDefault(1), forcePrune: false);
+        }
 
+        private bool Remove(HierarchyPath<TKey> hierarchyPath, int maxDepth, bool forcePrune)
+        {
             Node startNode;
             if (!this.rootNode.TryGetDescendantAt(hierarchyPath, out startNode))
                 return false;
 
-            if (maxDepthCoalesced == 1)
+            return Remove(startNode, maxDepth, this.pruneOnUnsetValue);
+        }
+
+        private bool Remove(Node startNode, int maxDepth, bool prune)
+        {
+            if (maxDepth == 1)
             {
                 if (!startNode.HasValue)
                     return false;
 
-                startNode.UnsetValue(prune: this.pruneOnUnsetValue);
+                startNode.UnsetValue(prune: prune);
                 return true;
             }
-            else if (maxDepthCoalesced > 1)
+            else if (maxDepth > 1)
             {
+                var descendantsOrSelf = startNode.DescendantsOrSelf(depthFirst: false, maxDepth: maxDepth);
+
+                // inner nodes are pruned only of the leave vaules are removed first.
+                if (prune)
+                    descendantsOrSelf = descendantsOrSelf.Reverse();
+
                 bool removed = false;
-                foreach (var descandant in startNode.DescendantsOrSelf(depthFirst: false, maxDepth: maxDepthCoalesced))
+                foreach (var descandant in descendantsOrSelf)
                 {
                     if (descandant.HasValue)
                     {
-                        descandant.UnsetValue(this.pruneOnUnsetValue);
+                        descandant.UnsetValue(prune);
                         removed = removed || true;
                     }
                 }
                 return removed;
             }
             else return false;
+        }
+
+        public bool RemoveNode(HierarchyPath<TKey> hierarchyPath, bool recurse)
+        {
+            Node nodeToRemove;
+            this.rootNode.TryGetDescendantAt(hierarchyPath, out nodeToRemove);
+
+            if (!recurse && nodeToRemove.Children().Any())
+                return false; // don't remove child nodes silently
+
+            if (hierarchyPath.IsRoot)
+                return this.Remove(nodeToRemove, recurse ? int.MaxValue : 1, prune: recurse);
+
+            return false;
         }
     }
 }

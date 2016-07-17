@@ -17,6 +17,7 @@ namespace Elementary.Hierarchy.Collections.Test
 
             string value;
             Assert.IsFalse(hierarchy.TryGetValue(HierarchyPath.Create<string>(), out value));
+            Assert.IsFalse(hierarchy.Traverse(HierarchyPath.Create<string>()).HasValue);
         }
 
         [Test]
