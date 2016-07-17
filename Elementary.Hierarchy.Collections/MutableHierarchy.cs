@@ -151,6 +151,11 @@
             {
                 this.childNodes = new Node[] { };
             }
+
+            public void RemoveChildNode(Node removedNode)
+            {
+                this.childNodes = this.ChildNodes.Except(new[] { removedNode }).ToArray();
+            }
         }
 
         #endregion Internal Node class
@@ -412,15 +417,23 @@
         public bool RemoveNode(HierarchyPath<TKey> hierarchyPath, bool recurse)
         {
             Node nodeToRemove;
-            this.rootNode.TryGetDescendantAt(hierarchyPath, out nodeToRemove);
+            if (!this.rootNode.TryGetDescendantAt(hierarchyPath, out nodeToRemove))
+                return false; // node doesn't not exist
 
             if (!recurse && nodeToRemove.Children().Any())
                 return false; // don't remove child nodes silently
 
-            if (hierarchyPath.IsRoot)
-                return this.Remove(nodeToRemove, recurse ? int.MaxValue : 1, prune: recurse);
-
-            return false;
+            var removedNode = this.Remove(nodeToRemove, recurse ? int.MaxValue : 1, prune: recurse);
+            if (removedNode && !hierarchyPath.IsRoot && !nodeToRemove.HasChildNodes)
+            {
+                // remove this node from parent node, if all child could be removed
+                // root node is not removed, only cleared
+                
+                Node parentNode;
+                this.rootNode.TryGetDescendantAt(hierarchyPath.Parent(), out parentNode);
+                parentNode.RemoveChildNode(nodeToRemove);
+            }
+            return removedNode;
         }
     }
 }
