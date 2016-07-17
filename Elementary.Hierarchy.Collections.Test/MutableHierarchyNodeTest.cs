@@ -187,7 +187,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void MHN_Unset_value_of_parent_node_removes_empty_child_On_UnsetVaue_with_prune()
+        public void MHN_Unset_value_of_parent_node_removes_empty_child_on_UnsetValue_with_prune()
         {
             // ARRANGE
 
@@ -209,7 +209,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void MHN_Unset_value_of_parent_node_keeps_non_empty_child_OnUnsetValue_with_prune()
+        public void MHN_Unset_value_of_parent_node_keeps_non_empty_child_on_UnsetValue_with_prune()
         {
             // ARRANGE
 
