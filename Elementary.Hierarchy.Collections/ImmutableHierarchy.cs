@@ -519,5 +519,10 @@
             nodesAlongPath = tmp;
             return found;
         }
+
+        public bool RemoveNode(HierarchyPath<TKey> hierarchyPath, bool recurse)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

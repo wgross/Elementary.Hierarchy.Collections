@@ -19,5 +19,7 @@
         bool TryGetValue(HierarchyPath<TKey> hierarchyPath, out TValue value);
 
         IHierarchyNode<TKey, TValue> Traverse(HierarchyPath<TKey> startAt);
+
+        bool RemoveNode(HierarchyPath<TKey> hierarchyPath, bool recurse);
     }
 }

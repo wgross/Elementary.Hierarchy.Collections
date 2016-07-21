@@ -1,13 +1,60 @@
 ﻿using NUnit.Framework;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Elementary.Hierarchy.Collections.Test
 {
+    public class RemoveNodeTestCaseSource
+    {
+        public static IEnumerable One
+        {
+            get
+            {
+                yield return new TestCaseData("", "a", new MutableHierarchy<string, string>()); // root with direct subnode
+                yield return new TestCaseData("", "a/b", new MutableHierarchy<string, string>()); // root with indirect subnode
+                yield return new TestCaseData("a", "a/b", new MutableHierarchy<string, string>()); // sub node with direct subnode
+                yield return new TestCaseData("a", "a/b/c", new MutableHierarchy<string, string>()); // subnode with indirect subnode
+            }
+        }
+
+        public static IEnumerable Two
+        {
+            get
+            {
+                yield return new TestCaseData("a", true, new MutableHierarchy<string, string>());
+                yield return new TestCaseData("a", false, new MutableHierarchy<string, string>());
+                yield return new TestCaseData("a/b", true, new MutableHierarchy<string, string>());
+                yield return new TestCaseData("a/b", false, new MutableHierarchy<string, string>());
+            }
+        }
+
+        public static IEnumerable Three
+        {
+            get
+            {
+                yield return new TestCaseData("", new MutableHierarchy<string, string>());
+                yield return new TestCaseData("a", new MutableHierarchy<string, string>());
+                yield return new TestCaseData("a/b", new MutableHierarchy<string, string>());
+            }
+        }
+
+        public static IEnumerable Four
+        {
+            get
+            {
+                yield return new TestCaseData("", true, new MutableHierarchy<string, string>());
+                yield return new TestCaseData("", false, new MutableHierarchy<string, string>());
+                yield return new TestCaseData("a", true, new MutableHierarchy<string, string>());
+                yield return new TestCaseData("a", false, new MutableHierarchy<string, string>());
+            }
+        }
+    }
+
     [TestFixture]
-    public class MutableHierarchyTestRemoveNode
+    public class HierarchyRemoveNodeTest
     {
         [Test]
-        public void MH_RemoveNode_root_removes_value_but_not_the_node()
+        public void IHierarchy_RemoveNode_root_removes_value_but_not_the_node()
         {
             // ARRANGE
 
@@ -32,19 +79,15 @@ namespace Elementary.Hierarchy.Collections.Test
             Assert.IsNotNull(hierarchy.Traverse(HierarchyPath.Create<string>()));
             Assert.IsFalse(hierarchy.Traverse(HierarchyPath.Create<string>()).HasValue);
         }
-
-        [TestCase("", "a")] // root with direct subnode
-        [TestCase("", "a/b")] // root with indirect subnode
-        [TestCase("a", "a/b")] // sub node with direct subnode
-        [TestCase("a", "a/b/c")] // subnode with indirect subnode
-        public void MH_RemoveNode_non_recursive_fails_if_a_childnode_is_present(string nodePath, string subNodePath)
+        
+        [Test,TestCaseSource(typeof(RemoveNodeTestCaseSource), nameof(RemoveNodeTestCaseSource.One))]
+        public void IHierarchy_RemoveNode_non_recursive_fails_if_a_childnode_is_present(string nodePath, string subNodePath, IHierarchy<string,string> hierarchy)
         {
             // ARRANGE
 
             string test = "test";
             string test1 = "test1";
-
-            var hierarchy = new MutableHierarchy<string, string>();
+        
             hierarchy.Add(HierarchyPath.Parse(nodePath, "/"), test);
             hierarchy.Add(HierarchyPath.Parse(subNodePath, "/"), test1);
 
@@ -65,17 +108,13 @@ namespace Elementary.Hierarchy.Collections.Test
             Assert.AreSame(test1, value);
         }
 
-        [TestCase("a", true)]
-        [TestCase("a", false)]
-        [TestCase("a/b", true)]
-        [TestCase("a/b", false)]
-        public void MH_RemoveNode_removes_node_from_hierarchy_completely(string pathToDelete, bool recurse)
+        [Test, TestCaseSource(typeof(RemoveNodeTestCaseSource), nameof(RemoveNodeTestCaseSource.Two))]
+        public void IHierarchy_RemoveNode_removes_node_from_hierarchy_completely(string pathToDelete, bool recurse, IHierarchy<string,string> hierarchy)
         {
             // ARRANGE
 
             var node = HierarchyPath.Parse(pathToDelete, "/");
-
-            var hierarchy = new MutableHierarchy<string, string>();
+            
             hierarchy.Add(node, pathToDelete);
 
             // ACT
@@ -94,16 +133,14 @@ namespace Elementary.Hierarchy.Collections.Test
             Assert.Throws<KeyNotFoundException>(() => hierarchy.Traverse(node));
         }
 
-        [TestCase("")]
-        [TestCase("a")]
-        [TestCase("a/b")]
-        public void MH_RemoveNode_removes_node_from_hierarchy_completely_and_all_descendants(string nodeToDelete)
+        [Test, TestCaseSource(typeof(RemoveNodeTestCaseSource), nameof(RemoveNodeTestCaseSource.Three))]
+        public void IHierarchy_RemoveNode_removes_node_from_hierarchy_completely_and_all_descendants(string nodeToDelete, IHierarchy<string,string> hierarchy)
         {
             // ARRANGE
+
             var node = HierarchyPath.Parse(nodeToDelete, "/");
             var subNode1 = node.Join("subNode");
 
-            var hierarchy = new MutableHierarchy<string, string>();
             hierarchy.Add(node, node.ToString());
             hierarchy.Add(subNode1, subNode1.ToString());
 
@@ -125,16 +162,12 @@ namespace Elementary.Hierarchy.Collections.Test
             Assert.Throws<KeyNotFoundException>(() => hierarchy.Traverse(subNode1));
         }
 
-        [TestCase("", true)]
-        [TestCase("", false)]
-        [TestCase("a", true)]
-        [TestCase("a", false)]
-        public void MH_RemoveNode_twice_returns_false(string path, bool recurse)
+        [Test, TestCaseSource(typeof(RemoveNodeTestCaseSource), nameof(RemoveNodeTestCaseSource.Four))]
+        public void IHierarchy_RemoveNode_twice_returns_false(string path, bool recurse, IHierarchy<string,string> hierarchy)
         {
             // ARRANGE
             string test = "test";
 
-            var hierarchy = new MutableHierarchy<string, string>();
             hierarchy.Add(HierarchyPath.Parse(path, "/"), test);
             hierarchy.RemoveNode(HierarchyPath.Parse(path, "/"), recurse: recurse);
 
@@ -147,13 +180,9 @@ namespace Elementary.Hierarchy.Collections.Test
             Assert.IsFalse(result);
         }
 
-        [Test]
-        public void MH_RemoveNode_unknown_node_returns_false()
+        [Test, TestCaseSource(typeof(HierarchyVariantSource), nameof(HierarchyVariantSource.WithoutDefaultValue))]
+        public void IHierarchy_RemoveNode_unknown_node_returns_false(IHierarchy<string,string> hierarchy)
         {
-            // ARRANGE
-
-            var hierarchy = new MutableHierarchy<string, string>();
-
             // ACT
 
             var result = hierarchy.RemoveNode(HierarchyPath.Create("a"), recurse: false);
