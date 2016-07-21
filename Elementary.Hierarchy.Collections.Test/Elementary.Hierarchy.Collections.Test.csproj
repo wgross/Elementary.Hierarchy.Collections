@@ -67,12 +67,10 @@
     <Compile Include="ImmutableHierarchyTraversalTest.cs" />
     <Compile Include="ImmutableHierarchyTraverserTest.cs" />
     <Compile Include="MutableHierarchyTestRemoveNode.cs" />
-    <Compile Include="MutableHierarchyTestRemoveValue.cs" />
-    <Compile Include="MutableHierarchyTestAddValue.cs" />
     <Compile Include="MutableHierarchyNodeTest.cs" />
     <Compile Include="ImmutableHierarchyNodeTest.cs" />
-    <Compile Include="ImmutableHierarchyTestAddValue.cs" />
-    <Compile Include="ImmutableHierarchyTestRemoveValue.cs" />
+    <Compile Include="HierarchyAddValueTest.cs" />
+    <Compile Include="HierarchyRemoveValueTest.cs" />
     <Compile Include="MutableHierarchyTraversalTest.cs" />
     <Compile Include="MutableHierarchyTraverserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

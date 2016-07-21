@@ -5,7 +5,7 @@ namespace Elementary.Hierarchy.Collections.Test
     [TestFixture]
     public class HierarchySetValueTest
     {
-        [Test, TestCaseSource(typeof(HierarchyVariantSource), nameof(HierarchyVariantSource.WithouthDefaultValue))]
+        [Test, TestCaseSource(typeof(HierarchyVariantSource), nameof(HierarchyVariantSource.WithoutDefaultValue))]
         public void IHierarchy_Set_value_at_root_node(IHierarchy<string, string> hierarchy)
         {
             // ARRANGE
@@ -25,7 +25,7 @@ namespace Elementary.Hierarchy.Collections.Test
             Assert.AreSame(test, value);
         }
 
-        [Test, TestCaseSource(typeof(HierarchyVariantSource), nameof(HierarchyVariantSource.WithouthDefaultValue))]
+        [Test, TestCaseSource(typeof(HierarchyVariantSource), nameof(HierarchyVariantSource.WithoutDefaultValue))]
         public void IHierarchy_Set_value_at_root_node_twice_overwrites_value(IHierarchy<string, string> hierarchy)
         {
             // ARRANGE
@@ -44,7 +44,7 @@ namespace Elementary.Hierarchy.Collections.Test
             Assert.AreSame(test2, value);
         }
 
-        [Test, TestCaseSource(typeof(HierarchyVariantSource), nameof(HierarchyVariantSource.WithouthDefaultValue))]
+        [Test, TestCaseSource(typeof(HierarchyVariantSource), nameof(HierarchyVariantSource.WithoutDefaultValue))]
         public void IHierarchy_Set_child_sets_value_at_child_node(IHierarchy<string, string> hierarchy)
         {
             // ARRANGE
@@ -69,7 +69,7 @@ namespace Elementary.Hierarchy.Collections.Test
             Assert.AreSame(test1, value);
         }
 
-        [Test, TestCaseSource(typeof(HierarchyVariantSource), nameof(HierarchyVariantSource.WithouthDefaultValue))]
+        [Test, TestCaseSource(typeof(HierarchyVariantSource), nameof(HierarchyVariantSource.WithoutDefaultValue))]
         public void IHierarchy_Set_child_twice_throws_ArgumentException(IHierarchy<string, string> hierarchy)
         {
             // ARRANGE
@@ -95,7 +95,7 @@ namespace Elementary.Hierarchy.Collections.Test
             Assert.AreSame(test1, value);
         }
 
-        [Test, TestCaseSource(typeof(HierarchyVariantSource), nameof(HierarchyVariantSource.WithouthDefaultValue))]
+        [Test, TestCaseSource(typeof(HierarchyVariantSource), nameof(HierarchyVariantSource.WithoutDefaultValue))]
         public void IHierarchy_Set_value_at_child_sibling(IHierarchy<string, string> hierarchy)
         {
             // ARRANGE
@@ -124,7 +124,7 @@ namespace Elementary.Hierarchy.Collections.Test
             Assert.AreSame(test2, value);
         }
 
-        [Test, TestCaseSource(typeof(HierarchyVariantSource), nameof(HierarchyVariantSource.WithouthDefaultValue))]
+        [Test, TestCaseSource(typeof(HierarchyVariantSource), nameof(HierarchyVariantSource.WithoutDefaultValue))]
         public void IHierarchy_Set_value_at_grandchild(IHierarchy<string, string> hierarchy)
         {
             // ARRANGE
