@@ -64,14 +64,13 @@
     <Compile Include="HierarchyDictionaryValuesTest.cs" />
     <Compile Include="HierarchySetValueTest.cs" />
     <Compile Include="HierarchyVariantSource.cs" />
-    <Compile Include="ImmutableHierarchyTraversalTest.cs" />
+    <Compile Include="HierarchyTraversalTest.cs" />
     <Compile Include="ImmutableHierarchyTraverserTest.cs" />
     <Compile Include="MutableHierarchyTestRemoveNode.cs" />
     <Compile Include="MutableHierarchyNodeTest.cs" />
     <Compile Include="ImmutableHierarchyNodeTest.cs" />
     <Compile Include="HierarchyAddValueTest.cs" />
     <Compile Include="HierarchyRemoveValueTest.cs" />
-    <Compile Include="MutableHierarchyTraversalTest.cs" />
     <Compile Include="MutableHierarchyTraverserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
