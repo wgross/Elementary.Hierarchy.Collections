@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 namespace Elementary.Hierarchy.Collections.Test
 {
@@ -10,10 +11,14 @@ namespace Elementary.Hierarchy.Collections.Test
         {
             get
             {
+                // mutable hierarchies
                 yield return new TestCaseData("", "a", new MutableHierarchy<string, string>()); // root with direct subnode
-                yield return new TestCaseData("", "a/b", new MutableHierarchy<string, string>()); // root with indirect subnode
                 yield return new TestCaseData("a", "a/b", new MutableHierarchy<string, string>()); // sub node with direct subnode
                 yield return new TestCaseData("a", "a/b/c", new MutableHierarchy<string, string>()); // subnode with indirect subnode
+                // immutable hierarchies
+                yield return new TestCaseData("", "a", new ImmutableHierarchy<string, string>()); // root with direct subnode
+                yield return new TestCaseData("a", "a/b", new ImmutableHierarchy<string, string>()); // root with direct subnode
+                yield return new TestCaseData("a", "a/b/c", new ImmutableHierarchy<string, string>()); // root with direct subnode
             }
         }
 
@@ -21,10 +26,16 @@ namespace Elementary.Hierarchy.Collections.Test
         {
             get
             {
+                // mutable hierarchies
                 yield return new TestCaseData("a", true, new MutableHierarchy<string, string>());
                 yield return new TestCaseData("a", false, new MutableHierarchy<string, string>());
                 yield return new TestCaseData("a/b", true, new MutableHierarchy<string, string>());
                 yield return new TestCaseData("a/b", false, new MutableHierarchy<string, string>());
+                // immutable hierarchies
+                yield return new TestCaseData("a", true, new ImmutableHierarchy<string, string>());
+                yield return new TestCaseData("a", false, new ImmutableHierarchy<string, string>());
+                yield return new TestCaseData("a/b", true, new ImmutableHierarchy<string, string>());
+                yield return new TestCaseData("a/b", false, new ImmutableHierarchy<string, string>());
             }
         }
 
@@ -32,9 +43,14 @@ namespace Elementary.Hierarchy.Collections.Test
         {
             get
             {
+                // mutale hierarchies
                 yield return new TestCaseData("", new MutableHierarchy<string, string>());
                 yield return new TestCaseData("a", new MutableHierarchy<string, string>());
                 yield return new TestCaseData("a/b", new MutableHierarchy<string, string>());
+                // immutable hieracrhies
+                yield return new TestCaseData("", new ImmutableHierarchy<string, string>());
+                yield return new TestCaseData("a", new ImmutableHierarchy<string, string>());
+                yield return new TestCaseData("a/b", new ImmutableHierarchy<string, string>());
             }
         }
 
@@ -42,10 +58,25 @@ namespace Elementary.Hierarchy.Collections.Test
         {
             get
             {
+                // mutable hierarchies
                 yield return new TestCaseData("", true, new MutableHierarchy<string, string>());
                 yield return new TestCaseData("", false, new MutableHierarchy<string, string>());
                 yield return new TestCaseData("a", true, new MutableHierarchy<string, string>());
                 yield return new TestCaseData("a", false, new MutableHierarchy<string, string>());
+                // immutable hieratchies
+                yield return new TestCaseData("", true, new ImmutableHierarchy<string, string>());
+                yield return new TestCaseData("", false, new ImmutableHierarchy<string, string>());
+                yield return new TestCaseData("a", true, new ImmutableHierarchy<string, string>());
+                yield return new TestCaseData("a", false, new ImmutableHierarchy<string, string>());
+            }
+        }
+
+        public static IEnumerable EmptyRootNodes
+        {
+            get
+            {
+                yield return new MutableHierarchy<string, string>();
+                yield return new ImmutableHierarchy<string,string>();
             }
         }
     }
@@ -53,14 +84,13 @@ namespace Elementary.Hierarchy.Collections.Test
     [TestFixture]
     public class HierarchyRemoveNodeTest
     {
-        [Test]
-        public void IHierarchy_RemoveNode_root_removes_value_but_not_the_node()
+        [Test,TestCaseSource(typeof(RemoveNodeTestCaseSource),nameof(RemoveNodeTestCaseSource.EmptyRootNodes))]
+        public void IHierarchy_RemoveNode_root_removes_value_but_not_the_node(IHierarchy<string,string> hierarchy)
         {
             // ARRANGE
 
             string test = "test";
 
-            var hierarchy = new MutableHierarchy<string, string>();
             hierarchy.Add(HierarchyPath.Create<string>(), test);
 
             // ACT
@@ -109,7 +139,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test, TestCaseSource(typeof(RemoveNodeTestCaseSource), nameof(RemoveNodeTestCaseSource.Two))]
-        public void IHierarchy_RemoveNode_removes_node_from_hierarchy_completely(string pathToDelete, bool recurse, IHierarchy<string,string> hierarchy)
+        public void IHierarchy_RemoveNode_removes_leaf_from_hierarchy_completely(string pathToDelete, bool recurse, IHierarchy<string,string> hierarchy)
         {
             // ARRANGE
 
@@ -134,14 +164,15 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test, TestCaseSource(typeof(RemoveNodeTestCaseSource), nameof(RemoveNodeTestCaseSource.Three))]
-        public void IHierarchy_RemoveNode_removes_node_from_hierarchy_completely_and_all_descendants(string nodeToDelete, IHierarchy<string,string> hierarchy)
+        public void IHierarchy_RemoveNode_removes_inner_node_from_hierarchy_completely_and_all_descendants(string nodeToDelete, IHierarchy<string,string> hierarchy)
         {
             // ARRANGE
 
             var node = HierarchyPath.Parse(nodeToDelete, "/");
-            var subNode1 = node.Join("subNode");
-
             hierarchy.Add(node, node.ToString());
+
+            // add subnode with value
+            var subNode1 = node.Join("subNode");
             hierarchy.Add(subNode1, subNode1.ToString());
 
             // ACT

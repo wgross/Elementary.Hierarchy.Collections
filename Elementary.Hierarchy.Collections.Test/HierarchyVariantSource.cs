@@ -18,7 +18,7 @@ namespace Elementary.Hierarchy.Collections.Test
             }
         }
 
-        public static readonly string DefaultValue = "defauöt value";
+        public static readonly string DefaultValue = "default value";
 
         public static IEnumerable WithDefaultValue
         {

@@ -152,9 +152,9 @@
                 this.childNodes = new Node[] { };
             }
 
-            public void RemoveChildNode(Node removedNode)
+            public void RemoveChildNode(Node childToRemove)
             {
-                this.childNodes = this.ChildNodes.Except(new[] { removedNode }).ToArray();
+                this.childNodes = this.ChildNodes.Except(new[] { childToRemove }).ToArray();
             }
         }
 

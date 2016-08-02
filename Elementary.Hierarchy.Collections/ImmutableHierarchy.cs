@@ -158,6 +158,11 @@
 
                 return new Node(this.key, ValueNotSet, this.childNodes);
             }
+
+            public Node RemoveChildNode(Node childToRemove)
+            {
+                return new Node(this.key, this.value, this.childNodes.TakeWhile(n => !n.Equals(childToRemove)));
+            }
         }
 
         #endregion Internal Node class
@@ -448,7 +453,7 @@
         {
             if (maxDepth == null || maxDepth == 1)
             {
-                return this.RemoveAtSingleNode(hierarchyPath);
+                return this.RemoveValueAtSingleNode(hierarchyPath);
             }
             else if (maxDepth > 1)
             {
@@ -456,14 +461,14 @@
                 foreach (var node in this.Traverse(hierarchyPath)
                     .DescendantsOrSelf(depthFirst: false, maxDepth: maxDepth).ToList())
                 {
-                    removed = this.RemoveAtSingleNode(node.Path) || removed;
+                    removed = this.RemoveValueAtSingleNode(node.Path) || removed;
                 }
                 return removed;
             }
             return false;
         }
 
-        private bool RemoveAtSingleNode(HierarchyPath<TKey> hierarchyPath)
+        private bool RemoveValueAtSingleNode(HierarchyPath<TKey> hierarchyPath)
         {
             Stack<Node> nodesAlongPath = new Stack<Node>();
             Node currentNode;
@@ -522,7 +527,54 @@
 
         public bool RemoveNode(HierarchyPath<TKey> hierarchyPath, bool recurse)
         {
-            throw new NotImplementedException();
+            return this.RemoveSingleNode(hierarchyPath, recurse);
+        }
+
+        private bool RemoveSingleNode(HierarchyPath<TKey> hierarchyPath, bool recurse)
+        {
+            Stack<Node> nodesAlongPath = new Stack<Node>();
+            Node currentNode;
+
+            // try to get the node to remove values from
+
+            if (!this.TryGetNode(hierarchyPath, out nodesAlongPath, out currentNode))
+                return false;
+
+            if (currentNode.HasChildNodes && !recurse)
+                return false; // nodes with children cant be removed
+
+            // if the root node is to be deleted, just remove the value and prune it!
+
+            bool isLocked = false;
+            try
+            {
+                if (hierarchyPath.IsRoot)
+                {
+                    if (!this.rootNode.HasValue)
+                        return false; // Sematically, an empty root node cant be deleted. 
+
+                    // The root node cant be removed from ist parent node. 
+                    // the old hierachy is just abandonded and a new root is created.
+
+                    this.writeLock.Enter(ref isLocked);
+                    this.rootNode = new Node(default(TKey));
+                }
+                else
+                {
+                    // Any node except the root nodes is removed from its parent node whcih causes a
+                    // rebuild of the hierachy along the descending path.
+
+                    var parent = nodesAlongPath.Pop();
+                    this.writeLock.Enter(ref isLocked);
+                    this.rootNode = this.RebuildAscendingPathAfterChange(parent.RemoveChildNode(currentNode), nodesAlongPath);
+                }
+                return true;
+            }
+            finally
+            {
+                if (isLocked)
+                    this.writeLock.Exit();
+            }
         }
     }
 }

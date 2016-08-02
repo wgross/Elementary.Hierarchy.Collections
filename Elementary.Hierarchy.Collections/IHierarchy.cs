@@ -8,7 +8,7 @@
 
         /// <summary>
         /// Removes values from the hierarchy by default.
-        /// If a maxDepth s spefices > 1 vaues are removed from
+        /// If a maxDepth s spefices > 1 values are removed from
         /// descenadnt nodes.
         /// </summary>
         /// <param name="hierarchyPath">specifed the position of the start node for removal of values</param>
