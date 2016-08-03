@@ -144,15 +144,16 @@
             /// <returns></returns>
             public Node UnsetValue(bool prune = false)
             {
-                if (!this.HasValue)
-                    return this;
-
-                // pruning is swtched on.
+                // pruning is switched on.
                 // if none of the descandant has a value anymore, the children are deleted
 
                 if (prune)
                     if (!this.Descendants().Any(c => c.HasValue))
                         return new Node(this.key, ValueNotSet);
+
+                // if it has no value, the node remains as it is
+                if (!this.HasValue)
+                    return this;
 
                 // return a clone of this node, changed only at its value
 

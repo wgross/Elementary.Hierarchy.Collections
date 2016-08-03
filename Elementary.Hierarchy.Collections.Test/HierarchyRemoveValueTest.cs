@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace Elementary.Hierarchy.Collections.Test
 {
@@ -167,12 +168,6 @@ namespace Elementary.Hierarchy.Collections.Test
             // ASSERT
 
             Assert.IsFalse(result);
-        }
-
-        [Test]
-        public void IHierarchy_Remove_value_with_pruning_reonves_empty_subnodes()
-        {
-            Assert.Fail("not yet imp,emented for ImmutableHierarchy.Node at least");
         }
     }
 }
