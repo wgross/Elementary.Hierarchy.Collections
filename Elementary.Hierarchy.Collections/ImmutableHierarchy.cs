@@ -9,13 +9,13 @@
     using System.Threading;
 
     /// <summary>
-    /// An immutable hierachy holds a set of values but never changes its nodes in place.
-    /// Any change of the node structure or the value of a node cause to copy the node and rebuilding
-    /// if the path of tha ancestors includein the root node to create a new hierarchy referenceing the
-    /// old unchanae nodes and the new changed nodes.
+    /// An immutable hierarchy holds a set of values but never changes its nodes in place.
+    /// Any change of the node structure or the value of a node causes a copy of the node and rebuilding
+    /// of the path of tha ancestors including the root node to create a new hierarchy referencing both the
+    /// old unchanged nodes and the new changed nodes.
     /// In a multithreaded environment reading is still possible while a change is happening in parallel
     /// </summary>
-    /// <typeparam name="TKey">type of the indetifier of the stires data</typeparam>s
+    /// <typeparam name="TKey">type of the identifier of the stored data</typeparam>s
     /// <typeparam name="TNode"></typeparam>
     public class ImmutableHierarchy<TKey, TValue> : IHierarchy<TKey, TValue>
     {
@@ -144,19 +144,25 @@
             /// <returns></returns>
             public Node UnsetValue(bool prune = false)
             {
-                if (!this.HasValue)
-                    return this;
-
-                // pruning is swtched on.
+                // pruning is switched on.
                 // if none of the descandant has a value anymore, the children are deleted
 
                 if (prune)
                     if (!this.Descendants().Any(c => c.HasValue))
                         return new Node(this.key, ValueNotSet);
 
+                // if it has no value, the node remains as it is
+                if (!this.HasValue)
+                    return this;
+
                 // return a clone of this node, changed only at its value
 
                 return new Node(this.key, ValueNotSet, this.childNodes);
+            }
+
+            public Node RemoveChildNode(Node childToRemove)
+            {
+                return new Node(this.key, this.value, this.childNodes.TakeWhile(n => !n.Equals(childToRemove)));
             }
         }
 
@@ -331,10 +337,10 @@
         }
 
         /// <summary>
-        /// Adds a value to the immutable hierachy at the specified position.
+        /// Adds a value to the immutable hierarchy at the specified position.
         /// The result is a new ImmutableHiarachy contains the value. The
         /// old one is unchanged.
-        /// If the value is equal to the value already stored at the position the hierachy remains unchanged.
+        /// If the value is equal to the value already stored at the position the hierarchy remains unchanged.
         /// </summary>
         /// <param name="path">Specifies where to set the value</param>
         /// <param name="value">the value to keep</param>
@@ -427,11 +433,11 @@
         #endregion Add/Set value
 
         /// <summary>
-        /// Retrieves the nodes value from the immutable hierarchy.
+        /// Retrieves a nodes value from the immutable hierarchy.
         /// </summary>
         /// <param name="hierarchyPath">path to the value</param>
         /// <param name="value">found value</param>
-        /// <returns>zre, if value could be found, false otherwise</returns>
+        /// <returns>true, if value could be found, false otherwise</returns>
         public bool TryGetValue(HierarchyPath<TKey> hierarchyPath, out TValue value)
         {
             Node descendantNode;
@@ -448,7 +454,7 @@
         {
             if (maxDepth == null || maxDepth == 1)
             {
-                return this.RemoveAtSingleNode(hierarchyPath);
+                return this.RemoveValueAtSingleNode(hierarchyPath);
             }
             else if (maxDepth > 1)
             {
@@ -456,14 +462,14 @@
                 foreach (var node in this.Traverse(hierarchyPath)
                     .DescendantsOrSelf(depthFirst: false, maxDepth: maxDepth).ToList())
                 {
-                    removed = this.RemoveAtSingleNode(node.Path) || removed;
+                    removed = this.RemoveValueAtSingleNode(node.Path) || removed;
                 }
                 return removed;
             }
             return false;
         }
 
-        public bool RemoveAtSingleNode(HierarchyPath<TKey> hierarchyPath)
+        private bool RemoveValueAtSingleNode(HierarchyPath<TKey> hierarchyPath)
         {
             Stack<Node> nodesAlongPath = new Stack<Node>();
             Node currentNode;
@@ -478,7 +484,7 @@
             if (!currentNode.HasValue)
                 return false;
 
-            // last node must be the root node: create new hierachy if root node has changed
+            // last node must be the root node: create new hierarchy if root node has changed
 
             bool isLocked = false;
             try
@@ -518,6 +524,58 @@
 
             nodesAlongPath = tmp;
             return found;
+        }
+
+        public bool RemoveNode(HierarchyPath<TKey> hierarchyPath, bool recurse)
+        {
+            return this.RemoveSingleNode(hierarchyPath, recurse);
+        }
+
+        private bool RemoveSingleNode(HierarchyPath<TKey> hierarchyPath, bool recurse)
+        {
+            Stack<Node> nodesAlongPath = new Stack<Node>();
+            Node currentNode;
+
+            // try to get the node to remove values from
+
+            if (!this.TryGetNode(hierarchyPath, out nodesAlongPath, out currentNode))
+                return false;
+
+            if (currentNode.HasChildNodes && !recurse)
+                return false; // nodes with children cant be removed
+
+            // if the root node is to be deleted, just remove the value and prune it!
+
+            bool isLocked = false;
+            try
+            {
+                if (hierarchyPath.IsRoot)
+                {
+                    if (!this.rootNode.HasValue)
+                        return false; // Sematically, an empty root node cant be deleted. 
+
+                    // The root node cant be removed from ist parent node. 
+                    // the old hierachy is just abandonded and a new root is created.
+
+                    this.writeLock.Enter(ref isLocked);
+                    this.rootNode = new Node(default(TKey));
+                }
+                else
+                {
+                    // Any node except the root nodes is removed from its parent node whcih causes a
+                    // rebuild of the hierachy along the descending path.
+
+                    var parent = nodesAlongPath.Pop();
+                    this.writeLock.Enter(ref isLocked);
+                    this.rootNode = this.RebuildAscendingPathAfterChange(parent.RemoveChildNode(currentNode), nodesAlongPath);
+                }
+                return true;
+            }
+            finally
+            {
+                if (isLocked)
+                    this.writeLock.Exit();
+            }
         }
     }
 }

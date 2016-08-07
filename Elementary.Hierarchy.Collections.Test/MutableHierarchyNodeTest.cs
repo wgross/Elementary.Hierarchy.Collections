@@ -187,7 +187,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void MHN_Unset_value_of_parent_node_removes_empty_child_On_UnsetVaue_with_prune()
+        public void MHN_Unset_value_of_parent_node_removes_empty_child_on_UnsetValue_with_prune()
         {
             // ARRANGE
 
@@ -209,7 +209,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void MHN_Unset_value_of_parent_node_keeps_non_empty_child_OnUnsetValue_with_prune()
+        public void MHN_Unset_value_of_parent_node_keeps_non_empty_child_on_UnsetValue_with_prune()
         {
             // ARRANGE
 
@@ -229,6 +229,28 @@ namespace Elementary.Hierarchy.Collections.Test
             Assert.IsFalse(result.HasValue);
             Assert.AreEqual(1, result.ChildNodes.Count());
             Assert.AreSame(node.ChildNodes.ElementAt(0), result.ChildNodes.ElementAt(0));
+        }
+
+        [Test]
+        public void MHN_Remove_child_from_node()
+        {
+            // ARRANGE
+
+            var node = new MutableHierarchy<string, string>.Node("id", "value", new[] {
+                new MutableHierarchy<string,string>.Node("child","value2")
+            });
+
+            // ACT
+
+            node.RemoveChildNode(node.ChildNodes.Single());
+
+            // ASSERT
+
+            Assert.IsTrue(node.HasValue);
+            string value;
+            Assert.IsTrue(node.TryGetValue(out value));
+            Assert.AreEqual("value", value);
+            Assert.AreEqual("id", node.key);
         }
     }
 }

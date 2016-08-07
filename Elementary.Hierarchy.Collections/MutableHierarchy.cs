@@ -7,12 +7,12 @@
     using System.Linq;
 
     /// <summary>
-    /// An immutable hierachy holds a set of value but never changes ists structure.
+    /// An immutable hierarchy holds a set of value but never changes ists structure.
     /// Any strcuture change like adding or removing a node produces a new hierarchy.
     /// The data is copied wothe the nodes. If TValue is a reference type all hierechay reference the same data
     /// If TValue is a value type thevalues are cpied with their nodes.
     /// </summary>
-    /// <typeparam name="TKey">type of the indetifier of the stires data</typeparam>s
+    /// <typeparam name="TKey">type of the identifier of the stires data</typeparam>s
     /// <typeparam name="TNode"></typeparam>
     public class MutableHierarchy<TKey, TValue> : IHierarchy<TKey, TValue>
     {
@@ -130,7 +130,7 @@
             /// Unset ths value of this this node instance.
             /// </summary>
             /// <returns></returns>
-            public Node UnsetValue(bool prune = false)
+            public Node UnsetValue(bool prune = false, bool forcePrune = false)
             {
                 this.value = ValueNotSet;
 
@@ -150,6 +150,11 @@
             private void ClearChildNodes()
             {
                 this.childNodes = new Node[] { };
+            }
+
+            public void RemoveChildNode(Node childToRemove)
+            {
+                this.childNodes = this.ChildNodes.Except(new[] { childToRemove }).ToArray();
             }
         }
 
@@ -365,34 +370,70 @@
         /// <returns>true if value was removed, false otherwise</returns>
         public bool Remove(HierarchyPath<TKey> hierarchyPath, int? maxDepth = null)
         {
-            int maxDepthCoalesced = maxDepth.GetValueOrDefault(1);
+            return this.Remove(hierarchyPath, maxDepth.GetValueOrDefault(1), forcePrune: false);
+        }
 
+        private bool Remove(HierarchyPath<TKey> hierarchyPath, int maxDepth, bool forcePrune)
+        {
             Node startNode;
             if (!this.rootNode.TryGetDescendantAt(hierarchyPath, out startNode))
                 return false;
 
-            if (maxDepthCoalesced == 1)
+            return Remove(startNode, maxDepth, this.pruneOnUnsetValue);
+        }
+
+        private bool Remove(Node startNode, int maxDepth, bool prune)
+        {
+            if (maxDepth == 1)
             {
                 if (!startNode.HasValue)
                     return false;
 
-                startNode.UnsetValue(prune: this.pruneOnUnsetValue);
+                startNode.UnsetValue(prune: prune);
                 return true;
             }
-            else if (maxDepthCoalesced > 1)
+            else if (maxDepth > 1)
             {
+                var descendantsOrSelf = startNode.DescendantsOrSelf(depthFirst: false, maxDepth: maxDepth);
+
+                // inner nodes are pruned only of the leave vaules are removed first.
+                if (prune)
+                    descendantsOrSelf = descendantsOrSelf.Reverse();
+
                 bool removed = false;
-                foreach (var descandant in startNode.DescendantsOrSelf(depthFirst: false, maxDepth: maxDepthCoalesced))
+                foreach (var descandant in descendantsOrSelf)
                 {
                     if (descandant.HasValue)
                     {
-                        descandant.UnsetValue(this.pruneOnUnsetValue);
+                        descandant.UnsetValue(prune);
                         removed = removed || true;
                     }
                 }
                 return removed;
             }
             else return false;
+        }
+
+        public bool RemoveNode(HierarchyPath<TKey> hierarchyPath, bool recurse)
+        {
+            Node nodeToRemove;
+            if (!this.rootNode.TryGetDescendantAt(hierarchyPath, out nodeToRemove))
+                return false; // node doesn't not exist
+
+            if (!recurse && nodeToRemove.Children().Any())
+                return false; // don't remove child nodes silently
+
+            var removedNode = this.Remove(nodeToRemove, recurse ? int.MaxValue : 1, prune: recurse);
+            if (removedNode && !hierarchyPath.IsRoot && !nodeToRemove.HasChildNodes)
+            {
+                // remove this node from parent node, if all child could be removed
+                // root node is not removed, only cleared
+
+                Node parentNode;
+                this.rootNode.TryGetDescendantAt(hierarchyPath.Parent(), out parentNode);
+                parentNode.RemoveChildNode(nodeToRemove);
+            }
+            return removedNode;
         }
     }
 }
