@@ -60,7 +60,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HierarchyDictionaryNodesTest.cs" />
     <Compile Include="HierarchyDictionaryValuesTest.cs" />
     <Compile Include="HierarchySetValueTest.cs" />
     <Compile Include="HierarchyVariantSource.cs" />

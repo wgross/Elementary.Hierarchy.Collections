@@ -1,33 +1,60 @@
 ﻿Import-Module psake
 
-$nuget = (Get-Command nuget.exe).Path
-$msbuild = (Get-Command msbuild.exe).Path
-$git = (Get-Command git.exe).Path
-$solutionFile = (Resolve-path $PSScriptRoot\Elementary.Hierarchy.Collections.sln)
-$packedProject = (Resolve-path $PSScriptRoot\Elementary.Hierarchy.Collections\Elementary.Hierarchy.Collections.csproj)
-$localPackageSource = (Resolve-Path "$PSScriptRoot\..\packages")
-$benchmarkResultExtensions = @(
-    "*.csv"
-    "*.html"
-    "*.log" 
-    "*.md" 
-    "*.R"
-    "*.txt"
-)
-    
-Task default -depends build
+Properties {
 
-Task package_restore {
+    $nuget = (Get-Command nuget.exe).Path
+    $msbuild = (Get-Command msbuild.exe).Path
+    $git = (Get-Command git.exe).Path
+
+    $solutionFile = (Resolve-path $PSScriptRoot\Elementary.Hierarchy.Collections.sln)
+    $packedProject = (Resolve-path $PSScriptRoot\Elementary.Hierarchy.Collections\Elementary.Hierarchy.Collections.csproj)
+    $localPackageSource = (Resolve-Path "$PSScriptRoot\..\packages")
+    
+    $benchmarkResultExtensions = @(
+        "*.csv"
+        "*.html"
+        "*.log" 
+        "*.md" 
+        "*.R"
+        "*.txt"
+    )
+}
+    
+Task default -depends clean,build,test
+
+#region Build
+ 
+Task build_nuget {
 
     & $nuget restore
 
-} -precondition { Test-Path $nuget }
+}
+
+Task build_csharp {
+
+    & $msbuild $solutionFile /t:Build /p:Configuration=Debug
+}
+
+Task build_package {
+    
+    & $nuget Pack $packedProject -Prop Configuration=Release -Build -Symbols -MSbuildVersion 14
+}
+
+Task build -depends build_nuget,buid_csharp 
+
+#endregion 
+
+Task clean_nuget {
+    Remove-Item $PSScriptRoot/packages
+}
 
 Task clean {
     & $msbuild $solutionFile /t:Clean /p:Configuration=Release
     
     Remove-Item $PSScriptRoot\*.nupkg -ErrorAction SilentlyContinue
 }
+
+#region publish
 
 Task pack {
 
@@ -38,11 +65,7 @@ Task pack {
 
 } -precondition { Test-Path $nuget } -depends clean 
 
-Task build {
-
-    & $msbuild $solutionFile /t:Build /p:Configuration=Debug
-
-} -precondition { Test-Path $msbuild } -depends package_restore
+#endregion 
 
 Task test {
 
@@ -50,7 +73,7 @@ Task test {
 
     & $nunit (Resolve-Path $PSScriptRoot/Elementary.Hierarchy.Collections.Test/Elementary.Hierarchy.Collections.Test.csproj)
 
-} -depends build,package_restore
+} -depends build,build_nuget
 
 Task measure {
     

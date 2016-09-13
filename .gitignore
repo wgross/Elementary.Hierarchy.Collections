@@ -7,3 +7,4 @@ packages/**
 **.nupkg
 TestResults/**
 TestResult.xml
+/.packages
