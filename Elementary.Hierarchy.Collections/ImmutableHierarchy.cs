@@ -157,7 +157,7 @@
                     object tmp = this.value;
                     Interlocked.CompareExchange<object>(ref this.value, Node.ValueNotSet, tmp);
                 }
-                
+
                 return this;
             }
 
@@ -553,9 +553,9 @@
                 if (hierarchyPath.IsRoot)
                 {
                     if (!this.rootNode.HasValue)
-                        return false; // Sematically, an empty root node cant be deleted. 
+                        return false; // Sematically, an empty root node cant be deleted.
 
-                    // The root node cant be removed from ist parent node. 
+                    // The root node cant be removed from ist parent node.
                     // the old hierachy is just abandonded and a new root is created.
 
                     this.writeLock.Enter(ref isLocked);
