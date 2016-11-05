@@ -57,7 +57,7 @@
 
             public readonly TKey key;
 
-            public readonly object value = ValueNotSet;
+            public object value = ValueNotSet;
 
             private readonly Node[] childNodes;
 
@@ -110,7 +110,7 @@
                         //substitute the existing child node with the new one.
                         newChildNodes[i] = newChildNode;
 
-                        // return a sunstitut for this node contains the new child node.
+                        // return a sunstitute for this node contains the new child node.
                         return new Node(this.key, this.value, newChildNodes);
                     }
                 }
@@ -119,12 +119,9 @@
 
             public Node SetValue(TValue value)
             {
-                // equality comparer fails with exception if ValueNotSet is compares woth string value.
-                // therfore check first of there is a value at all.
-                if (this.HasValue && EqualityComparer<TValue>.Default.Equals((TValue)this.value, value))
-                    return this;
-                else
-                    return new Node(this.key, (object)value, this.childNodes);
+                object tmp = this.value;
+                Interlocked.CompareExchange<object>(ref this.value, (object)value, tmp);
+                return this;
             }
 
             public bool TryGetValue(out TValue value)
@@ -146,18 +143,22 @@
             {
                 // pruning is switched on.
                 // if none of the descandant has a value anymore, the children are deleted
+                // because this changes the structure of the tree, a new node is created.
 
                 if (prune)
                     if (!this.Descendants().Any(c => c.HasValue))
                         return new Node(this.key, ValueNotSet);
 
-                // if it has no value, the node remains as it is
-                if (!this.HasValue)
-                    return this;
+                // if it has no value, the node remains as it is.
+                // otherwise its value is changed in s threadsafe way
 
-                // return a clone of this node, changed only at its value
-
-                return new Node(this.key, ValueNotSet, this.childNodes);
+                if (this.HasValue)
+                {
+                    object tmp = this.value;
+                    Interlocked.CompareExchange<object>(ref this.value, Node.ValueNotSet, tmp);
+                }
+                
+                return this;
             }
 
             public Node RemoveChildNode(Node childToRemove)
