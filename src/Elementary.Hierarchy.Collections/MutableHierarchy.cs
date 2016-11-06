@@ -280,7 +280,7 @@
                     throw new KeyNotFoundException($"node '{startAt}'  doesn't exist");
                 startNode = new Traverser(startNode, child);
                 return true;
-            }, key: startAt);
+            }, path: startAt);
 
             // Travesal was successul.
             // just return wwhat is now in 'startNode'

@@ -1,0 +1,113 @@
+// ***** BenchmarkRunner: Start   *****
+// Found benchmarks:
+//   MutableHierarchyInsertDelete_InsertAndDeleteNodesDeep_TargetCount5
+//   MutableHierarchyInsertDelete_InsertAndDeleteNodesDeepWithPruning_TargetCount5
+//   MutableHierarchyInsertDelete_InsertAndDeleteNodesShallow_TargetCount5
+//   MutableHierarchyInsertDelete_InsertAndDeleteNodesShallowWithPruning_TargetCount5
+
+// Validating benchmarks:
+// **************************
+// Benchmark: MutableHierarchyInsertDelete_InsertAndDeleteNodesDeep_TargetCount5
+// *** Generate *** 
+// Result = Success
+// BinariesDirectoryPath = C:\src\Elementary.Hierarchy.Collections\BDN.Auto\binaries
+
+// *** Build ***
+Errors in C:\src\Elementary.Hierarchy.Collections\BDN.Auto\project.json
+    Cycle detected:
+      BDN.Auto (>= 1.0.0) -> Elementary.Hierarchy.Collections.Benchmarks (>= 1.0.0) -> Elementary.Hierarchy.Collections (>= 0.2.0) -> Elementary.Hierarchy.Collections (>= 0.2.0) -> Elementary.Hierarchy.Collections (>= 0.2.0).
+// Result = Failure
+// Exception: dotnet restore has failed
+
+
+// **************************
+// Benchmark: MutableHierarchyInsertDelete_InsertAndDeleteNodesDeepWithPruning_TargetCount5
+// *** Generate *** 
+// Result = Success
+// BinariesDirectoryPath = C:\src\Elementary.Hierarchy.Collections\BDN.Auto\binaries
+
+// *** Build ***
+Errors in C:\src\Elementary.Hierarchy.Collections\BDN.Auto\project.json
+    Cycle detected:
+      BDN.Auto (>= 1.0.0) -> Elementary.Hierarchy.Collections.Benchmarks (>= 1.0.0) -> Elementary.Hierarchy.Collections (>= 0.2.0) -> Elementary.Hierarchy.Collections (>= 0.2.0) -> Elementary.Hierarchy.Collections (>= 0.2.0).
+// Result = Failure
+// Exception: dotnet restore has failed
+
+
+// **************************
+// Benchmark: MutableHierarchyInsertDelete_InsertAndDeleteNodesShallow_TargetCount5
+// *** Generate *** 
+// Result = Success
+// BinariesDirectoryPath = C:\src\Elementary.Hierarchy.Collections\BDN.Auto\binaries
+
+// *** Build ***
+Errors in C:\src\Elementary.Hierarchy.Collections\BDN.Auto\project.json
+    Cycle detected:
+      BDN.Auto (>= 1.0.0) -> Elementary.Hierarchy.Collections.Benchmarks (>= 1.0.0) -> Elementary.Hierarchy.Collections (>= 0.2.0) -> Elementary.Hierarchy.Collections (>= 0.2.0) -> Elementary.Hierarchy.Collections (>= 0.2.0).
+// Result = Failure
+// Exception: dotnet restore has failed
+
+
+// **************************
+// Benchmark: MutableHierarchyInsertDelete_InsertAndDeleteNodesShallowWithPruning_TargetCount5
+// *** Generate *** 
+// Result = Success
+// BinariesDirectoryPath = C:\src\Elementary.Hierarchy.Collections\BDN.Auto\binaries
+
+// *** Build ***
+Errors in C:\src\Elementary.Hierarchy.Collections\BDN.Auto\project.json
+    Cycle detected:
+      BDN.Auto (>= 1.0.0) -> Elementary.Hierarchy.Collections.Benchmarks (>= 1.0.0) -> Elementary.Hierarchy.Collections (>= 0.2.0) -> Elementary.Hierarchy.Collections (>= 0.2.0) -> Elementary.Hierarchy.Collections (>= 0.2.0).
+// Result = Failure
+// Exception: dotnet restore has failed
+
+
+// ***** BenchmarkRunner: Finish  *****
+
+// * Export *
+  BenchmarkDotNet.Artifacts\results\MutableHierarchyInsertDelete-report.csv
+  BenchmarkDotNet.Artifacts\results\MutableHierarchyInsertDelete-report-github.md
+  BenchmarkDotNet.Artifacts\results\MutableHierarchyInsertDelete-report.html
+
+// * Detailed results *
+MutableHierarchyInsertDelete_InsertAndDeleteNodesDeep_TargetCount5
+<Empty statistic (N=0)>
+
+MutableHierarchyInsertDelete_InsertAndDeleteNodesDeepWithPruning_TargetCount5
+<Empty statistic (N=0)>
+
+MutableHierarchyInsertDelete_InsertAndDeleteNodesShallow_TargetCount5
+<Empty statistic (N=0)>
+
+MutableHierarchyInsertDelete_InsertAndDeleteNodesShallowWithPruning_TargetCount5
+<Empty statistic (N=0)>
+
+Total time: 00:00:07 (7.72 sec)
+
+// * Summary *
+
+Host Process Environment Information:
+BenchmarkDotNet.Core=v0.9.9.0
+OS=Windows
+Processor=?, ProcessorCount=4
+Frequency=2435765 ticks, Resolution=410.5486 ns, Timer=TSC
+CLR=CORE, Arch=64-bit ? [RyuJIT]
+GC=Concurrent Workstation
+dotnet cli version: 1.0.0-preview2-003131
+
+Type=MutableHierarchyInsertDelete  Mode=Throughput  TargetCount=5  
+
+                                 Method | Median | StdDev |
+--------------------------------------- |------- |------- |
+               InsertAndDeleteNodesDeep |     NA |     NA |
+    InsertAndDeleteNodesDeepWithPruning |     NA |     NA |
+            InsertAndDeleteNodesShallow |     NA |     NA |
+ InsertAndDeleteNodesShallowWithPruning |     NA |     NA |
+
+Benchmarks with issues:
+  MutableHierarchyInsertDelete_InsertAndDeleteNodesDeep_TargetCount5
+  MutableHierarchyInsertDelete_InsertAndDeleteNodesDeepWithPruning_TargetCount5
+  MutableHierarchyInsertDelete_InsertAndDeleteNodesShallow_TargetCount5
+  MutableHierarchyInsertDelete_InsertAndDeleteNodesShallowWithPruning_TargetCount5
+
+// ***** BenchmarkRunner: End *****

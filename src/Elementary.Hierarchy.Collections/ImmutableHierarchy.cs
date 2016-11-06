@@ -299,7 +299,7 @@
                     throw new KeyNotFoundException($"node '{startAt}'  doesn't exist");
                 startNode = new Traverser(startNode, child);
                 return true;
-            }, key: startAt);
+            }, path: startAt);
 
             // Travesal was successul.
             // just return wwhat is now in 'startNode'
@@ -520,8 +520,7 @@
 
                 tmp.Push(parent);
                 return true;
-            },
-            key: hierarchyPath, descendantAt: out node);
+            }, path: hierarchyPath, descendantAt: out node);
 
             nodesAlongPath = tmp;
             return found;
