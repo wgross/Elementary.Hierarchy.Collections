@@ -6,6 +6,8 @@ namespace Elementary.Hierarchy.Collections.Test
     [TestFixture]
     public class ImmutableHierarchyNodeTest
     {
+        #region TryGet a nodes value
+
         [Test]
         public void IMHN_TryGetValue_is_false_if_node_has_no_value()
         {
@@ -42,8 +44,12 @@ namespace Elementary.Hierarchy.Collections.Test
             Assert.AreSame(value, value_result);
         }
 
+        #endregion
+
+        #region Set a nodes value 
+
         [Test]
-        public void IMHN_Setting_node_value_creates_a_node_node()
+        public void IMHN_Setting_node_value_creates_a_node()
         {
             // ARRANGE
 
@@ -54,31 +60,18 @@ namespace Elementary.Hierarchy.Collections.Test
             var result = node.SetValue("newValue");
 
             // ASSERT
+            // no structural change -> no new node
 
-            Assert.AreNotSame(node, result);
+            Assert.AreSame(node, result);
             Assert.AreEqual("newValue", result.value);
         }
 
-        [Test]
-        public void IMHN_Setting_node_value_twice_doesnt_create_new_node()
-        {
-            // ARRANGE
+        #endregion
 
-            string value = "value";
-            var node = new ImmutableHierarchy<string, string>.Node("id", value);
-
-            // ACT
-
-            var result = node.SetValue(value);
-
-            // ASSERT
-
-            Assert.AreSame(node, result);
-            Assert.AreSame(value, result.value);
-        }
+        #region Add child nodes 
 
         [Test]
-        public void IMHN_Adding_child_creates_new_node()
+        public void IMHN_Add_child_creates_new_node()
         {
             // ARRANGE
 
@@ -155,8 +148,12 @@ namespace Elementary.Hierarchy.Collections.Test
             Assert.AreSame(childNode2, result.ChildNodes.ElementAt(0));
         }
 
+        #endregion 
+
+        #region Unset a nodes value
+
         [Test]
-        public void IMHN_Unset_value_of_node_create_new_node()
+        public void IMHN_Unset_value_of_node_doesnt_create_new_node()
         {
             // ARRANGE
 
@@ -170,12 +167,8 @@ namespace Elementary.Hierarchy.Collections.Test
 
             // ASSERT
 
-            Assert.AreNotSame(node, result);
-
-            // old node remains unchanged
-            Assert.IsTrue(node.HasValue);
-            Assert.AreEqual(1, node.ChildNodes.Count());
-
+            Assert.AreSame(node, result);
+            
             // new node has no value
             Assert.IsFalse(result.HasValue);
             Assert.AreEqual(1, result.ChildNodes.Count());
@@ -203,7 +196,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void IMHN_Unset_value_of_parent_node_removes_empty_child_on_UnsetVaue_with_prune()
+        public void IMHN_Unset_value_of_parent_node_doesnt_create_node_because_prune_is_applied()
         {
             // ARRANGE
 
@@ -229,7 +222,7 @@ namespace Elementary.Hierarchy.Collections.Test
         }
 
         [Test]
-        public void IMHN_Unset_value_of_parent_node_keeps_non_empty_child_on_UnsetValue_with_prune()
+        public void IMHN_Unset_value_of_parent_node_doesnt_create_node_because_prune_isnt_applied()
         {
             // ARRANGE
 
@@ -242,18 +235,17 @@ namespace Elementary.Hierarchy.Collections.Test
             var result = node.UnsetValue(prune: true);
 
             // ASSERT
+            // no prune -> no structural change -> node remains the same
 
-            Assert.AreNotSame(node, result);
-
-            // old node remains unchanged
-            Assert.IsTrue(node.HasValue);
-            Assert.AreEqual(1, node.ChildNodes.Count());
-
+            Assert.AreSame(node, result);
+            
             // new node has no value
             Assert.IsFalse(result.HasValue);
             Assert.AreEqual(1, result.ChildNodes.Count());
             Assert.AreSame(node.ChildNodes.ElementAt(0), result.ChildNodes.ElementAt(0));
         }
+
+        #endregion
 
         [Test]
         public void IMHN_Remove_child_returns_new_node_without_child()
