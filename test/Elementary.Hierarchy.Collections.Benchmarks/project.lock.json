@@ -7041,7 +7041,7 @@
     "": [
       "BenchmarkDotNet >= 0.9.9",
       "Elementary.Hierarchy >= 1.6.0",
-      "Elementary.Hierarchy.Collections >= 0.2.0"
+      "Elementary.Hierarchy.Collections"
     ],
     ".NETCoreApp,Version=v1.0": [
       "Microsoft.NETCore.App >= 1.0.1"

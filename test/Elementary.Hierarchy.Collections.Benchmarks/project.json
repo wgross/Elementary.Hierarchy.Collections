@@ -6,7 +6,9 @@
   },
   "dependencies": {
     "Elementary.Hierarchy": "1.6.0",
-    "Elementary.Hierarchy.Collections":"0.2.0",
+    "Elementary.Hierarchy.Collections": {
+      "target": "project"
+    },
     "BenchmarkDotNet":"0.9.9"
   },
   "frameworks": {
