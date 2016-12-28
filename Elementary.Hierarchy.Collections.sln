@@ -12,7 +12,7 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Elementary.Hierarchy.Collec
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Elementary.Hierarchy.Collections.Test", "test\Elementary.Hierarchy.Collections.Test\Elementary.Hierarchy.Collections.Test.xproj", "{B75C9780-EC03-45C2-88F2-98E3A4E1AEBA}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Elementary.Hierarchy.Collections.Benchmarks", "test\Elementary.Hierarchy.Collections.Benchmarks\Elementary.Hierarchy.Collections.Benchmarks.xproj", "{994BA8D1-D9ED-411A-984A-3AD49C64756A}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Elementary.Hierarchy.Collections.Benchmarks", "measure\Elementary.Hierarchy.Collections.Benchmarks\Elementary.Hierarchy.Collections.Benchmarks.xproj", "{994BA8D1-D9ED-411A-984A-3AD49C64756A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
