@@ -1,0 +1,44 @@
+﻿{
+  "title": "Elementary.Hierarchy.Collections",
+  "version": "0.2.1",
+  "copyright": "Copyright ©  2016",
+  "description": "Elementary.Hierarchy.Collections provides hierarchical data structures based on Elementary.Hierarchy",
+  "authors": [ "Wolfgang Gross" ],
+  "supports": {},
+  "buildOptions": {
+    "warningsAsErrors": true,
+    "xmlDoc": false
+  },
+  "packOptions": {
+    "licenseUrl": "https://raw.githubusercontent.com/wgross/Elementary.Hierarchy.Collections/master/LICENSE",
+    "tags": [
+      "framework",
+      "tree",
+      "traversal",
+      "hierarchy",
+      "collections"
+    ],
+    "releaseNotes": "",
+    "owners": [
+      "Wolfgang Gross"
+    ],
+    "repository": {
+      "url": "https://github.com/wgross/Elementary.Hierarchy.Collections"
+    }
+  },
+  "frameworks": {
+    "netstandard1.1": {
+      "dependencies": {
+        "System.Threading": "4.3.0",
+        "Elementary.Hierarchy": "1.7.1"
+
+      }
+    },
+    "net461": {
+      "frameworkAssemblies": {},
+      "dependencies": {
+        "Elementary.Hierarchy": "1.7.1"
+      }
+    }
+  }
+}

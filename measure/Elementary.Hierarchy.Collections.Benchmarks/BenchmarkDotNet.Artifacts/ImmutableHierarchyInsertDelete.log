@@ -1,0 +1,450 @@
+// ***** BenchmarkRunner: Start   *****
+// Found benchmarks:
+//   ImmutableHierarchyInsertDelete_InsertAndDeleteNodesDeep_TargetCount5
+//   ImmutableHierarchyInsertDelete_InsertAndDeleteNodesDeepWithPruning_TargetCount5
+//   ImmutableHierarchyInsertDelete_InsertAndDeleteNodesShallow_TargetCount5
+//   ImmutableHierarchyInsertDelete_InsertAndDeleteNodesShallowWithPruning_TargetCount5
+
+// Validating benchmarks:
+// **************************
+// Benchmark: ImmutableHierarchyInsertDelete_InsertAndDeleteNodesDeep_TargetCount5
+// *** Generate *** 
+// Result = Success
+// BinariesDirectoryPath = C:\src\Elementary.Hierarchy.Collections\BDN.Auto\binaries
+
+// *** Build ***
+C:\src\Elementary.Hierarchy.Collections\BDN.Auto\project.json(19,46): warning NU1012: Dependency conflict. Elementary.Hierarchy.Collections.Benchmarks 1.0.0 expected Microsoft.NETCore.App >= 1.0.1 but received 1.0.0
+// Result = Success
+
+// *** Execute ***
+// Launch: 1
+
+// Benchmark Process Environment Information:
+// CLR=CORE, Arch=64-bit ? [RyuJIT]
+// GC=Concurrent Workstation
+
+Pilot 1: 20 op, 610233335.32 ns, 30.5117 ms/op
+
+IdleWarmup 1: 20 op, 7800.42 ns, 390.0212 ns/op
+IdleWarmup 2: 20 op, 1642.19 ns, 82.1097 ns/op
+IdleWarmup 3: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleWarmup 4: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleWarmup 5: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleWarmup 6: 20 op, 1642.19 ns, 82.1097 ns/op
+IdleWarmup 7: 20 op, 2052.74 ns, 102.6372 ns/op
+
+IdleTarget 1: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 2: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 3: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 4: 20 op, 4105.49 ns, 205.2743 ns/op
+IdleTarget 5: 20 op, 2873.84 ns, 143.6920 ns/op
+IdleTarget 6: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 7: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 8: 20 op, 1642.19 ns, 82.1097 ns/op
+IdleTarget 9: 20 op, 3284.39 ns, 164.2195 ns/op
+IdleTarget 10: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 11: 20 op, 2873.84 ns, 143.6920 ns/op
+IdleTarget 12: 20 op, 1642.19 ns, 82.1097 ns/op
+IdleTarget 13: 20 op, 1642.19 ns, 82.1097 ns/op
+IdleTarget 14: 20 op, 2873.84 ns, 143.6920 ns/op
+IdleTarget 15: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 16: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 17: 20 op, 1231.65 ns, 61.5823 ns/op
+IdleTarget 18: 20 op, 6158.23 ns, 307.9115 ns/op
+IdleTarget 19: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 20: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 21: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 22: 20 op, 1642.19 ns, 82.1097 ns/op
+IdleTarget 23: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 24: 20 op, 2052.74 ns, 102.6372 ns/op
+
+MainWarmup 1: 20 op, 615916970.64 ns, 30.7958 ms/op
+MainWarmup 2: 20 op, 612729881.58 ns, 30.6365 ms/op
+MainWarmup 3: 20 op, 610354036.62 ns, 30.5177 ms/op
+MainWarmup 4: 20 op, 614886083.02 ns, 30.7443 ms/op
+MainWarmup 5: 20 op, 613571095.73 ns, 30.6786 ms/op
+MainWarmup 6: 20 op, 611099182.39 ns, 30.5550 ms/op
+MainWarmup 7: 20 op, 611866087.25 ns, 30.5933 ms/op
+MainWarmup 8: 20 op, 612598095.46 ns, 30.6299 ms/op
+MainWarmup 9: 20 op, 615341792 ns, 30.7671 ms/op
+MainWarmup 10: 20 op, 611850075.85 ns, 30.5925 ms/op
+
+MainTarget 1: 20 op, 609560035.55 ns, 30.4780 ms/op
+MainTarget 2: 20 op, 611889899.07 ns, 30.5945 ms/op
+MainTarget 3: 20 op, 604893739.75 ns, 30.2447 ms/op
+MainTarget 4: 20 op, 613526756.48 ns, 30.6763 ms/op
+MainTarget 5: 20 op, 607188706.63 ns, 30.3594 ms/op
+
+Result 1: 20 op, 609557982.81 ns, 30.4779 ms/op
+Result 2: 20 op, 611887846.32 ns, 30.5944 ms/op
+Result 3: 20 op, 604891687.01 ns, 30.2446 ms/op
+Result 4: 20 op, 613524703.74 ns, 30.6762 ms/op
+Result 5: 20 op, 607186653.88 ns, 30.3593 ms/op
+
+// Launch: 2
+
+// Benchmark Process Environment Information:
+// CLR=CORE, Arch=64-bit ? [RyuJIT]
+// GC=Concurrent Workstation
+
+Pilot 1: 20 op, 606026853.99 ns, 30.3013 ms/op
+
+IdleWarmup 1: 20 op, 11084.81 ns, 554.2407 ns/op
+IdleWarmup 2: 20 op, 1231.65 ns, 61.5823 ns/op
+IdleWarmup 3: 20 op, 1642.19 ns, 82.1097 ns/op
+IdleWarmup 4: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleWarmup 5: 20 op, 1642.19 ns, 82.1097 ns/op
+IdleWarmup 6: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleWarmup 7: 20 op, 821.1 ns, 41.0549 ns/op
+
+IdleTarget 1: 20 op, 1231.65 ns, 61.5823 ns/op
+IdleTarget 2: 20 op, 1642.19 ns, 82.1097 ns/op
+IdleTarget 3: 20 op, 1642.19 ns, 82.1097 ns/op
+IdleTarget 4: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 5: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 6: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 7: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 8: 20 op, 2873.84 ns, 143.6920 ns/op
+IdleTarget 9: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 10: 20 op, 1642.19 ns, 82.1097 ns/op
+IdleTarget 11: 20 op, 1642.19 ns, 82.1097 ns/op
+IdleTarget 12: 20 op, 2052.74 ns, 102.6372 ns/op
+
+MainWarmup 1: 20 op, 609766952.07 ns, 30.4883 ms/op
+MainWarmup 2: 20 op, 610293275.42 ns, 30.5147 ms/op
+MainWarmup 3: 20 op, 612786947.84 ns, 30.6393 ms/op
+MainWarmup 4: 20 op, 607459258.18 ns, 30.3730 ms/op
+MainWarmup 5: 20 op, 608803804.96 ns, 30.4402 ms/op
+MainWarmup 6: 20 op, 608817763.62 ns, 30.4409 ms/op
+MainWarmup 7: 20 op, 617259875.23 ns, 30.8630 ms/op
+MainWarmup 8: 20 op, 616199017.56 ns, 30.8100 ms/op
+
+MainTarget 1: 20 op, 606375820.33 ns, 30.3188 ms/op
+MainTarget 2: 20 op, 611153785.36 ns, 30.5577 ms/op
+MainTarget 3: 20 op, 610420134.95 ns, 30.5210 ms/op
+MainTarget 4: 20 op, 613901176.84 ns, 30.6951 ms/op
+MainTarget 5: 20 op, 605837180.52 ns, 30.2919 ms/op
+
+Result 1: 20 op, 606373767.58 ns, 30.3187 ms/op
+Result 2: 20 op, 611151732.62 ns, 30.5576 ms/op
+Result 3: 20 op, 610418082.2 ns, 30.5209 ms/op
+Result 4: 20 op, 613899124.09 ns, 30.6950 ms/op
+Result 5: 20 op, 605835127.77 ns, 30.2918 ms/op
+
+
+Mean = 30.4736 ms, StdError = 0.0513 ms (0.17%); N = 10, StdDev = 0.1621 ms
+Min = 30.2446 ms, Q1 = 30.3187 ms, Median = 30.4994 ms, Q3 = 30.5944 ms, Max = 30.6950 ms
+IQR = 0.2757 ms, LowerFence = 29.9051 ms, UpperFence = 31.0079 ms
+ConfidenceInterval = [30.3732 ms; 30.5741 ms] (CI 95%)
+Skewness = -0,038268252794353, Kurtosis = 1,29511814711268
+
+
+// **************************
+// Benchmark: ImmutableHierarchyInsertDelete_InsertAndDeleteNodesDeepWithPruning_TargetCount5
+// *** Generate *** 
+// Result = Success
+// BinariesDirectoryPath = C:\src\Elementary.Hierarchy.Collections\BDN.Auto\binaries
+
+// *** Build ***
+C:\src\Elementary.Hierarchy.Collections\BDN.Auto\project.json(19,46): warning NU1012: Dependency conflict. Elementary.Hierarchy.Collections.Benchmarks 1.0.0 expected Microsoft.NETCore.App >= 1.0.1 but received 1.0.0
+// Result = Success
+
+// *** Execute ***
+// Launch: 1
+
+// Benchmark Process Environment Information:
+// CLR=CORE, Arch=64-bit ? [RyuJIT]
+// GC=Concurrent Workstation
+
+Pilot 1: 20 op, 1000092783.99 ns, 50.0046 ms/op
+
+IdleWarmup 1: 20 op, 6979.33 ns, 348.9663 ns/op
+IdleWarmup 2: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleWarmup 3: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleWarmup 4: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleWarmup 5: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleWarmup 6: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleWarmup 7: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleWarmup 8: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleWarmup 9: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleWarmup 10: 20 op, 1642.19 ns, 82.1097 ns/op
+IdleWarmup 11: 20 op, 3284.39 ns, 164.2195 ns/op
+IdleWarmup 12: 20 op, 2052.74 ns, 102.6372 ns/op
+
+IdleTarget 1: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 2: 20 op, 1642.19 ns, 82.1097 ns/op
+IdleTarget 3: 20 op, 1642.19 ns, 82.1097 ns/op
+IdleTarget 4: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 5: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 6: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 7: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 8: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 9: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 10: 20 op, 3284.39 ns, 164.2195 ns/op
+
+MainWarmup 1: 20 op, 814223046.97 ns, 40.7112 ms/op
+MainWarmup 2: 20 op, 790265070.73 ns, 39.5133 ms/op
+MainWarmup 3: 20 op, 793205009.51 ns, 39.6603 ms/op
+MainWarmup 4: 20 op, 801037045.86 ns, 40.0519 ms/op
+MainWarmup 5: 20 op, 779238144.89 ns, 38.9619 ms/op
+MainWarmup 6: 20 op, 777939990.11 ns, 38.8970 ms/op
+MainWarmup 7: 20 op, 811316773.17 ns, 40.5658 ms/op
+MainWarmup 8: 20 op, 799284003.18 ns, 39.9642 ms/op
+
+MainTarget 1: 20 op, 820418225.9 ns, 41.0209 ms/op
+MainTarget 2: 20 op, 818349060.77 ns, 40.9175 ms/op
+MainTarget 3: 20 op, 849866879.6 ns, 42.4933 ms/op
+MainTarget 4: 20 op, 816930204.68 ns, 40.8465 ms/op
+MainTarget 5: 20 op, 794235897.14 ns, 39.7118 ms/op
+
+Result 1: 20 op, 820416173.15 ns, 41.0208 ms/op
+Result 2: 20 op, 818347008.02 ns, 40.9174 ms/op
+Result 3: 20 op, 849864826.86 ns, 42.4932 ms/op
+Result 4: 20 op, 816928151.94 ns, 40.8464 ms/op
+Result 5: 20 op, 794233844.4 ns, 39.7117 ms/op
+
+// Launch: 2
+
+// Benchmark Process Environment Information:
+// CLR=CORE, Arch=64-bit ? [RyuJIT]
+// GC=Concurrent Workstation
+
+Pilot 1: 20 op, 1094170004.08 ns, 54.7085 ms/op
+
+IdleWarmup 1: 20 op, 6979.33 ns, 348.9663 ns/op
+IdleWarmup 2: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleWarmup 3: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleWarmup 4: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleWarmup 5: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleWarmup 6: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleWarmup 7: 20 op, 1642.19 ns, 82.1097 ns/op
+IdleWarmup 8: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleWarmup 9: 20 op, 1231.65 ns, 61.5823 ns/op
+
+IdleTarget 1: 20 op, 1642.19 ns, 82.1097 ns/op
+IdleTarget 2: 20 op, 821.1 ns, 41.0549 ns/op
+IdleTarget 3: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 4: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 5: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 6: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 7: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 8: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 9: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 10: 20 op, 1642.19 ns, 82.1097 ns/op
+
+MainWarmup 1: 20 op, 838337031.69 ns, 41.9169 ms/op
+MainWarmup 2: 20 op, 813472974.61 ns, 40.6736 ms/op
+MainWarmup 3: 20 op, 835711983.71 ns, 41.7856 ms/op
+MainWarmup 4: 20 op, 790483072.05 ns, 39.5242 ms/op
+MainWarmup 5: 20 op, 792399923.64 ns, 39.6200 ms/op
+MainWarmup 6: 20 op, 803673999.75 ns, 40.1837 ms/op
+MainWarmup 7: 20 op, 791571847.04 ns, 39.5786 ms/op
+
+MainTarget 1: 20 op, 840190248.24 ns, 42.0095 ms/op
+MainTarget 2: 20 op, 794083994.15 ns, 39.7042 ms/op
+MainTarget 3: 20 op, 792623262.1 ns, 39.6312 ms/op
+MainTarget 4: 20 op, 789142630.75 ns, 39.4571 ms/op
+MainTarget 5: 20 op, 798304844.68 ns, 39.9152 ms/op
+
+Result 1: 20 op, 840188195.5 ns, 42.0094 ms/op
+Result 2: 20 op, 794081941.4 ns, 39.7041 ms/op
+Result 3: 20 op, 792621209.35 ns, 39.6311 ms/op
+Result 4: 20 op, 789140578.01 ns, 39.4570 ms/op
+Result 5: 20 op, 798302791.94 ns, 39.9151 ms/op
+
+
+Mean = 40.5706 ms, StdError = 0.3368 ms (0.83%); N = 10, StdDev = 1.0649 ms
+Min = 39.4570 ms, Q1 = 39.7041 ms, Median = 40.3808 ms, Q3 = 41.0208 ms, Max = 42.4932 ms
+IQR = 1.3167 ms, LowerFence = 37.7290 ms, UpperFence = 42.9959 ms
+ConfidenceInterval = [39.9106 ms; 41.2307 ms] (CI 95%)
+Skewness = 0,535133430640923, Kurtosis = 1,68104138809821
+
+
+// **************************
+// Benchmark: ImmutableHierarchyInsertDelete_InsertAndDeleteNodesShallow_TargetCount5
+// *** Generate *** 
+// Result = Success
+// BinariesDirectoryPath = C:\src\Elementary.Hierarchy.Collections\BDN.Auto\binaries
+
+// *** Build ***
+C:\src\Elementary.Hierarchy.Collections\BDN.Auto\project.json(19,46): warning NU1012: Dependency conflict. Elementary.Hierarchy.Collections.Benchmarks 1.0.0 expected Microsoft.NETCore.App >= 1.0.1 but received 1.0.0
+// Result = Success
+
+// *** Execute ***
+// Launch: 1
+
+// Benchmark Process Environment Information:
+// CLR=CORE, Arch=64-bit ? [RyuJIT]
+// GC=Concurrent Workstation
+
+Pilot 1: 20 op, 530997858.99 ns, 26.5499 ms/op
+
+IdleWarmup 1: 20 op, 6979.33 ns, 348.9663 ns/op
+IdleWarmup 2: 20 op, 1642.19 ns, 82.1097 ns/op
+IdleWarmup 3: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleWarmup 4: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleWarmup 5: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleWarmup 6: 20 op, 1642.19 ns, 82.1097 ns/op
+IdleWarmup 7: 20 op, 1642.19 ns, 82.1097 ns/op
+
+IdleTarget 1: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 2: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 3: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 4: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 5: 20 op, 821.1 ns, 41.0549 ns/op
+IdleTarget 6: 20 op, 1642.19 ns, 82.1097 ns/op
+IdleTarget 7: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 8: 20 op, 1642.19 ns, 82.1097 ns/op
+IdleTarget 9: 20 op, 3284.39 ns, 164.2195 ns/op
+IdleTarget 10: 20 op, 2052.74 ns, 102.6372 ns/op
+
+MainWarmup 1: 20 op, 527284857.12 ns, 26.3642 ms/op
+MainWarmup 2: 20 op, 526126288.87 ns, 26.3063 ms/op
+MainWarmup 3: 20 op, 537836778.18 ns, 26.8918 ms/op
+MainWarmup 4: 20 op, 524440165.62 ns, 26.2220 ms/op
+MainWarmup 5: 20 op, 534522008.49 ns, 26.7261 ms/op
+MainWarmup 6: 20 op, 556205955.83 ns, 27.8103 ms/op
+MainWarmup 7: 20 op, 523631795.35 ns, 26.1816 ms/op
+
+MainTarget 1: 20 op, 542915675.36 ns, 27.1458 ms/op
+MainTarget 2: 20 op, 526664928.68 ns, 26.3332 ms/op
+MainTarget 3: 20 op, 520447169.58 ns, 26.0224 ms/op
+MainTarget 4: 20 op, 551287993.71 ns, 27.5644 ms/op
+MainTarget 5: 20 op, 512771962.81 ns, 25.6386 ms/op
+
+Result 1: 20 op, 542913622.62 ns, 27.1457 ms/op
+Result 2: 20 op, 526662875.93 ns, 26.3331 ms/op
+Result 3: 20 op, 520445116.83 ns, 26.0223 ms/op
+Result 4: 20 op, 551285940.97 ns, 27.5643 ms/op
+Result 5: 20 op, 512769910.07 ns, 25.6385 ms/op
+
+// Launch: 2
+
+// Benchmark Process Environment Information:
+// CLR=CORE, Arch=64-bit ? [RyuJIT]
+// GC=Concurrent Workstation
+
+Pilot 1: 20 op, 619891902.54 ns, 30.9946 ms/op
+
+IdleWarmup 1: 20 op, 5747.68 ns, 287.3840 ns/op
+IdleWarmup 2: 20 op, 6158.23 ns, 307.9115 ns/op
+IdleWarmup 3: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleWarmup 4: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleWarmup 5: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleWarmup 6: 20 op, 821.1 ns, 41.0549 ns/op
+
+IdleTarget 1: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 2: 20 op, 2873.84 ns, 143.6920 ns/op
+IdleTarget 3: 20 op, 1231.65 ns, 61.5823 ns/op
+IdleTarget 4: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 5: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 6: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 7: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 8: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 9: 20 op, 2052.74 ns, 102.6372 ns/op
+IdleTarget 10: 20 op, 2052.74 ns, 102.6372 ns/op
+
+MainWarmup 1: 20 op, 555672653.15 ns, 27.7836 ms/op
+MainWarmup 2: 20 op, 528757084.53 ns, 26.4379 ms/op
+MainWarmup 3: 20 op, 546976001.38 ns, 27.3488 ms/op
+MainWarmup 4: 20 op, 552586969.6 ns, 27.6293 ms/op
+MainWarmup 5: 20 op, 517906284.06 ns, 25.8953 ms/op
+MainWarmup 6: 20 op, 523598130.36 ns, 26.1799 ms/op
+MainWarmup 7: 20 op, 588904102 ns, 29.4452 ms/op
+MainWarmup 8: 20 op, 523791088.22 ns, 26.1896 ms/op
+
+MainTarget 1: 20 op, 551289225.36 ns, 27.5645 ms/op
+MainTarget 2: 20 op, 537341245.97 ns, 26.8671 ms/op
+MainTarget 3: 20 op, 576049824.18 ns, 28.8025 ms/op
+MainTarget 4: 20 op, 582443708.65 ns, 29.1222 ms/op
+MainTarget 5: 20 op, 579488169.01 ns, 28.9744 ms/op
+
+Result 1: 20 op, 551287172.61 ns, 27.5644 ms/op
+Result 2: 20 op, 537339193.23 ns, 26.8670 ms/op
+Result 3: 20 op, 576047771.44 ns, 28.8024 ms/op
+Result 4: 20 op, 582441655.91 ns, 29.1221 ms/op
+Result 5: 20 op, 579486116.27 ns, 28.9743 ms/op
+
+
+Mean = 27.4034 ms, StdError = 0.3937 ms (1.44%); N = 10, StdDev = 1.2451 ms
+Min = 25.6385 ms, Q1 = 26.3331 ms, Median = 27.3550 ms, Q3 = 28.8024 ms, Max = 29.1221 ms
+IQR = 2.4692 ms, LowerFence = 22.6293 ms, UpperFence = 32.5063 ms
+ConfidenceInterval = [26.6317 ms; 28.1751 ms] (CI 95%)
+Skewness = 0,112438185236698, Kurtosis = 1,3891711054477
+
+
+// **************************
+// Benchmark: ImmutableHierarchyInsertDelete_InsertAndDeleteNodesShallowWithPruning_TargetCount5
+// *** Generate *** 
+// Result = Success
+// BinariesDirectoryPath = C:\src\Elementary.Hierarchy.Collections\BDN.Auto\binaries
+
+// *** Build ***
+Errors in C:\src\Elementary.Hierarchy.Collections\BDN.Auto\project.json
+    Cycle detected:
+      BDN.Auto (>= 1.0.0) -> Elementary.Hierarchy.Collections.Benchmarks (>= 1.0.0) -> Elementary.Hierarchy.Collections (>= 0.2.0) -> Elementary.Hierarchy.Collections (>= 0.2.0) -> Elementary.Hierarchy.Collections (>= 0.2.0).
+// Result = Failure
+// Exception: dotnet restore has failed
+
+
+// ***** BenchmarkRunner: Finish  *****
+
+// * Export *
+  BenchmarkDotNet.Artifacts\results\ImmutableHierarchyInsertDelete-report.csv
+  BenchmarkDotNet.Artifacts\results\ImmutableHierarchyInsertDelete-report-github.md
+  BenchmarkDotNet.Artifacts\results\ImmutableHierarchyInsertDelete-report.html
+
+// * Detailed results *
+ImmutableHierarchyInsertDelete_InsertAndDeleteNodesDeep_TargetCount5
+Mean = 30.4736 ms, StdError = 0.0513 ms (0.17%); N = 10, StdDev = 0.1621 ms
+Min = 30.2446 ms, Q1 = 30.3187 ms, Median = 30.4994 ms, Q3 = 30.5944 ms, Max = 30.6950 ms
+IQR = 0.2757 ms, LowerFence = 29.9051 ms, UpperFence = 31.0079 ms
+ConfidenceInterval = [30.3732 ms; 30.5741 ms] (CI 95%)
+Skewness = -0,038268252794353, Kurtosis = 1,29511814711268
+
+
+ImmutableHierarchyInsertDelete_InsertAndDeleteNodesDeepWithPruning_TargetCount5
+Mean = 40.5706 ms, StdError = 0.3368 ms (0.83%); N = 10, StdDev = 1.0649 ms
+Min = 39.4570 ms, Q1 = 39.7041 ms, Median = 40.3808 ms, Q3 = 41.0208 ms, Max = 42.4932 ms
+IQR = 1.3167 ms, LowerFence = 37.7290 ms, UpperFence = 42.9959 ms
+ConfidenceInterval = [39.9106 ms; 41.2307 ms] (CI 95%)
+Skewness = 0,535133430640923, Kurtosis = 1,68104138809821
+
+
+ImmutableHierarchyInsertDelete_InsertAndDeleteNodesShallow_TargetCount5
+Mean = 27.4034 ms, StdError = 0.3937 ms (1.44%); N = 10, StdDev = 1.2451 ms
+Min = 25.6385 ms, Q1 = 26.3331 ms, Median = 27.3550 ms, Q3 = 28.8024 ms, Max = 29.1221 ms
+IQR = 2.4692 ms, LowerFence = 22.6293 ms, UpperFence = 32.5063 ms
+ConfidenceInterval = [26.6317 ms; 28.1751 ms] (CI 95%)
+Skewness = 0,112438185236698, Kurtosis = 1,3891711054477
+
+
+ImmutableHierarchyInsertDelete_InsertAndDeleteNodesShallowWithPruning_TargetCount5
+<Empty statistic (N=0)>
+
+Total time: 00:01:18 (78.4 sec)
+
+// * Summary *
+
+Host Process Environment Information:
+BenchmarkDotNet.Core=v0.9.9.0
+OS=Windows
+Processor=?, ProcessorCount=4
+Frequency=2435765 ticks, Resolution=410.5486 ns, Timer=TSC
+CLR=CORE, Arch=64-bit ? [RyuJIT]
+GC=Concurrent Workstation
+dotnet cli version: 1.0.0-preview2-003131
+
+Type=ImmutableHierarchyInsertDelete  Mode=Throughput  TargetCount=5  
+
+                                 Method |     Median |    StdDev |
+--------------------------------------- |----------- |---------- |
+               InsertAndDeleteNodesDeep | 30.4994 ms | 0.1621 ms |
+    InsertAndDeleteNodesDeepWithPruning | 40.3808 ms | 1.0649 ms |
+            InsertAndDeleteNodesShallow | 27.3550 ms | 1.2451 ms |
+ InsertAndDeleteNodesShallowWithPruning |         NA |        NA |
+
+Benchmarks with issues:
+  ImmutableHierarchyInsertDelete_InsertAndDeleteNodesShallowWithPruning_TargetCount5
+
+// ***** BenchmarkRunner: End *****

@@ -1,0 +1,28 @@
+{
+  "version": "1.0.0-*",
+  "buildOptions": {
+    "debugType": "portable"
+  },
+  "dependencies": {
+    "Moq": "4.6.38-alpha",
+    "nunit": "3.5.0",
+    "dotnet-test-nunit": "3.4.0-beta-2",
+    "Elementary.Hierarchy.Collections": {
+      "target": "project"
+    },
+    "Elementary.Hierarchy": "1.7.1",
+    "System.Runtime.Serialization.Primitives": "4.3.0"
+  },
+  "testRunner": "nunit",
+  "frameworks": {
+    "netcoreapp1.1": {
+      "dependencies": {
+        "Microsoft.NETCore.App": {
+          "type": "platform",
+          "version": "1.1.0"
+        }
+      },
+      "imports": "dnxcore50"
+    }
+  }
+}
